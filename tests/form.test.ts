@@ -1,5 +1,5 @@
-import { multipartFormRequestOptions, createForm } from 'parallel-sdk/internal/uploads';
-import { toFile } from 'parallel-sdk/core/uploads';
+import { multipartFormRequestOptions, createForm } from 'parallel-web/internal/uploads';
+import { toFile } from 'parallel-web/core/uploads';
 
 describe('form data validation', () => {
   test('valid values do not error', async () => {

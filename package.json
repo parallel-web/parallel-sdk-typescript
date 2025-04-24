@@ -1,13 +1,13 @@
 {
-  "name": "parallel-sdk",
+  "name": "parallel-web",
   "version": "0.0.1-alpha.0",
-  "description": "The official TypeScript library for the Parallel SDK API",
-  "author": "Parallel SDK <support@parallel.ai>",
+  "description": "The official TypeScript library for the Parallel API",
+  "author": "Parallel <support@parallel.ai>",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "type": "commonjs",
-  "repository": "github:stainless-sdks/parallel-sdk-typescript",
-  "license": "Apache-2.0",
+  "repository": "github:shapleyai/parallel-sdk-typescript",
+  "license": "MIT",
   "packageManager": "yarn@1.22.22",
   "files": [
     "**/*"
@@ -54,8 +54,8 @@
     "./internal/shims/getBuiltinModule.js": "./internal/shims/nullGetBuiltinModule.js"
   },
   "imports": {
-    "parallel-sdk": ".",
-    "parallel-sdk/*": "./src/*"
+    "parallel-web": ".",
+    "parallel-web/*": "./src/*"
   },
   "exports": {
     ".": {

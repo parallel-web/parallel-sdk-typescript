@@ -1,11 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import type { ParallelSDK } from '../client';
+import type { Parallel } from '../client';
 
 export class APIResource {
-  protected _client: ParallelSDK;
+  protected _client: Parallel;
 
-  constructor(client: ParallelSDK) {
+  constructor(client: Parallel) {
     this._client = client;
   }
 }

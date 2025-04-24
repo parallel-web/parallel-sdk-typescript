@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { type ParallelSDK } from '../client';
+import { type Parallel } from '../client';
 
 import { type PromiseOrValue } from '../internal/types';
 import { APIResponseProps, defaultParseResponse } from '../internal/parse';
@@ -11,13 +11,13 @@ import { APIResponseProps, defaultParseResponse } from '../internal/parse';
  */
 export class APIPromise<T> extends Promise<T> {
   private parsedPromise: Promise<T> | undefined;
-  #client: ParallelSDK;
+  #client: Parallel;
 
   constructor(
-    client: ParallelSDK,
+    client: Parallel,
     private responsePromise: Promise<APIResponseProps>,
     private parseResponse: (
-      client: ParallelSDK,
+      client: Parallel,
       props: APIResponseProps,
     ) => PromiseOrValue<T> = defaultParseResponse,
   ) {

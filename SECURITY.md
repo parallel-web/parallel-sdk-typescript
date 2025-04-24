@@ -16,9 +16,9 @@ before making any information public.
 ## Reporting Non-SDK Related Security Issues
 
 If you encounter security issues that are not directly related to SDKs but pertain to the services
-or products provided by Parallel SDK please follow the respective company's security reporting guidelines.
+or products provided by Parallel please follow the respective company's security reporting guidelines.
 
-### Parallel SDK Terms and Policies
+### Parallel Terms and Policies
 
 Please contact support@parallel.ai for any questions or concerns regarding security of our services.
 

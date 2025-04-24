@@ -7,8 +7,8 @@ const config: JestConfigWithTsJest = {
     '^.+\\.(t|j)sx?$': ['@swc/jest', { sourceMaps: 'inline' }],
   },
   moduleNameMapper: {
-    '^parallel-sdk$': '<rootDir>/src/index.ts',
-    '^parallel-sdk/(.*)$': '<rootDir>/src/$1',
+    '^parallel-web$': '<rootDir>/src/index.ts',
+    '^parallel-web/(.*)$': '<rootDir>/src/$1',
   },
   modulePathIgnorePatterns: [
     '<rootDir>/ecosystem-tests/',

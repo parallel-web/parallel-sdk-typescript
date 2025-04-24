@@ -20,21 +20,30 @@ import { APIPromise } from './core/api-promise';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
+import {
+  Input,
+  JsonSchema,
+  TaskRun,
+  TaskRunCreateParams,
+  TaskRunResult,
+  TaskRunResultParams,
+  TaskSpec,
+  TextSchema,
+} from './resources/task-run';
 import { readEnv } from './internal/utils/env';
 import { formatRequestDetails, loggerFor } from './internal/utils/log';
 import { isEmptyObj } from './internal/utils/values';
-import { Tasks } from './resources/tasks/tasks';
 
 export interface ClientOptions {
   /**
-   * Defaults to process.env['PARALLEL_SDK_API_KEY'].
+   * Defaults to process.env['PARALLEL_API_KEY'].
    */
   apiKey?: string | undefined;
 
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
-   * Defaults to process.env['PARALLEL_SDK_BASE_URL'].
+   * Defaults to process.env['PARALLEL_BASE_URL'].
    */
   baseURL?: string | null | undefined;
 
@@ -86,7 +95,7 @@ export interface ClientOptions {
   /**
    * Set the log level.
    *
-   * Defaults to process.env['PARALLEL_SDK_LOG'] or 'warn' if it isn't set.
+   * Defaults to process.env['PARALLEL_LOG'] or 'warn' if it isn't set.
    */
   logLevel?: LogLevel | undefined;
 
@@ -99,9 +108,9 @@ export interface ClientOptions {
 }
 
 /**
- * API Client for interfacing with the Parallel SDK API.
+ * API Client for interfacing with the Parallel API.
  */
-export class ParallelSDK {
+export class Parallel {
   apiKey: string;
 
   baseURL: string;
@@ -117,10 +126,10 @@ export class ParallelSDK {
   private _options: ClientOptions;
 
   /**
-   * API Client for interfacing with the Parallel SDK API.
+   * API Client for interfacing with the Parallel API.
    *
-   * @param {string | undefined} [opts.apiKey=process.env['PARALLEL_SDK_API_KEY'] ?? undefined]
-   * @param {string} [opts.baseURL=process.env['PARALLEL_SDK_BASE_URL'] ?? https://api.parallel.ai] - Override the default base URL for the API.
+   * @param {string | undefined} [opts.apiKey=process.env['PARALLEL_API_KEY'] ?? undefined]
+   * @param {string} [opts.baseURL=process.env['PARALLEL_BASE_URL'] ?? https://api.parallel.ai] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -129,13 +138,13 @@ export class ParallelSDK {
    * @param {Record<string, string | undefined>} opts.defaultQuery - Default query parameters to include with every request to the API.
    */
   constructor({
-    baseURL = readEnv('PARALLEL_SDK_BASE_URL'),
-    apiKey = readEnv('PARALLEL_SDK_API_KEY'),
+    baseURL = readEnv('PARALLEL_BASE_URL'),
+    apiKey = readEnv('PARALLEL_API_KEY'),
     ...opts
   }: ClientOptions = {}) {
     if (apiKey === undefined) {
-      throw new Errors.ParallelSDKError(
-        "The PARALLEL_SDK_API_KEY environment variable is missing or empty; either provide it, or instantiate the ParallelSDK client with an apiKey option, like new ParallelSDK({ apiKey: 'My API Key' }).",
+      throw new Errors.ParallelError(
+        "The PARALLEL_API_KEY environment variable is missing or empty; either provide it, or instantiate the Parallel client with an apiKey option, like new Parallel({ apiKey: 'My API Key' }).",
       );
     }
 
@@ -146,14 +155,14 @@ export class ParallelSDK {
     };
 
     this.baseURL = options.baseURL!;
-    this.timeout = options.timeout ?? ParallelSDK.DEFAULT_TIMEOUT /* 1 minute */;
+    this.timeout = options.timeout ?? Parallel.DEFAULT_TIMEOUT /* 1 minute */;
     this.logger = options.logger ?? console;
     const defaultLogLevel = 'warn';
     // Set default logLevel early so that we can log a warning in parseLogLevel.
     this.logLevel = defaultLogLevel;
     this.logLevel =
       parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ??
-      parseLogLevel(readEnv('PARALLEL_SDK_LOG'), "process.env['PARALLEL_SDK_LOG']", this) ??
+      parseLogLevel(readEnv('PARALLEL_LOG'), "process.env['PARALLEL_LOG']", this) ??
       defaultLogLevel;
     this.fetchOptions = options.fetchOptions;
     this.maxRetries = options.maxRetries ?? 2;
@@ -190,7 +199,7 @@ export class ParallelSDK {
         if (value === null) {
           return `${encodeURIComponent(key)}=`;
         }
-        throw new Errors.ParallelSDKError(
+        throw new Errors.ParallelError(
           `Cannot stringify type ${typeof value}; Expected string, number, boolean, or null. If you need to pass nested query parameters, you can manually encode them, e.g. { query: { 'foo[key1]': value1, 'foo[key2]': value2 } }, and please open a GitHub issue requesting better support for your use case.`,
         );
       })
@@ -655,10 +664,10 @@ export class ParallelSDK {
     }
   }
 
-  static ParallelSDK = this;
+  static Parallel = this;
   static DEFAULT_TIMEOUT = 60000; // 1 minute
 
-  static ParallelSDKError = Errors.ParallelSDKError;
+  static ParallelError = Errors.ParallelError;
   static APIError = Errors.APIError;
   static APIConnectionError = Errors.APIConnectionError;
   static APIConnectionTimeoutError = Errors.APIConnectionTimeoutError;
@@ -674,11 +683,19 @@ export class ParallelSDK {
 
   static toFile = Uploads.toFile;
 
-  tasks: API.Tasks = new API.Tasks(this);
+  taskRun: API.TaskRun = new API.TaskRun(this);
 }
-ParallelSDK.Tasks = Tasks;
-export declare namespace ParallelSDK {
+export declare namespace Parallel {
   export type RequestOptions = Opts.RequestOptions;
 
-  export { Tasks as Tasks };
+  export {
+    type TaskRun as TaskRun,
+    type Input as Input,
+    type JsonSchema as JsonSchema,
+    type TaskRunResult as TaskRunResult,
+    type TaskSpec as TaskSpec,
+    type TextSchema as TextSchema,
+    type TaskRunCreateParams as TaskRunCreateParams,
+    type TaskRunResultParams as TaskRunResultParams,
+  };
 }

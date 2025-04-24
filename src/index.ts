@@ -1,12 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { ParallelSDK as default } from './client';
+export { Parallel as default } from './client';
 
 export { type Uploadable, toFile } from './core/uploads';
 export { APIPromise } from './core/api-promise';
-export { ParallelSDK, type ClientOptions } from './client';
+export { Parallel, type ClientOptions } from './client';
 export {
-  ParallelSDKError,
+  ParallelError,
   APIError,
   APIConnectionError,
   APIConnectionTimeoutError,
