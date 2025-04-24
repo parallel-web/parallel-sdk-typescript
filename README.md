@@ -1,21 +1,21 @@
-# Parallel SDK TypeScript API Library
+# Parallel TypeScript API Library
 
-[![NPM version](https://img.shields.io/npm/v/parallel-sdk.svg)](https://npmjs.org/package/parallel-sdk) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/parallel-sdk)
+[![NPM version](https://img.shields.io/npm/v/parallel-web.svg)](https://npmjs.org/package/parallel-web) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/parallel-web)
 
-This library provides convenient access to the Parallel SDK REST API from server-side TypeScript or JavaScript.
+This library provides convenient access to the Parallel REST API from server-side TypeScript or JavaScript.
 
-The REST API documentation can be found on [parallel.ai](https://parallel.ai). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.parallel.ai](https://docs.parallel.ai). The full API of this library can be found in [api.md](api.md).
 
 It is generated with [Stainless](https://www.stainless.com/).
 
 ## Installation
 
 ```sh
-npm install git+ssh://git@github.com:stainless-sdks/parallel-sdk-typescript.git
+npm install git+ssh://git@github.com:shapleyai/parallel-sdk-typescript.git
 ```
 
 > [!NOTE]
-> Once this package is [published to npm](https://app.stainless.com/docs/guides/publish), this will become: `npm install parallel-sdk`
+> Once this package is [published to npm](https://app.stainless.com/docs/guides/publish), this will become: `npm install parallel-web`
 
 ## Usage
 
@@ -23,14 +23,14 @@ The full API of this library can be found in [api.md](api.md).
 
 <!-- prettier-ignore -->
 ```js
-import ParallelSDK from 'parallel-sdk';
+import Parallel from 'parallel-web';
 
-const client = new ParallelSDK({
-  apiKey: process.env['PARALLEL_SDK_API_KEY'], // This is the default and can be omitted
+const client = new Parallel({
+  apiKey: process.env['PARALLEL_API_KEY'], // This is the default and can be omitted
 });
 
 async function main() {
-  const taskRun = await client.tasks.runs.create({ input: 'France (2023)', processor: 'processor' });
+  const taskRun = await client.taskRun.create({ input: 'France (2023)', processor: 'processor' });
 
   console.log(taskRun.run_id);
 }
@@ -44,15 +44,15 @@ This library includes TypeScript definitions for all request params and response
 
 <!-- prettier-ignore -->
 ```ts
-import ParallelSDK from 'parallel-sdk';
+import Parallel from 'parallel-web';
 
-const client = new ParallelSDK({
-  apiKey: process.env['PARALLEL_SDK_API_KEY'], // This is the default and can be omitted
+const client = new Parallel({
+  apiKey: process.env['PARALLEL_API_KEY'], // This is the default and can be omitted
 });
 
 async function main() {
-  const params: ParallelSDK.Tasks.RunCreateParams = { input: 'France (2023)', processor: 'processor' };
-  const taskRun: ParallelSDK.Tasks.TaskRun = await client.tasks.runs.create(params);
+  const params: Parallel.TaskRunCreateParams = { input: 'France (2023)', processor: 'processor' };
+  const taskRun: Parallel.TaskRun = await client.taskRun.create(params);
 }
 
 main();
@@ -69,10 +69,10 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const taskRun = await client.tasks.runs
+  const taskRun = await client.taskRun
     .create({ input: 'France (2023)', processor: 'processor' })
     .catch(async (err) => {
-      if (err instanceof ParallelSDK.APIError) {
+      if (err instanceof Parallel.APIError) {
         console.log(err.status); // 400
         console.log(err.name); // BadRequestError
         console.log(err.headers); // {server: 'nginx', ...}
@@ -109,12 +109,12 @@ You can use the `maxRetries` option to configure or disable this:
 <!-- prettier-ignore -->
 ```js
 // Configure the default for all requests:
-const client = new ParallelSDK({
+const client = new Parallel({
   maxRetries: 0, // default is 2
 });
 
 // Or, configure per-request:
-await client.tasks.runs.create({ input: 'France (2023)', processor: 'processor' }, {
+await client.taskRun.create({ input: 'France (2023)', processor: 'processor' }, {
   maxRetries: 5,
 });
 ```
@@ -126,12 +126,12 @@ Requests time out after 1 minute by default. You can configure this with a `time
 <!-- prettier-ignore -->
 ```ts
 // Configure the default for all requests:
-const client = new ParallelSDK({
+const client = new Parallel({
   timeout: 20 * 1000, // 20 seconds (default is 1 minute)
 });
 
 // Override per-request:
-await client.tasks.runs.create({ input: 'France (2023)', processor: 'processor' }, {
+await client.taskRun.create({ input: 'France (2023)', processor: 'processor' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -152,15 +152,13 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 
 <!-- prettier-ignore -->
 ```ts
-const client = new ParallelSDK();
+const client = new Parallel();
 
-const response = await client.tasks.runs
-  .create({ input: 'France (2023)', processor: 'processor' })
-  .asResponse();
+const response = await client.taskRun.create({ input: 'France (2023)', processor: 'processor' }).asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: taskRun, response: raw } = await client.tasks.runs
+const { data: taskRun, response: raw } = await client.taskRun
   .create({ input: 'France (2023)', processor: 'processor' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
@@ -177,13 +175,13 @@ console.log(taskRun.run_id);
 
 The log level can be configured in two ways:
 
-1. Via the `PARALLEL_SDK_LOG` environment variable
+1. Via the `PARALLEL_LOG` environment variable
 2. Using the `logLevel` client option (overrides the environment variable if set)
 
 ```ts
-import ParallelSDK from 'parallel-sdk';
+import Parallel from 'parallel-web';
 
-const client = new ParallelSDK({
+const client = new Parallel({
   logLevel: 'debug', // Show all log messages
 });
 ```
@@ -209,13 +207,13 @@ When providing a custom logger, the `logLevel` option still controls which messa
 below the configured level will not be sent to your logger.
 
 ```ts
-import ParallelSDK from 'parallel-sdk';
+import Parallel from 'parallel-web';
 import pino from 'pino';
 
 const logger = pino();
 
-const client = new ParallelSDK({
-  logger: logger.child({ name: 'ParallelSDK' }),
+const client = new Parallel({
+  logger: logger.child({ name: 'Parallel' }),
   logLevel: 'debug', // Send all messages to pino, allowing it to filter
 });
 ```
@@ -279,10 +277,10 @@ globalThis.fetch = fetch;
 Or pass it to the client:
 
 ```ts
-import ParallelSDK from 'parallel-sdk';
+import Parallel from 'parallel-web';
 import fetch from 'my-fetch';
 
-const client = new ParallelSDK({ fetch });
+const client = new Parallel({ fetch });
 ```
 
 ### Fetch options
@@ -290,9 +288,9 @@ const client = new ParallelSDK({ fetch });
 If you want to set custom `fetch` options without overriding the `fetch` function, you can provide a `fetchOptions` object when instantiating the client or making a request. (Request-specific options override client options.)
 
 ```ts
-import ParallelSDK from 'parallel-sdk';
+import Parallel from 'parallel-web';
 
-const client = new ParallelSDK({
+const client = new Parallel({
   fetchOptions: {
     // `RequestInit` options
   },
@@ -307,11 +305,11 @@ options to requests:
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/node.svg" align="top" width="18" height="21"> **Node** <sup>[[docs](https://github.com/nodejs/undici/blob/main/docs/docs/api/ProxyAgent.md#example---proxyagent-with-fetch)]</sup>
 
 ```ts
-import ParallelSDK from 'parallel-sdk';
+import Parallel from 'parallel-web';
 import * as undici from 'undici';
 
 const proxyAgent = new undici.ProxyAgent('http://localhost:8888');
-const client = new ParallelSDK({
+const client = new Parallel({
   fetchOptions: {
     dispatcher: proxyAgent,
   },
@@ -321,9 +319,9 @@ const client = new ParallelSDK({
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/bun.svg" align="top" width="18" height="21"> **Bun** <sup>[[docs](https://bun.sh/guides/http/proxy)]</sup>
 
 ```ts
-import ParallelSDK from 'parallel-sdk';
+import Parallel from 'parallel-web';
 
-const client = new ParallelSDK({
+const client = new Parallel({
   fetchOptions: {
     proxy: 'http://localhost:8888',
   },
@@ -333,10 +331,10 @@ const client = new ParallelSDK({
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/deno.svg" align="top" width="18" height="21"> **Deno** <sup>[[docs](https://docs.deno.com/api/deno/~/Deno.createHttpClient)]</sup>
 
 ```ts
-import ParallelSDK from 'npm:parallel-sdk';
+import Parallel from 'npm:parallel-web';
 
 const httpClient = Deno.createHttpClient({ proxy: { url: 'http://localhost:8888' } });
-const client = new ParallelSDK({
+const client = new Parallel({
   fetchOptions: {
     client: httpClient,
   },
@@ -355,7 +353,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/parallel-sdk-typescript/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/shapleyai/parallel-sdk-typescript/issues) with questions, bugs, or suggestions.
 
 ## Requirements
 

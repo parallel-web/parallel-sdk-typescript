@@ -1,6 +1,6 @@
 import fs from 'fs';
-import type { ResponseLike } from 'parallel-sdk/internal/to-file';
-import { toFile } from 'parallel-sdk/core/uploads';
+import type { ResponseLike } from 'parallel-web/internal/to-file';
+import { toFile } from 'parallel-web/core/uploads';
 import { File } from 'node:buffer';
 
 class MyClass {
@@ -97,7 +97,7 @@ describe('missing File error message', () => {
   });
 
   test('is thrown', async () => {
-    const uploads = await import('parallel-sdk/core/uploads');
+    const uploads = await import('parallel-web/core/uploads');
     await expect(
       uploads.toFile(mockResponse({ url: 'https://example.com/my/audio.mp3' })),
     ).rejects.toMatchInlineSnapshot(

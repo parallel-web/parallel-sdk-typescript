@@ -1,4 +1,4 @@
-import { createPathTagFunction, encodeURIPath } from 'parallel-sdk/internal/utils/path';
+import { createPathTagFunction, encodeURIPath } from 'parallel-web/internal/utils/path';
 import { inspect } from 'node:util';
 
 describe('path template tag function', () => {
