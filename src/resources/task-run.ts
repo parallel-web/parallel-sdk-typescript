@@ -86,15 +86,10 @@ export interface TaskRun {
   created_at: string | null;
 
   /**
-   * Whether the run is currently active; i.e. status is one of {'queued', 'running',
+   * Whether the run is currently active; i.e. status is one of {'running', 'queued',
    * 'cancelling'}.
    */
   is_active: boolean;
-
-  /**
-   * Human-readable status message for the run.
-   */
-  message: string | null;
 
   /**
    * Timestamp of the last modification to the task, as an RFC 3339 string.
