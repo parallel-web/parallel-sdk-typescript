@@ -6,7 +6,7 @@
     "rootDir": "./dist/src",
     "paths": {
       "parallel-web/*": ["dist/src/*"],
-      "parallel-web": ["dist/src/index.ts"],
+      "parallel-web": ["dist/src/index.ts"]
     },
     "noEmit": false,
     "declaration": true,
