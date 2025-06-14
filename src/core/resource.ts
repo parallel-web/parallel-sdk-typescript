@@ -2,7 +2,7 @@
 
 import type { Parallel } from '../client';
 
-export class APIResource {
+export abstract class APIResource {
   protected _client: Parallel;
 
   constructor(client: Parallel) {
