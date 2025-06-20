@@ -42,14 +42,14 @@ If you’d like to use the repository from source, you can either install from g
 To install via git:
 
 ```sh
-$ npm install git+ssh://git@github.com:shapleyai/parallel-sdk-typescript.git
+$ npm install git+ssh://git@github.com:parallel-web/parallel-sdk-typescript.git
 ```
 
 Alternatively, to link a local copy of the repo:
 
 ```sh
 # Clone
-$ git clone https://www.github.com/shapleyai/parallel-sdk-typescript
+$ git clone https://www.github.com/parallel-web/parallel-sdk-typescript
 $ cd parallel-sdk-typescript
 
 # With yarn
