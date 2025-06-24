@@ -50,7 +50,7 @@ export interface Input {
    * User-provided metadata stored with the run. Keys and values must be strings with
    * a maximum length of 16 and 512 characters respectively.
    */
-  metadata?: Record<string, string | number | boolean> | null;
+  metadata?: { [key: string]: string | number | boolean } | null;
 
   /**
    * Specification for a task.
@@ -114,7 +114,7 @@ export interface TaskRun {
   /**
    * User-provided metadata stored with the run.
    */
-  metadata?: Record<string, string | number | boolean> | null;
+  metadata?: { [key: string]: string | number | boolean } | null;
 
   /**
    * Warnings for the run.
@@ -359,7 +359,7 @@ export interface TaskRunCreateParams {
    * User-provided metadata stored with the run. Keys and values must be strings with
    * a maximum length of 16 and 512 characters respectively.
    */
-  metadata?: Record<string, string | number | boolean> | null;
+  metadata?: { [key: string]: string | number | boolean } | null;
 
   /**
    * Specification for a task.
