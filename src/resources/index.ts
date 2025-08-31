@@ -4,8 +4,11 @@ export * from './shared';
 export { Beta } from './beta/beta';
 export {
   TaskRun,
+  type AutoSchema,
   type Citation,
+  type FieldBasis,
   type JsonSchema,
+  type RunInput,
   type TaskRunJsonOutput,
   type TaskRunResult,
   type TaskRunTextOutput,
