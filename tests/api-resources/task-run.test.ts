@@ -9,10 +9,7 @@ const client = new Parallel({
 
 describe('resource taskRun', () => {
   test('create: only required params', async () => {
-    const responsePromise = client.taskRun.create({
-      input: 'What was the GDP of France in 2023?',
-      processor: 'base',
-    });
+    const responsePromise = client.taskRun.create({ input: 'France (2023)', processor: 'processor' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -24,16 +21,38 @@ describe('resource taskRun', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.taskRun.create({
-      input: 'What was the GDP of France in 2023?',
-      processor: 'base',
+      input: 'France (2023)',
+      processor: 'processor',
       metadata: { foo: 'string' },
-      source_policy: { exclude_domains: ['string'], include_domains: ['string'] },
       task_spec: {
         output_schema: {
-          json_schema: { additionalProperties: 'bar', properties: 'bar', required: 'bar', type: 'bar' },
+          json_schema: {
+            additionalProperties: false,
+            properties: {
+              gdp: {
+                description: "GDP in USD for the year, formatted like '$3.1 trillion (2023)'",
+                type: 'string',
+              },
+            },
+            required: ['gdp'],
+            type: 'object',
+          },
           type: 'json',
         },
-        input_schema: 'string',
+        input_schema: {
+          json_schema: {
+            additionalProperties: false,
+            properties: {
+              gdp: {
+                description: "GDP in USD for the year, formatted like '$3.1 trillion (2023)'",
+                type: 'string',
+              },
+            },
+            required: ['gdp'],
+            type: 'object',
+          },
+          type: 'json',
+        },
       },
     });
   });
