@@ -9,7 +9,7 @@ const client = new Parallel({
 
 describe('resource taskRun', () => {
   test('create: only required params', async () => {
-    const responsePromise = client.taskRun.create({
+    const responsePromise = client.beta.taskRun.create({
       input: 'What was the GDP of France in 2023?',
       processor: 'base',
     });
@@ -23,9 +23,13 @@ describe('resource taskRun', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await client.taskRun.create({
+    const response = await client.beta.taskRun.create({
       input: 'What was the GDP of France in 2023?',
       processor: 'base',
+      enable_events: true,
+      mcp_servers: [
+        { name: 'name', url: 'url', allowed_tools: ['string'], headers: { foo: 'string' }, type: 'url' },
+      ],
       metadata: { foo: 'string' },
       source_policy: { exclude_domains: ['string'], include_domains: ['string'] },
       task_spec: {
@@ -35,11 +39,14 @@ describe('resource taskRun', () => {
         },
         input_schema: 'string',
       },
+      webhook: { url: 'url', event_types: ['task_run.status'] },
+      betas: ['mcp-server-2025-07-17'],
     });
   });
 
-  test('retrieve', async () => {
-    const responsePromise = client.taskRun.retrieve('run_id');
+  // Prism doesn't support text/event-stream responses
+  test.skip('events', async () => {
+    const responsePromise = client.beta.taskRun.events('run_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -50,7 +57,7 @@ describe('resource taskRun', () => {
   });
 
   test('result', async () => {
-    const responsePromise = client.taskRun.result('run_id');
+    const responsePromise = client.beta.taskRun.result('run_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -63,7 +70,11 @@ describe('resource taskRun', () => {
   test('result: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.taskRun.result('run_id', { timeout: 0 }, { path: '/_stainless_unknown_path' }),
+      client.beta.taskRun.result(
+        'run_id',
+        { timeout: 0, betas: ['mcp-server-2025-07-17'] },
+        { path: '/_stainless_unknown_path' },
+      ),
     ).rejects.toThrow(Parallel.NotFoundError);
   });
 });
