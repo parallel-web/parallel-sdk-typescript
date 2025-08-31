@@ -29,7 +29,10 @@ const client = new Parallel({
   apiKey: process.env['PARALLEL_API_KEY'], // This is the default and can be omitted
 });
 
-const taskRun = await client.taskRun.create({ input: 'France (2023)', processor: 'processor' });
+const taskRun = await client.taskRun.create({
+  input: 'What was the GDP of France in 2023?',
+  processor: 'base',
+});
 
 console.log(taskRun.run_id);
 ```
@@ -46,7 +49,10 @@ const client = new Parallel({
   apiKey: process.env['PARALLEL_API_KEY'], // This is the default and can be omitted
 });
 
-const params: Parallel.TaskRunCreateParams = { input: 'France (2023)', processor: 'processor' };
+const params: Parallel.TaskRunCreateParams = {
+  input: 'What was the GDP of France in 2023?',
+  processor: 'base',
+};
 const taskRun: Parallel.TaskRun = await client.taskRun.create(params);
 ```
 
@@ -61,7 +67,7 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 const taskRun = await client.taskRun
-  .create({ input: 'France (2023)', processor: 'processor' })
+  .create({ input: 'What was the GDP of France in 2023?', processor: 'base' })
   .catch(async (err) => {
     if (err instanceof Parallel.APIError) {
       console.log(err.status); // 400
@@ -102,7 +108,7 @@ const client = new Parallel({
 });
 
 // Or, configure per-request:
-await client.taskRun.create({ input: 'France (2023)', processor: 'processor' }, {
+await client.taskRun.create({ input: 'What was the GDP of France in 2023?', processor: 'base' }, {
   maxRetries: 5,
 });
 ```
@@ -119,7 +125,7 @@ const client = new Parallel({
 });
 
 // Override per-request:
-await client.taskRun.create({ input: 'France (2023)', processor: 'processor' }, {
+await client.taskRun.create({ input: 'What was the GDP of France in 2023?', processor: 'base' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -142,12 +148,14 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 ```ts
 const client = new Parallel();
 
-const response = await client.taskRun.create({ input: 'France (2023)', processor: 'processor' }).asResponse();
+const response = await client.taskRun
+  .create({ input: 'What was the GDP of France in 2023?', processor: 'base' })
+  .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
 const { data: taskRun, response: raw } = await client.taskRun
-  .create({ input: 'France (2023)', processor: 'processor' })
+  .create({ input: 'What was the GDP of France in 2023?', processor: 'base' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
 console.log(taskRun.run_id);
