@@ -17,15 +17,21 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
-  Input,
+  AutoSchema,
+  Citation,
+  FieldBasis,
   JsonSchema,
+  RunInput,
   TaskRun,
   TaskRunCreateParams,
+  TaskRunJsonOutput,
   TaskRunResult,
   TaskRunResultParams,
+  TaskRunTextOutput,
   TaskSpec,
   TextSchema,
 } from './resources/task-run';
+import { Beta } from './resources/beta/beta';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -377,7 +383,7 @@ export class Parallel {
     const response = await this.fetchWithTimeout(url, req, timeout, controller).catch(castToError);
     const headersTime = Date.now();
 
-    if (response instanceof Error) {
+    if (response instanceof globalThis.Error) {
       const retryMessage = `retrying, ${retriesRemaining} attempts remaining`;
       if (options.signal?.aborted) {
         throw new Errors.APIUserAbortError();
@@ -684,7 +690,7 @@ export class Parallel {
         // Preserve legacy string encoding behavior for now
         headers.values.has('content-type')) ||
       // `Blob` is superset of `File`
-      body instanceof Blob ||
+      ((globalThis as any).Blob && body instanceof (globalThis as any).Blob) ||
       // `FormData` -> `multipart/form-data`
       body instanceof FormData ||
       // `URLSearchParams` -> `application/x-www-form-urlencoded`
@@ -724,18 +730,34 @@ export class Parallel {
   static toFile = Uploads.toFile;
 
   taskRun: API.TaskRun = new API.TaskRun(this);
+  beta: API.Beta = new API.Beta(this);
 }
+
+Parallel.Beta = Beta;
+
 export declare namespace Parallel {
   export type RequestOptions = Opts.RequestOptions;
 
   export {
     type TaskRun as TaskRun,
-    type Input as Input,
+    type AutoSchema as AutoSchema,
+    type Citation as Citation,
+    type FieldBasis as FieldBasis,
     type JsonSchema as JsonSchema,
+    type RunInput as RunInput,
+    type TaskRunJsonOutput as TaskRunJsonOutput,
     type TaskRunResult as TaskRunResult,
+    type TaskRunTextOutput as TaskRunTextOutput,
     type TaskSpec as TaskSpec,
     type TextSchema as TextSchema,
     type TaskRunCreateParams as TaskRunCreateParams,
     type TaskRunResultParams as TaskRunResultParams,
   };
+
+  export { Beta as Beta };
+
+  export type ErrorObject = API.ErrorObject;
+  export type ErrorResponse = API.ErrorResponse;
+  export type SourcePolicy = API.SourcePolicy;
+  export type Warning = API.Warning;
 }
