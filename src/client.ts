@@ -17,11 +17,8 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
-  AutoSchema,
   Citation,
-  FieldBasis,
   JsonSchema,
-  RunInput,
   TaskRun,
   TaskRunCreateParams,
   TaskRunJsonOutput,
@@ -740,11 +737,8 @@ export declare namespace Parallel {
 
   export {
     type TaskRun as TaskRun,
-    type AutoSchema as AutoSchema,
     type Citation as Citation,
-    type FieldBasis as FieldBasis,
     type JsonSchema as JsonSchema,
-    type RunInput as RunInput,
     type TaskRunJsonOutput as TaskRunJsonOutput,
     type TaskRunResult as TaskRunResult,
     type TaskRunTextOutput as TaskRunTextOutput,
@@ -758,6 +752,4 @@ export declare namespace Parallel {
 
   export type ErrorObject = API.ErrorObject;
   export type ErrorResponse = API.ErrorResponse;
-  export type SourcePolicy = API.SourcePolicy;
-  export type Warning = API.Warning;
 }
