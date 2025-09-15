@@ -328,7 +328,7 @@ export interface TextSchema {
   /**
    * A text description of the desired output from the task.
    */
-  description: string;
+  description?: string | null;
 
   /**
    * The type of schema being defined. Always `text`.
