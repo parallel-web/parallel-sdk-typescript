@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.1.1 (2025-09-15)
+
+Full Changelog: [v0.1.0...v0.1.1](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.1.0...v0.1.1)
+
+### Features
+
+* **api:** Allow nullable text schemas ([855642a](https://github.com/parallel-web/parallel-sdk-typescript/commit/855642a846b1f746b53e29c3c34400b857457c43))
+
+
+### Bug Fixes
+
+* coerce nullable values to undefined ([077555c](https://github.com/parallel-web/parallel-sdk-typescript/commit/077555c9ae59da02a2500a2664e5128bce51eedc))
+
+
+### Chores
+
+* ci build action ([9cebcc7](https://github.com/parallel-web/parallel-sdk-typescript/commit/9cebcc7efaa12eb64002b2f9e765594c4e2bdd8b))
+
 ## 0.1.0 (2025-09-01)
 
 Full Changelog: [v0.0.1-alpha.0...v0.1.0](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.0.1-alpha.0...v0.1.0)
