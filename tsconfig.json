@@ -7,10 +7,9 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "baseUrl": "./",
     "paths": {
-      "parallel-web/*": ["src/*"],
-      "parallel-web": ["src/index.ts"]
+      "parallel-web/*": ["./src/*"],
+      "parallel-web": ["./src/index.ts"]
     },
     "noEmit": true,
 
