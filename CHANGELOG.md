@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.1.2 (2025-10-07)
+
+Full Changelog: [v0.1.1...v0.1.2](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.1.1...v0.1.2)
+
+### Features
+
+* **api:** Add progress meter to Task Run events ([ad361b3](https://github.com/parallel-web/parallel-sdk-typescript/commit/ad361b31f97286eed338be1388ab9806415596fa))
+
+
+### Performance Improvements
+
+* faster formatting ([173a244](https://github.com/parallel-web/parallel-sdk-typescript/commit/173a24423a23158782abe3f831bb0b8dc5eec5d9))
+
+
+### Chores
+
+* do not install brew dependencies in ./scripts/bootstrap by default ([285367b](https://github.com/parallel-web/parallel-sdk-typescript/commit/285367bd65f7b796416e7cbe151e771da85a3be6))
+* **internal:** codegen related update ([ab2b45e](https://github.com/parallel-web/parallel-sdk-typescript/commit/ab2b45e909e512425400eb88f811fb34fdb48d2a))
+* **internal:** fix incremental formatting in some cases ([dbe176c](https://github.com/parallel-web/parallel-sdk-typescript/commit/dbe176c606c8914cb803b302c43a93faf795147d))
+* **internal:** ignore .eslintcache ([7d0c511](https://github.com/parallel-web/parallel-sdk-typescript/commit/7d0c511c79edc77690bd87be97e09789b768f541))
+* **internal:** remove .eslintcache ([6998e86](https://github.com/parallel-web/parallel-sdk-typescript/commit/6998e8695537208a66139c4b61f59caf4aaf4a66))
+* **internal:** remove deprecated `compilerOptions.baseUrl` from tsconfig.json ([aa7ffe8](https://github.com/parallel-web/parallel-sdk-typescript/commit/aa7ffe8af4fd9128e0da20a1702ef2f9b791a915))
+* **internal:** use npm pack for build uploads ([799079d](https://github.com/parallel-web/parallel-sdk-typescript/commit/799079d180e8f2f691b8f28f27080ea4f465ceda))
+* **jsdoc:** fix [@link](https://github.com/link) annotations to refer only to parts of the package‘s public interface ([5ed9433](https://github.com/parallel-web/parallel-sdk-typescript/commit/5ed9433661eacf6cb55f0a854ba68915862f737e))
+
 ## 0.1.1 (2025-09-15)
 
 Full Changelog: [v0.1.0...v0.1.1](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.1.0...v0.1.1)
