@@ -54,7 +54,10 @@ describe('resource taskGroup', () => {
             { name: 'name', url: 'url', allowed_tools: ['string'], headers: { foo: 'string' }, type: 'url' },
           ],
           metadata: { foo: 'string' },
-          source_policy: { exclude_domains: ['string'], include_domains: ['string'] },
+          source_policy: {
+            exclude_domains: ['reddit.com', 'x.com'],
+            include_domains: ['wikipedia.org', 'usa.gov'],
+          },
           task_spec: {
             output_schema: {
               json_schema: { additionalProperties: 'bar', properties: 'bar', required: 'bar', type: 'bar' },

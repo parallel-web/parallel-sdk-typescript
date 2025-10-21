@@ -33,11 +33,16 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/beta/beta.ts">ExcerptSettings</a></code>
+- <code><a href="./src/resources/beta/beta.ts">ExtractError</a></code>
+- <code><a href="./src/resources/beta/beta.ts">ExtractResponse</a></code>
+- <code><a href="./src/resources/beta/beta.ts">ExtractResult</a></code>
 - <code><a href="./src/resources/beta/beta.ts">SearchResult</a></code>
 - <code><a href="./src/resources/beta/beta.ts">WebSearchResult</a></code>
 
 Methods:
 
+- <code title="post /v1beta/extract">client.beta.<a href="./src/resources/beta/beta.ts">extract</a>({ ...params }) -> ExtractResponse</code>
 - <code title="post /v1beta/search">client.beta.<a href="./src/resources/beta/beta.ts">search</a>({ ...params }) -> SearchResult</code>
 
 ## TaskRun
