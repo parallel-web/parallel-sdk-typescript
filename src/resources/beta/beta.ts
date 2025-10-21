@@ -153,6 +153,35 @@ export interface ExtractResult {
 }
 
 /**
+ * Fetch policy.
+ *
+ * Determines when to return content from the cache (faster) vs fetching live
+ * content (fresher).
+ */
+export interface FetchPolicy {
+  /**
+   * If false, fallback to cached content older than max-age if live fetch fails or
+   * times out. If true, returns an error instead.
+   */
+  disable_cache_fallback?: boolean;
+
+  /**
+   * Maximum age of cached content in seconds to trigger a live fetch. Minimum value
+   * 600 seconds (10 minutes). If not provided, a dynamic age policy will be used
+   * based on the search objective and url.
+   */
+  max_age_seconds?: number | null;
+
+  /**
+   * Timeout in seconds for fetching live content if unavailable in cache. If
+   * unspecified a dynamic timeout will be used based on the url, generally 15
+   * seconds for simple pages and up to 60 seconds for complex pages requiring
+   * javascript or PDF rendering.
+   */
+  timeout_seconds?: number | null;
+}
+
+/**
  * Output for the Search API.
  */
 export interface SearchResult {
@@ -206,7 +235,7 @@ export interface BetaExtractParams {
    * Determines when to return content from the cache (faster) vs fetching live
    * content (fresher).
    */
-  fetch_policy?: BetaExtractParams.FetchPolicy | null;
+  fetch_policy?: FetchPolicy | null;
 
   /**
    * Body param: Include full content from each URL. Note that if neither objective
@@ -233,35 +262,6 @@ export interface BetaExtractParams {
 }
 
 export namespace BetaExtractParams {
-  /**
-   * Fetch policy.
-   *
-   * Determines when to return content from the cache (faster) vs fetching live
-   * content (fresher).
-   */
-  export interface FetchPolicy {
-    /**
-     * If false, fallback to cached content older than max-age if live fetch fails or
-     * times out. If true, returns an error instead.
-     */
-    disable_cache_fallback?: boolean;
-
-    /**
-     * Maximum age of cached content in seconds to trigger a live fetch. Minimum value
-     * 600 seconds (10 minutes). If not provided, a dynamic age policy will be used
-     * based on the search objective and url.
-     */
-    max_age_seconds?: number | null;
-
-    /**
-     * Timeout in seconds for fetching live content if unavailable in cache. If
-     * unspecified a dynamic timeout will be used based on the url, generally 15
-     * seconds for simple pages and up to 60 seconds for complex pages requiring
-     * javascript or PDF rendering.
-     */
-    timeout_seconds?: number | null;
-  }
-
   /**
    * Optional settings for returning full content.
    */
@@ -328,6 +328,7 @@ export declare namespace Beta {
     type ExtractError as ExtractError,
     type ExtractResponse as ExtractResponse,
     type ExtractResult as ExtractResult,
+    type FetchPolicy as FetchPolicy,
     type SearchResult as SearchResult,
     type WebSearchResult as WebSearchResult,
     type BetaExtractParams as BetaExtractParams,

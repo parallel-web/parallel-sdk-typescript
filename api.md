@@ -37,6 +37,7 @@ Types:
 - <code><a href="./src/resources/beta/beta.ts">ExtractError</a></code>
 - <code><a href="./src/resources/beta/beta.ts">ExtractResponse</a></code>
 - <code><a href="./src/resources/beta/beta.ts">ExtractResult</a></code>
+- <code><a href="./src/resources/beta/beta.ts">FetchPolicy</a></code>
 - <code><a href="./src/resources/beta/beta.ts">SearchResult</a></code>
 - <code><a href="./src/resources/beta/beta.ts">WebSearchResult</a></code>
 
