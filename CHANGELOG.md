@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0 (2025-10-21)
+
+Full Changelog: [v0.1.2...v0.2.0](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.1.2...v0.2.0)
+
+### Features
+
+* **api:** Add /v1beta/extract ([a709400](https://github.com/parallel-web/parallel-sdk-typescript/commit/a7094002235d15e4a5f68422b9447127b9448b4b))
+
 ## 0.1.2 (2025-10-07)
 
 Full Changelog: [v0.1.1...v0.1.2](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.1.1...v0.1.2)
