@@ -15,14 +15,21 @@ export class TaskGroup extends APIResource {
    * Initiates a TaskGroup to group and track multiple runs.
    */
   create(body: TaskGroupCreateParams, options?: RequestOptions): APIPromise<TaskGroup> {
-    return this._client.post('/v1beta/tasks/groups', { body, ...options });
+    return this._client.post('/v1beta/tasks/groups', {
+      body,
+      ...options,
+      headers: buildHeaders([{ 'parallel-beta': 'search-extract-2025-10-10' }, options?.headers]),
+    });
   }
 
   /**
    * Retrieves aggregated status across runs in a TaskGroup.
    */
   retrieve(taskGroupID: string, options?: RequestOptions): APIPromise<TaskGroup> {
-    return this._client.get(path`/v1beta/tasks/groups/${taskGroupID}`, options);
+    return this._client.get(path`/v1beta/tasks/groups/${taskGroupID}`, {
+      ...options,
+      headers: buildHeaders([{ 'parallel-beta': 'search-extract-2025-10-10' }, options?.headers]),
+    });
   }
 
   /**
@@ -38,7 +45,7 @@ export class TaskGroup extends APIResource {
       body,
       ...options,
       headers: buildHeaders([
-        { ...(betas?.toString() != null ? { 'parallel-beta': betas?.toString() } : undefined) },
+        { 'parallel-beta': [...(betas ?? []), 'search-extract-2025-10-10'].toString() },
         options?.headers,
       ]),
     });
@@ -58,7 +65,10 @@ export class TaskGroup extends APIResource {
     return this._client.get(path`/v1beta/tasks/groups/${taskGroupID}/events`, {
       query,
       ...options,
-      headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
+      headers: buildHeaders([
+        { 'parallel-beta': 'search-extract-2025-10-10', Accept: 'text/event-stream' },
+        options?.headers,
+      ]),
       stream: true,
     }) as APIPromise<Stream<TaskGroupEventsResponse>>;
   }
@@ -83,7 +93,10 @@ export class TaskGroup extends APIResource {
     return this._client.get(path`/v1beta/tasks/groups/${taskGroupID}/runs`, {
       query,
       ...options,
-      headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
+      headers: buildHeaders([
+        { 'parallel-beta': 'search-extract-2025-10-10', Accept: 'text/event-stream' },
+        options?.headers,
+      ]),
       stream: true,
     }) as APIPromise<Stream<TaskGroupGetRunsResponse>>;
   }
