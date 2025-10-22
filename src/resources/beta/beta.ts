@@ -49,7 +49,7 @@ export class Beta extends APIResource {
       body,
       ...options,
       headers: buildHeaders([
-        { ...(betas?.toString() != null ? { 'parallel-beta': betas?.toString() } : undefined) },
+        { 'parallel-beta': [...(betas ?? []), 'search-extract-2025-10-10'].toString() },
         options?.headers,
       ]),
     });
@@ -64,7 +64,7 @@ export class Beta extends APIResource {
       body,
       ...options,
       headers: buildHeaders([
-        { ...(betas?.toString() != null ? { 'parallel-beta': betas?.toString() } : undefined) },
+        { 'parallel-beta': [...(betas ?? []), 'search-extract-2025-10-10'].toString() },
         options?.headers,
       ]),
     });

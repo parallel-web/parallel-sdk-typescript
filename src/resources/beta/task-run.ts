@@ -24,7 +24,7 @@ export class TaskRun extends APIResource {
       body,
       ...options,
       headers: buildHeaders([
-        { ...(betas?.toString() != null ? { 'parallel-beta': betas?.toString() } : undefined) },
+        { 'parallel-beta': [...(betas ?? []), 'search-extract-2025-10-10'].toString() },
         options?.headers,
       ]),
     });
@@ -42,7 +42,10 @@ export class TaskRun extends APIResource {
   events(runID: string, options?: RequestOptions): APIPromise<Stream<TaskRunEventsResponse>> {
     return this._client.get(path`/v1beta/tasks/runs/${runID}/events`, {
       ...options,
-      headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
+      headers: buildHeaders([
+        { 'parallel-beta': 'search-extract-2025-10-10', Accept: 'text/event-stream' },
+        options?.headers,
+      ]),
       stream: true,
     }) as APIPromise<Stream<TaskRunEventsResponse>>;
   }
@@ -60,7 +63,7 @@ export class TaskRun extends APIResource {
       query,
       ...options,
       headers: buildHeaders([
-        { ...(betas?.toString() != null ? { 'parallel-beta': betas?.toString() } : undefined) },
+        { 'parallel-beta': [...(betas ?? []), 'search-extract-2025-10-10'].toString() },
         options?.headers,
       ]),
     });

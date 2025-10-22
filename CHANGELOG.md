@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.2 (2025-10-22)
+
+Full Changelog: [v0.2.1...v0.2.2](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.2.1...v0.2.2)
+
+### Bug Fixes
+
+* **api:** default beta headers for v1beta/search and v1beta/extract ([f4e52ca](https://github.com/parallel-web/parallel-sdk-typescript/commit/f4e52cac80e1f6a666e40fd17f0e44002001757f))
+
 ## 0.2.1 (2025-10-21)
 
 Full Changelog: [v0.2.0...v0.2.1](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.2.0...v0.2.1)
