@@ -55,8 +55,8 @@ describe('resource taskGroup', () => {
           ],
           metadata: { foo: 'string' },
           source_policy: {
-            exclude_domains: ['reddit.com', 'x.com'],
-            include_domains: ['wikipedia.org', 'usa.gov'],
+            exclude_domains: ['reddit.com', 'x.com', '.ai'],
+            include_domains: ['wikipedia.org', 'usa.gov', '.edu'],
           },
           task_spec: {
             output_schema: {

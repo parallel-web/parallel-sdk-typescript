@@ -23,7 +23,7 @@ describe('resource beta', () => {
     const response = await client.beta.extract({
       urls: ['string'],
       excerpts: true,
-      fetch_policy: { disable_cache_fallback: true, max_age_seconds: 0, timeout_seconds: 0 },
+      fetch_policy: { disable_cache_fallback: true, max_age_seconds: 86400, timeout_seconds: 60 },
       full_content: true,
       objective: 'objective',
       search_queries: ['string'],
