@@ -340,6 +340,13 @@ export interface BetaSearchParams {
   fetch_policy?: FetchPolicy | null;
 
   /**
+   * @deprecated Body param: Optional upper bound on the total number of characters
+   * to include per url. Excerpts may contain fewer characters than this limit to
+   * maximize relevance and token efficiency.
+   */
+  max_chars_per_result?: number | null;
+
+  /**
    * Body param: Upper bound on the number of results to return. May be limited by
    * the processor. Defaults to 10 if not provided.
    */
