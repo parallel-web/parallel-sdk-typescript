@@ -23,10 +23,8 @@ import {
   McpToolCall,
   ParallelBeta,
   TaskRun,
-  TaskRunCreateParams,
   TaskRunEvent,
   TaskRunEventsResponse,
-  TaskRunResultParams,
   Webhook,
 } from './task-run';
 import { APIPromise } from '../../core/api-promise';
@@ -170,10 +168,6 @@ export interface ExtractResult {
 
 /**
  * Policy for live fetching web results.
- *
- * Determines when to return cached content from the index (faster) vs fetching
- * live content (fresher). The default policy for search uses cached results only,
- * while extract uses a dynamic policy based on the search objective and url.
  */
 export interface FetchPolicy {
   /**
@@ -249,11 +243,6 @@ export interface WebSearchResult {
   excerpts?: Array<string> | null;
 
   /**
-   * Full content from the URL formatted as markdown, if requested.
-   */
-  full_content?: string | null;
-
-  /**
    * Publish date of the webpage in YYYY-MM-DD format, if available.
    */
   publish_date?: string | null;
@@ -279,10 +268,6 @@ export interface BetaExtractParams {
 
   /**
    * Body param: Policy for live fetching web results.
-   *
-   * Determines when to return cached content from the index (faster) vs fetching
-   * live content (fresher). The default policy for search uses cached results only,
-   * while extract uses a dynamic policy based on the search objective and url.
    */
   fetch_policy?: FetchPolicy | null;
 
@@ -332,15 +317,11 @@ export interface BetaSearchParams {
 
   /**
    * Body param: Policy for live fetching web results.
-   *
-   * Determines when to return cached content from the index (faster) vs fetching
-   * live content (fresher). The default policy for search uses cached results only,
-   * while extract uses a dynamic policy based on the search objective and url.
    */
   fetch_policy?: FetchPolicy | null;
 
   /**
-   * @deprecated Body param: DEPRECATED - Use excerpts.max_chars_per_result.
+   * @deprecated Body param: DEPRECATED: Use `excerpts.max_chars_per_result` instead.
    */
   max_chars_per_result?: number | null;
 
@@ -366,7 +347,7 @@ export interface BetaSearchParams {
   objective?: string | null;
 
   /**
-   * @deprecated Body param: DEPRECATED - Use mode.
+   * @deprecated Body param: DEPRECATED: use `mode` instead.
    */
   processor?: 'base' | 'pro' | null;
 
@@ -417,8 +398,6 @@ export declare namespace Beta {
     type TaskRunEvent as TaskRunEvent,
     type Webhook as Webhook,
     type TaskRunEventsResponse as TaskRunEventsResponse,
-    type TaskRunCreateParams as TaskRunCreateParams,
-    type TaskRunResultParams as TaskRunResultParams,
   };
 
   export {
