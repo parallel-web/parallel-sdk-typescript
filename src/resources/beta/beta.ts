@@ -57,6 +57,9 @@ export class Beta extends APIResource {
 
   /**
    * Searches the web.
+   *
+   * To access this endpoint, pass the `parallel-beta` header with the value
+   * `search-extract-2025-10-10`.
    */
   search(params: BetaSearchParams, options?: RequestOptions): APIPromise<SearchResult> {
     const { betas, ...body } = params;
@@ -76,9 +79,9 @@ export class Beta extends APIResource {
  */
 export interface ExcerptSettings {
   /**
-   * Optional upper bound on the total number of characters to include across all
-   * excerpts for each url. Excerpts may contain fewer characters than this limit to
-   * maximize relevance and token efficiency.
+   * Optional upper bound on the total number of characters to include per url.
+   * Excerpts may contain fewer characters than this limit to maximize relevance and
+   * token efficiency.
    */
   max_chars_per_result?: number | null;
 }
@@ -123,6 +126,16 @@ export interface ExtractResponse {
    * Successful extract results.
    */
   results: Array<ExtractResult>;
+
+  /**
+   * Usage metrics for the extract request.
+   */
+  usage?: Array<UsageItem> | null;
+
+  /**
+   * Warnings for the extract request, if any.
+   */
+  warnings?: Array<Shared.Warning> | null;
 }
 
 /**
@@ -130,33 +143,37 @@ export interface ExtractResponse {
  */
 export interface ExtractResult {
   /**
+   * URL associated with the search result.
+   */
+  url: string;
+
+  /**
    * Relevant excerpted content from the URL, formatted as markdown.
    */
-  excerpts: Array<string> | null;
+  excerpts?: Array<string> | null;
 
   /**
    * Full content from the URL formatted as markdown, if requested.
    */
-  full_content: string | null;
+  full_content?: string | null;
 
   /**
-   * Publish date of the webpage, if available.
+   * Publish date of the webpage in YYYY-MM-DD format, if available.
    */
-  publish_date: string | null;
+  publish_date?: string | null;
 
   /**
    * Title of the webpage, if available.
    */
-  title: string | null;
-
-  url: string;
+  title?: string | null;
 }
 
 /**
- * Fetch policy.
+ * Policy for live fetching web results.
  *
- * Determines when to return content from the cache (faster) vs fetching live
- * content (fresher).
+ * Determines when to return cached content from the index (faster) vs fetching
+ * live content (fresher). The default policy for search uses cached results only,
+ * while extract uses a dynamic policy based on the search objective and url.
  */
 export interface FetchPolicy {
   /**
@@ -167,16 +184,12 @@ export interface FetchPolicy {
 
   /**
    * Maximum age of cached content in seconds to trigger a live fetch. Minimum value
-   * 600 seconds (10 minutes). If not provided, a dynamic age policy will be used
-   * based on the search objective and url.
+   * 600 seconds (10 minutes).
    */
   max_age_seconds?: number | null;
 
   /**
-   * Timeout in seconds for fetching live content if unavailable in cache. If
-   * unspecified a dynamic timeout will be used based on the url, generally 15
-   * seconds for simple pages and up to 60 seconds for complex pages requiring
-   * javascript or PDF rendering.
+   * Timeout in seconds for fetching live content if unavailable in cache.
    */
   timeout_seconds?: number | null;
 }
@@ -194,6 +207,31 @@ export interface SearchResult {
    * Search ID. Example: `search_cad0a6d2dec046bd95ae900527d880e7`
    */
   search_id: string;
+
+  /**
+   * Usage metrics for the search request.
+   */
+  usage?: Array<UsageItem> | null;
+
+  /**
+   * Warnings for the search request, if any.
+   */
+  warnings?: Array<Shared.Warning> | null;
+}
+
+/**
+ * Usage item for a single operation.
+ */
+export interface UsageItem {
+  /**
+   * Count of the SKU.
+   */
+  count: number;
+
+  /**
+   * Name of the SKU.
+   */
+  name: string;
 }
 
 /**
@@ -201,19 +239,29 @@ export interface SearchResult {
  */
 export interface WebSearchResult {
   /**
-   * Text excerpts from the search result which are relevant to the request.
-   */
-  excerpts: Array<string>;
-
-  /**
-   * Title of the search result.
-   */
-  title: string;
-
-  /**
    * URL associated with the search result.
    */
   url: string;
+
+  /**
+   * Relevant excerpted content from the URL, formatted as markdown.
+   */
+  excerpts?: Array<string> | null;
+
+  /**
+   * Full content from the URL formatted as markdown, if requested.
+   */
+  full_content?: string | null;
+
+  /**
+   * Publish date of the webpage in YYYY-MM-DD format, if available.
+   */
+  publish_date?: string | null;
+
+  /**
+   * Title of the webpage, if available.
+   */
+  title?: string | null;
 }
 
 export interface BetaExtractParams {
@@ -223,6 +271,11 @@ export interface BetaExtractParams {
   urls: Array<string>;
 
   /**
+   * Header param: Optional header to specify the beta version(s) to enable.
+   */
+  betas: Array<TaskRunAPI.ParallelBeta>;
+
+  /**
    * Body param: Include excerpts from each URL relevant to the search objective and
    * queries. Note that if neither objective nor search_queries is provided, excerpts
    * are redundant with full content.
@@ -230,10 +283,11 @@ export interface BetaExtractParams {
   excerpts?: boolean | ExcerptSettings;
 
   /**
-   * Body param: Fetch policy.
+   * Body param: Policy for live fetching web results.
    *
-   * Determines when to return content from the cache (faster) vs fetching live
-   * content (fresher).
+   * Determines when to return cached content from the index (faster) vs fetching
+   * live content (fresher). The default policy for search uses cached results only,
+   * while extract uses a dynamic policy based on the search objective and url.
    */
   fetch_policy?: FetchPolicy | null;
 
@@ -254,11 +308,6 @@ export interface BetaExtractParams {
    * search queries.
    */
   search_queries?: Array<string> | null;
-
-  /**
-   * Header param: Optional header to specify the beta version(s) to enable.
-   */
-  betas?: Array<TaskRunAPI.ParallelBeta>;
 }
 
 export namespace BetaExtractParams {
@@ -277,10 +326,18 @@ export namespace BetaExtractParams {
 
 export interface BetaSearchParams {
   /**
-   * Body param: Upper bound on the number of characters to include in excerpts for
-   * each search result.
+   * Body param: Optional settings for returning relevant excerpts.
    */
-  max_chars_per_result?: number | null;
+  excerpts?: ExcerptSettings;
+
+  /**
+   * Body param: Policy for live fetching web results.
+   *
+   * Determines when to return cached content from the index (faster) vs fetching
+   * live content (fresher). The default policy for search uses cached results only,
+   * while extract uses a dynamic policy based on the search objective and url.
+   */
+  fetch_policy?: FetchPolicy | null;
 
   /**
    * Body param: Upper bound on the number of results to return. May be limited by
@@ -289,16 +346,19 @@ export interface BetaSearchParams {
   max_results?: number | null;
 
   /**
+   * Body param: Presets default values for parameters for different use cases.
+   * `one-shot` returns more comprehensive results and longer excerpts to answer
+   * questions from a single response, while `agentic` returns more concise,
+   * token-efficient results for use in an agentic loop.
+   */
+  mode?: 'one-shot' | 'agentic' | null;
+
+  /**
    * Body param: Natural-language description of what the web search is trying to
    * find. May include guidance about preferred sources or freshness. At least one of
    * objective or search_queries must be provided.
    */
   objective?: string | null;
-
-  /**
-   * Body param: Search processor.
-   */
-  processor?: 'base' | 'pro' | null;
 
   /**
    * Body param: Optional list of traditional keyword search queries to guide the
@@ -330,6 +390,7 @@ export declare namespace Beta {
     type ExtractResult as ExtractResult,
     type FetchPolicy as FetchPolicy,
     type SearchResult as SearchResult,
+    type UsageItem as UsageItem,
     type WebSearchResult as WebSearchResult,
     type BetaExtractParams as BetaExtractParams,
     type BetaSearchParams as BetaSearchParams,
