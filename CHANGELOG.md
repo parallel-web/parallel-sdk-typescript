@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.2.3 (2025-11-06)
+
+Full Changelog: [v0.2.2...v0.2.3](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.2.2...v0.2.3)
+
+### Features
+
+* **api:** add fetch_policy and mode to /v1beta/search ([9d7d6b8](https://github.com/parallel-web/parallel-sdk-typescript/commit/9d7d6b86b152b36f6a7256357edd5b38d9ffdf50))
+
+
+### Bug Fixes
+
+* **api:** add back /v1/tasks/runs?=beta ([f48bf1e](https://github.com/parallel-web/parallel-sdk-typescript/commit/f48bf1eba76bd85583db400ae4029daa3cce3670))
+* **api:** Make beta headers optional in /v1beta/extract ([54eb7ae](https://github.com/parallel-web/parallel-sdk-typescript/commit/54eb7ae2e0b8f011eaa1deef2d3c7aa2d8f91d1b))
+* **api:** re-add deprecated max_chars_per_result ([59fb216](https://github.com/parallel-web/parallel-sdk-typescript/commit/59fb2163dcac335c9ae15086e02b7acee4a9ba5b))
+* **api:** re-add deprecated processor to /v1beta/extract ([48f615b](https://github.com/parallel-web/parallel-sdk-typescript/commit/48f615bac482902f0ef3ed5964da023ec269526d))
+* **api:** remove full_content from /v1beta/search output ([4bd528d](https://github.com/parallel-web/parallel-sdk-typescript/commit/4bd528dccac2aa5ed04d50648198073ade75ac2e))
+
 ## 0.2.2 (2025-10-22)
 
 Full Changelog: [v0.2.1...v0.2.2](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.2.1...v0.2.2)
