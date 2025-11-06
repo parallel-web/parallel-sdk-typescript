@@ -340,9 +340,7 @@ export interface BetaSearchParams {
   fetch_policy?: FetchPolicy | null;
 
   /**
-   * @deprecated Body param: Optional upper bound on the total number of characters
-   * to include per url. Excerpts may contain fewer characters than this limit to
-   * maximize relevance and token efficiency.
+   * @deprecated Body param: DEPRECATED - Use excerpts.max_chars_per_result.
    */
   max_chars_per_result?: number | null;
 
@@ -366,6 +364,11 @@ export interface BetaSearchParams {
    * objective or search_queries must be provided.
    */
   objective?: string | null;
+
+  /**
+   * @deprecated Body param: DEPRECATED - Use mode.
+   */
+  processor?: 'base' | 'pro' | null;
 
   /**
    * Body param: Optional list of traditional keyword search queries to guide the
