@@ -43,13 +43,17 @@ export interface ErrorResponse {
 export interface SourcePolicy {
   /**
    * List of domains to exclude from results. If specified, sources from these
-   * domains will be excluded.
+   * domains will be excluded. Accepts plain domains (e.g., example.com,
+   * subdomain.example.gov) or bare domain extension starting with a period (e.g.,
+   * .gov, .edu, .co.uk).
    */
   exclude_domains?: Array<string>;
 
   /**
    * List of domains to restrict the results to. If specified, only sources from
-   * these domains will be included.
+   * these domains will be included. Accepts plain domains (e.g., example.com,
+   * subdomain.example.gov) or bare domain extension starting with a period (e.g.,
+   * .gov, .edu, .co.uk).
    */
   include_domains?: Array<string>;
 }
