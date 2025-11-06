@@ -27,6 +27,7 @@ import {
   TaskRunJsonOutput,
   TaskRunResult,
   TaskRunResultParams,
+  TaskRunResultResponse,
   TaskRunTextOutput,
   TaskSpec,
   TextSchema,
@@ -750,6 +751,7 @@ export declare namespace Parallel {
     type TaskRunTextOutput as TaskRunTextOutput,
     type TaskSpec as TaskSpec,
     type TextSchema as TextSchema,
+    type TaskRunResultResponse as TaskRunResultResponse,
     type TaskRunCreateParams as TaskRunCreateParams,
     type TaskRunResultParams as TaskRunResultParams,
   };
