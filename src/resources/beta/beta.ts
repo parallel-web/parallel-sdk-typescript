@@ -23,8 +23,10 @@ import {
   McpToolCall,
   ParallelBeta,
   TaskRun,
+  TaskRunCreateParams,
   TaskRunEvent,
   TaskRunEventsResponse,
+  TaskRunResultParams,
   Webhook,
 } from './task-run';
 import { APIPromise } from '../../core/api-promise';
@@ -398,6 +400,8 @@ export declare namespace Beta {
     type TaskRunEvent as TaskRunEvent,
     type Webhook as Webhook,
     type TaskRunEventsResponse as TaskRunEventsResponse,
+    type TaskRunCreateParams as TaskRunCreateParams,
+    type TaskRunResultParams as TaskRunResultParams,
   };
 
   export {

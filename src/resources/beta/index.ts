@@ -23,4 +23,6 @@ export {
   type TaskRunEvent,
   type Webhook,
   type TaskRunEventsResponse,
+  type TaskRunCreateParams,
+  type TaskRunResultParams,
 } from './task-run';

@@ -12,6 +12,25 @@ import { path } from '../../internal/utils/path';
 
 export class TaskRun extends APIResource {
   /**
+   * Initiates a task run.
+   *
+   * Returns immediately with a run object in status 'queued'.
+   *
+   * Beta features can be enabled by setting the 'parallel-beta' header.
+   */
+  create(params: TaskRunCreateParams, options?: RequestOptions): APIPromise<TaskRunAPI.TaskRun> {
+    const { betas, ...body } = params;
+    return this._client.post('/v1/tasks/runs?beta=true', {
+      body,
+      ...options,
+      headers: buildHeaders([
+        { 'parallel-beta': [...(betas ?? []), 'search-extract-2025-10-10'].toString() },
+        options?.headers,
+      ]),
+    });
+  }
+
+  /**
    * Streams events for a task run.
    *
    * Returns a stream of events showing progress updates and state changes for the
@@ -29,6 +48,25 @@ export class TaskRun extends APIResource {
       ]),
       stream: true,
     }) as APIPromise<Stream<TaskRunEventsResponse>>;
+  }
+
+  /**
+   * Retrieves a run result by run_id, blocking until the run is completed.
+   */
+  result(
+    runID: string,
+    params: TaskRunResultParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<BetaTaskRunResult> {
+    const { betas, ...query } = params ?? {};
+    return this._client.get(path`/v1/tasks/runs/${runID}/result?beta=true`, {
+      query,
+      ...options,
+      headers: buildHeaders([
+        { 'parallel-beta': [...(betas ?? []), 'search-extract-2025-10-10'].toString() },
+        options?.headers,
+      ]),
+    });
   }
 }
 
@@ -395,6 +433,82 @@ export namespace TaskRunEventsResponse {
   }
 }
 
+export interface TaskRunCreateParams {
+  /**
+   * Body param: Input to the task, either text or a JSON object.
+   */
+  input: string | { [key: string]: unknown };
+
+  /**
+   * Body param: Processor to use for the task.
+   */
+  processor: string;
+
+  /**
+   * Body param: Controls tracking of task run execution progress. When set to true,
+   * progress events are recorded and can be accessed via the
+   * [Task Run events](https://platform.parallel.ai/api-reference) endpoint. When
+   * false, no progress events are tracked. Note that progress tracking cannot be
+   * enabled after a run has been created. The flag is set to true by default for
+   * premium processors (pro and above). To enable this feature in your requests,
+   * specify `events-sse-2025-07-24` as one of the values in `parallel-beta` header
+   * (for API calls) or `betas` param (for the SDKs).
+   */
+  enable_events?: boolean | null;
+
+  /**
+   * Body param: Optional list of MCP servers to use for the run. To enable this
+   * feature in your requests, specify `mcp-server-2025-07-17` as one of the values
+   * in `parallel-beta` header (for API calls) or `betas` param (for the SDKs).
+   */
+  mcp_servers?: Array<McpServer> | null;
+
+  /**
+   * Body param: User-provided metadata stored with the run. Keys and values must be
+   * strings with a maximum length of 16 and 512 characters respectively.
+   */
+  metadata?: { [key: string]: string | number | boolean } | null;
+
+  /**
+   * Body param: Source policy for web search results.
+   *
+   * This policy governs which sources are allowed/disallowed in results.
+   */
+  source_policy?: Shared.SourcePolicy | null;
+
+  /**
+   * Body param: Specification for a task.
+   *
+   * Auto output schemas can be specified by setting `output_schema={"type":"auto"}`.
+   * Not specifying a TaskSpec is the same as setting an auto output schema.
+   *
+   * For convenience bare strings are also accepted as input or output schemas.
+   */
+  task_spec?: TaskRunAPI.TaskSpec | null;
+
+  /**
+   * Body param: Webhooks for Task Runs.
+   */
+  webhook?: Webhook | null;
+
+  /**
+   * Header param: Optional header to specify the beta version(s) to enable.
+   */
+  betas?: Array<ParallelBeta>;
+}
+
+export interface TaskRunResultParams {
+  /**
+   * Query param:
+   */
+  timeout?: number;
+
+  /**
+   * Header param: Optional header to specify the beta version(s) to enable.
+   */
+  betas?: Array<ParallelBeta>;
+}
+
 export declare namespace TaskRun {
   export {
     type BetaRunInput as BetaRunInput,
@@ -406,5 +520,7 @@ export declare namespace TaskRun {
     type TaskRunEvent as TaskRunEvent,
     type Webhook as Webhook,
     type TaskRunEventsResponse as TaskRunEventsResponse,
+    type TaskRunCreateParams as TaskRunCreateParams,
+    type TaskRunResultParams as TaskRunResultParams,
   };
 }

@@ -14,7 +14,6 @@ export {
   type TaskRunTextOutput,
   type TaskSpec,
   type TextSchema,
-  type TaskRunResultResponse,
   type TaskRunCreateParams,
   type TaskRunResultParams,
 } from './task-run';
