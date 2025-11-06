@@ -22,13 +22,12 @@ Types:
 - <code><a href="./src/resources/task-run.ts">TaskRunTextOutput</a></code>
 - <code><a href="./src/resources/task-run.ts">TaskSpec</a></code>
 - <code><a href="./src/resources/task-run.ts">TextSchema</a></code>
-- <code><a href="./src/resources/task-run.ts">TaskRunResultResponse</a></code>
 
 Methods:
 
 - <code title="post /v1/tasks/runs">client.taskRun.<a href="./src/resources/task-run.ts">create</a>({ ...params }) -> TaskRun</code>
 - <code title="get /v1/tasks/runs/{run_id}">client.taskRun.<a href="./src/resources/task-run.ts">retrieve</a>(runID) -> TaskRun</code>
-- <code title="get /v1/tasks/runs/{run_id}/result">client.taskRun.<a href="./src/resources/task-run.ts">result</a>(runID, { ...params }) -> TaskRunResultResponse</code>
+- <code title="get /v1/tasks/runs/{run_id}/result">client.taskRun.<a href="./src/resources/task-run.ts">result</a>(runID, { ...params }) -> TaskRunResult</code>
 
 # Beta
 
@@ -64,7 +63,9 @@ Types:
 
 Methods:
 
+- <code title="post /v1/tasks/runs?beta=true">client.beta.taskRun.<a href="./src/resources/beta/task-run.ts">create</a>({ ...params }) -> TaskRun</code>
 - <code title="get /v1beta/tasks/runs/{run_id}/events">client.beta.taskRun.<a href="./src/resources/beta/task-run.ts">events</a>(runID) -> TaskRunEventsResponse</code>
+- <code title="get /v1/tasks/runs/{run_id}/result?beta=true">client.beta.taskRun.<a href="./src/resources/beta/task-run.ts">result</a>(runID, { ...params }) -> BetaTaskRunResult</code>
 
 ## TaskGroup
 

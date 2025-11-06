@@ -2,9 +2,7 @@
 
 import { APIResource } from '../core/resource';
 import * as Shared from './shared';
-import * as BetaTaskRunAPI from './beta/task-run';
 import { APIPromise } from '../core/api-promise';
-import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
@@ -16,16 +14,8 @@ export class TaskRun extends APIResource {
    *
    * Beta features can be enabled by setting the 'parallel-beta' header.
    */
-  create(params: TaskRunCreateParams, options?: RequestOptions): APIPromise<TaskRun> {
-    const { betas, ...body } = params;
-    return this._client.post('/v1/tasks/runs', {
-      body,
-      ...options,
-      headers: buildHeaders([
-        { ...(betas?.toString() != null ? { 'parallel-beta': betas?.toString() } : undefined) },
-        options?.headers,
-      ]),
-    });
+  create(body: TaskRunCreateParams, options?: RequestOptions): APIPromise<TaskRun> {
+    return this._client.post('/v1/tasks/runs', { body, ...options });
   }
 
   /**
@@ -42,18 +32,10 @@ export class TaskRun extends APIResource {
    */
   result(
     runID: string,
-    params: TaskRunResultParams | null | undefined = {},
+    query: TaskRunResultParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<TaskRunResultResponse> {
-    const { betas, ...query } = params ?? {};
-    return this._client.get(path`/v1/tasks/runs/${runID}/result`, {
-      query,
-      ...options,
-      headers: buildHeaders([
-        { ...(betas?.toString() != null ? { 'parallel-beta': betas?.toString() } : undefined) },
-        options?.headers,
-      ]),
-    });
+  ): APIPromise<TaskRunResult> {
+    return this._client.get(path`/v1/tasks/runs/${runID}/result`, { query, ...options });
   }
 }
 
@@ -354,56 +336,32 @@ export interface TextSchema {
   type?: 'text';
 }
 
-/**
- * Result of a task run.
- */
-export type TaskRunResultResponse = TaskRunResult | BetaTaskRunAPI.BetaTaskRunResult;
-
 export interface TaskRunCreateParams {
   /**
-   * Body param: Input to the task, either text or a JSON object.
+   * Input to the task, either text or a JSON object.
    */
   input: string | { [key: string]: unknown };
 
   /**
-   * Body param: Processor to use for the task.
+   * Processor to use for the task.
    */
   processor: string;
 
   /**
-   * Body param: Controls tracking of task run execution progress. When set to true,
-   * progress events are recorded and can be accessed via the
-   * [Task Run events](https://platform.parallel.ai/api-reference) endpoint. When
-   * false, no progress events are tracked. Note that progress tracking cannot be
-   * enabled after a run has been created. The flag is set to true by default for
-   * premium processors (pro and above). To enable this feature in your requests,
-   * specify `events-sse-2025-07-24` as one of the values in `parallel-beta` header
-   * (for API calls) or `betas` param (for the SDKs).
-   */
-  enable_events?: boolean | null;
-
-  /**
-   * Body param: Optional list of MCP servers to use for the run. To enable this
-   * feature in your requests, specify `mcp-server-2025-07-17` as one of the values
-   * in `parallel-beta` header (for API calls) or `betas` param (for the SDKs).
-   */
-  mcp_servers?: Array<BetaTaskRunAPI.McpServer> | null;
-
-  /**
-   * Body param: User-provided metadata stored with the run. Keys and values must be
-   * strings with a maximum length of 16 and 512 characters respectively.
+   * User-provided metadata stored with the run. Keys and values must be strings with
+   * a maximum length of 16 and 512 characters respectively.
    */
   metadata?: { [key: string]: string | number | boolean } | null;
 
   /**
-   * Body param: Source policy for web search results.
+   * Source policy for web search results.
    *
    * This policy governs which sources are allowed/disallowed in results.
    */
   source_policy?: Shared.SourcePolicy | null;
 
   /**
-   * Body param: Specification for a task.
+   * Specification for a task.
    *
    * Auto output schemas can be specified by setting `output_schema={"type":"auto"}`.
    * Not specifying a TaskSpec is the same as setting an auto output schema.
@@ -411,28 +369,10 @@ export interface TaskRunCreateParams {
    * For convenience bare strings are also accepted as input or output schemas.
    */
   task_spec?: TaskSpec | null;
-
-  /**
-   * Body param: Webhooks for Task Runs.
-   */
-  webhook?: BetaTaskRunAPI.Webhook | null;
-
-  /**
-   * Header param: Optional header to specify the beta version(s) to enable.
-   */
-  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
 export interface TaskRunResultParams {
-  /**
-   * Query param:
-   */
   timeout?: number;
-
-  /**
-   * Header param: Optional header to specify the beta version(s) to enable.
-   */
-  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
 export declare namespace TaskRun {
@@ -448,7 +388,6 @@ export declare namespace TaskRun {
     type TaskRunTextOutput as TaskRunTextOutput,
     type TaskSpec as TaskSpec,
     type TextSchema as TextSchema,
-    type TaskRunResultResponse as TaskRunResultResponse,
     type TaskRunCreateParams as TaskRunCreateParams,
     type TaskRunResultParams as TaskRunResultParams,
   };
