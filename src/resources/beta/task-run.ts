@@ -305,6 +305,8 @@ export type ParallelBeta =
   | 'mcp-server-2025-07-17'
   | 'events-sse-2025-07-24'
   | 'webhook-2025-08-12'
+  | 'findall-2025-09-15'
+  | 'search-extract-2025-10-10'
   | (string & {});
 
 /**

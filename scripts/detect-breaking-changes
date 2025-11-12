@@ -11,6 +11,7 @@ TEST_PATHS=(
 	tests/api-resources/beta/beta.test.ts
 	tests/api-resources/beta/task-run.test.ts
 	tests/api-resources/beta/task-group.test.ts
+	tests/api-resources/beta/findall.test.ts
 	tests/index.test.ts
 )
 

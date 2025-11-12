@@ -2,6 +2,32 @@
 
 import { APIResource } from '../../core/resource';
 import * as Shared from '../shared';
+import * as FindallAPI from './findall';
+import {
+  Findall,
+  FindallCancelParams,
+  FindallCancelResponse,
+  FindallCandidateMatchStatusEvent,
+  FindallCreateParams,
+  FindallEnrichInput,
+  FindallEnrichParams,
+  FindallEventsParams,
+  FindallEventsResponse,
+  FindallExtendInput,
+  FindallExtendParams,
+  FindallIngestParams,
+  FindallResultParams,
+  FindallRetrieveParams,
+  FindallRetrieveResponse,
+  FindallRun,
+  FindallRunInput,
+  FindallRunResult,
+  FindallRunStatusEvent,
+  FindallSchema,
+  FindallSchemaParams,
+  FindallSchemaUpdatedEvent,
+  IngestInput,
+} from './findall';
 import * as TaskGroupAPI from './task-group';
 import {
   TaskGroup,
@@ -36,6 +62,7 @@ import { RequestOptions } from '../../internal/request-options';
 export class Beta extends APIResource {
   taskRun: TaskRunAPI.TaskRun = new TaskRunAPI.TaskRun(this._client);
   taskGroup: TaskGroupAPI.TaskGroup = new TaskGroupAPI.TaskGroup(this._client);
+  findall: FindallAPI.Findall = new FindallAPI.Findall(this._client);
 
   /**
    * Extracts relevant content from specific web URLs.
@@ -374,6 +401,7 @@ export interface BetaSearchParams {
 }
 
 Beta.TaskRun = TaskRun;
+Beta.Findall = Findall;
 
 export declare namespace Beta {
   export {
@@ -414,5 +442,31 @@ export declare namespace Beta {
     type TaskGroupAddRunsParams as TaskGroupAddRunsParams,
     type TaskGroupEventsParams as TaskGroupEventsParams,
     type TaskGroupGetRunsParams as TaskGroupGetRunsParams,
+  };
+
+  export {
+    Findall as Findall,
+    type FindallCandidateMatchStatusEvent as FindallCandidateMatchStatusEvent,
+    type FindallEnrichInput as FindallEnrichInput,
+    type FindallExtendInput as FindallExtendInput,
+    type FindallRun as FindallRun,
+    type FindallRunInput as FindallRunInput,
+    type FindallRunResult as FindallRunResult,
+    type FindallRunStatusEvent as FindallRunStatusEvent,
+    type FindallSchema as FindallSchema,
+    type FindallSchemaUpdatedEvent as FindallSchemaUpdatedEvent,
+    type IngestInput as IngestInput,
+    type FindallRetrieveResponse as FindallRetrieveResponse,
+    type FindallCancelResponse as FindallCancelResponse,
+    type FindallEventsResponse as FindallEventsResponse,
+    type FindallCreateParams as FindallCreateParams,
+    type FindallRetrieveParams as FindallRetrieveParams,
+    type FindallCancelParams as FindallCancelParams,
+    type FindallEnrichParams as FindallEnrichParams,
+    type FindallEventsParams as FindallEventsParams,
+    type FindallExtendParams as FindallExtendParams,
+    type FindallIngestParams as FindallIngestParams,
+    type FindallResultParams as FindallResultParams,
+    type FindallSchemaParams as FindallSchemaParams,
   };
 }
