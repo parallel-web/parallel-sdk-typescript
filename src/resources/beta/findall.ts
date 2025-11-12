@@ -1093,232 +1093,84 @@ export type FindallEventsResponse =
   | FindallCandidateMatchStatusEvent
   | BetaTaskRunAPI.ErrorEvent;
 
-export type FindallCreateParams = FindallCreateParams.FindallRunInput | FindallCreateParams.FindAllRunPayload;
+export interface FindallCreateParams {
+  /**
+   * Body param: Type of the entity for the FindAll run.
+   */
+  entity_type: string;
 
-export declare namespace FindallCreateParams {
-  export interface FindallRunInput {
+  /**
+   * Body param: Generator for the FindAll run.
+   */
+  generator: 'base' | 'core' | 'pro' | 'preview';
+
+  /**
+   * Body param: List of match conditions for the FindAll run.
+   */
+  match_conditions: Array<FindallCreateParams.MatchCondition>;
+
+  /**
+   * Body param: Maximum number of matches to find for this FindAll run.
+   */
+  match_limit: number;
+
+  /**
+   * Body param: Natural language objective of the FindAll run.
+   */
+  objective: string;
+
+  /**
+   * Body param: List of entity names/IDs to exclude from results.
+   */
+  exclude_list?: Array<FindallCreateParams.ExcludeList> | null;
+
+  /**
+   * Body param: Metadata for the FindAll run.
+   */
+  metadata?: { [key: string]: string | number | boolean } | null;
+
+  /**
+   * Body param: Webhooks for Task Runs.
+   */
+  webhook?: BetaTaskRunAPI.Webhook | null;
+
+  /**
+   * Header param: Optional header to specify the beta version(s) to enable.
+   */
+  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
+}
+
+export namespace FindallCreateParams {
+  /**
+   * Match condition model for FindAll ingest.
+   */
+  export interface MatchCondition {
     /**
-     * Body param: Type of the entity for the FindAll run.
+     * Detailed description of the match condition. Include as much specific
+     * information as possible to help improve the quality and accuracy of Find All run
+     * results.
      */
-    entity_type: string;
+    description: string;
 
     /**
-     * Body param: Generator for the FindAll run.
+     * Name of the match condition.
      */
-    generator: 'base' | 'core' | 'pro' | 'preview';
-
-    /**
-     * Body param: List of match conditions for the FindAll run.
-     */
-    match_conditions: Array<FindallRunInput.MatchCondition>;
-
-    /**
-     * Body param: Maximum number of matches to find for this FindAll run.
-     */
-    match_limit: number;
-
-    /**
-     * Body param: Natural language objective of the FindAll run.
-     */
-    objective: string;
-
-    /**
-     * Body param: List of entity names/IDs to exclude from results.
-     */
-    exclude_list?: Array<FindallRunInput.ExcludeList> | null;
-
-    /**
-     * Body param: Metadata for the FindAll run.
-     */
-    metadata?: { [key: string]: string | number | boolean } | null;
-
-    /**
-     * Body param: Webhooks for Task Runs.
-     */
-    webhook?: BetaTaskRunAPI.Webhook | null;
-
-    /**
-     * Header param: Optional header to specify the beta version(s) to enable.
-     */
-    betas?: Array<BetaTaskRunAPI.ParallelBeta>;
+    name: string;
   }
 
-  export namespace FindallRunInput {
+  /**
+   * Exclude candidate input model for FindAll run.
+   */
+  export interface ExcludeList {
     /**
-     * Match condition model for FindAll ingest.
+     * Name of the entity to exclude from results.
      */
-    export interface MatchCondition {
-      /**
-       * Detailed description of the match condition. Include as much specific
-       * information as possible to help improve the quality and accuracy of Find All run
-       * results.
-       */
-      description: string;
-
-      /**
-       * Name of the match condition.
-       */
-      name: string;
-    }
+    name: string;
 
     /**
-     * Exclude candidate input model for FindAll run.
+     * URL of the entity to exclude from results.
      */
-    export interface ExcludeList {
-      /**
-       * Name of the entity to exclude from results.
-       */
-      name: string;
-
-      /**
-       * URL of the entity to exclude from results.
-       */
-      url: string;
-    }
-  }
-
-  export interface FindAllRunPayload {
-    /**
-     * Body param: Represents a view in the database with a title.
-     */
-    findall_spec: FindAllRunPayload.FindallSpec;
-
-    /**
-     * Body param:
-     */
-    processor: 'lite' | 'base' | 'pro' | 'preview';
-
-    /**
-     * Body param:
-     */
-    candidates?: Array<string>;
-
-    /**
-     * Body param:
-     */
-    metadata?: { [key: string]: string | number | boolean };
-
-    /**
-     * Body param:
-     */
-    result_limit?: number;
-
-    /**
-     * Body param: FindAll Webhooks for Clay.
-     */
-    updates_webhook?: FindAllRunPayload.UpdatesWebhook | null;
-
-    /**
-     * Body param: Webhooks for FindAll.
-     */
-    webhook?: FindAllRunPayload.Webhook | null;
-
-    /**
-     * Header param: Optional header to specify the beta version(s) to enable.
-     */
-    betas?: Array<BetaTaskRunAPI.ParallelBeta>;
-  }
-
-  export namespace FindAllRunPayload {
-    /**
-     * Represents a view in the database with a title.
-     */
-    export interface FindallSpec {
-      /**
-       * The columns of the view
-       */
-      columns: Array<FindallSpec.Column>;
-
-      /**
-       * The name of the view
-       */
-      name: string;
-
-      /**
-       * The query of the findall
-       */
-      query: string;
-
-      /**
-       * The title of the findall query
-       */
-      title: string;
-    }
-
-    export namespace FindallSpec {
-      /**
-       * Represents a column in a view.
-       */
-      export interface Column {
-        /**
-         * The description of the column
-         */
-        description: string;
-
-        /**
-         * The name of the column
-         */
-        name: string;
-
-        /**
-         * Direction for ordering results.
-         */
-        order_direction?: 'ASC' | 'DESC' | null;
-
-        /**
-         * Types of columns in a view.
-         */
-        type?: 'enrichment' | 'constraint' | 'order_by';
-      }
-    }
-
-    /**
-     * FindAll Webhooks for Clay.
-     */
-    export interface UpdatesWebhook {
-      /**
-       * URL for the webhook.
-       */
-      url: string;
-
-      /**
-       * The type of event that triggered the webhook.
-       */
-      event_types?: Array<'findall.result'>;
-
-      /**
-       * Secret for HMAC signature of the webhook. If not provided, webhook signature is
-       * generated from the secret created when the domain is registered.
-       */
-      secret?: string | null;
-    }
-
-    /**
-     * Webhooks for FindAll.
-     */
-    export interface Webhook {
-      /**
-       * URL for the webhook.
-       */
-      url: string;
-
-      /**
-       * The type of event that triggered the webhook.
-       */
-      event_types?: Array<
-        | 'findall.entity.created'
-        | 'findall.entity.discarded'
-        | 'findall.entity.completed'
-        | 'findall.run.completed'
-        | 'findall.run.canceled'
-      >;
-
-      /**
-       * Secret for HMAC signature of the webhook. If not provided, webhook signature is
-       * generated from the secret created when the domain is registered.
-       */
-      secret?: string | null;
-    }
+    url: string;
   }
 }
 
@@ -1389,37 +1241,16 @@ export interface FindallExtendParams {
   betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
-export type FindallIngestParams = FindallIngestParams.IngestInput | FindallIngestParams.IngestPayload;
+export interface FindallIngestParams {
+  /**
+   * Body param: Natural language objective to create a FindAll run spec.
+   */
+  objective: string;
 
-export declare namespace FindallIngestParams {
-  export interface IngestInput {
-    /**
-     * Body param: Natural language objective to create a FindAll run spec.
-     */
-    objective: string;
-
-    /**
-     * Header param: Optional header to specify the beta version(s) to enable.
-     */
-    betas?: Array<BetaTaskRunAPI.ParallelBeta>;
-  }
-
-  export interface IngestPayload {
-    /**
-     * Body param:
-     */
-    query: string;
-
-    /**
-     * Body param:
-     */
-    return_evidence_enrichments?: boolean;
-
-    /**
-     * Header param: Optional header to specify the beta version(s) to enable.
-     */
-    betas?: Array<BetaTaskRunAPI.ParallelBeta>;
-  }
+  /**
+   * Header param: Optional header to specify the beta version(s) to enable.
+   */
+  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
 export interface FindallResultParams {
