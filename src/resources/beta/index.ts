@@ -2,6 +2,31 @@
 
 export { Beta } from './beta';
 export {
+  Findall,
+  type FindallCandidateMatchStatusEvent,
+  type FindallEnrichInput,
+  type FindallExtendInput,
+  type FindallRun,
+  type FindallRunInput,
+  type FindallRunResult,
+  type FindallRunStatusEvent,
+  type FindallSchema,
+  type FindallSchemaUpdatedEvent,
+  type IngestInput,
+  type FindallRetrieveResponse,
+  type FindallCancelResponse,
+  type FindallEventsResponse,
+  type FindallCreateParams,
+  type FindallRetrieveParams,
+  type FindallCancelParams,
+  type FindallEnrichParams,
+  type FindallEventsParams,
+  type FindallExtendParams,
+  type FindallIngestParams,
+  type FindallResultParams,
+  type FindallSchemaParams,
+} from './findall';
+export {
   TaskGroup,
   type TaskGroupRunResponse,
   type TaskGroupStatus,
