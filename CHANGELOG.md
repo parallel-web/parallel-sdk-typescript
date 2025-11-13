@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.4 (2025-11-13)
+
+Full Changelog: [v0.2.3...v0.2.4](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.2.3...v0.2.4)
+
+### Features
+
+* **api:** FindAll sdk updates ([77128c1](https://github.com/parallel-web/parallel-sdk-typescript/commit/77128c106ed5082564e47119c47878992509837e))
+* **api:** manual updates ([c6432f5](https://github.com/parallel-web/parallel-sdk-typescript/commit/c6432f5fe15e3a125413c4a78100323970c915c9))
+
 ## 0.2.3 (2025-11-06)
 
 Full Changelog: [v0.2.2...v0.2.3](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.2.2...v0.2.3)
