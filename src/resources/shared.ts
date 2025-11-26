@@ -25,7 +25,7 @@ export interface ErrorObject {
  */
 export interface ErrorResponse {
   /**
-   * An error message.
+   * Error.
    */
   error: ErrorObject;
 

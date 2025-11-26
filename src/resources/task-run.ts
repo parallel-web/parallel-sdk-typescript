@@ -210,7 +210,9 @@ export interface TaskRun {
  */
 export interface TaskRunJsonOutput {
   /**
-   * Basis for each top-level field in the JSON output.
+   * Basis for each top-level field in the JSON output. Per-list-element basis
+   * entries are available only when the `parallel-beta: field-basis-2025-11-25`
+   * header is supplied.
    */
   basis: Array<FieldBasis>;
 
@@ -257,7 +259,7 @@ export interface TaskRunResult {
   output: TaskRunTextOutput | TaskRunJsonOutput;
 
   /**
-   * Status of a task run.
+   * Task run object with status 'completed'.
    */
   run: TaskRun;
 }
