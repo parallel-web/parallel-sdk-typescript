@@ -99,14 +99,13 @@ Types:
 - <code><a href="./src/resources/beta/findall.ts">FindallSchema</a></code>
 - <code><a href="./src/resources/beta/findall.ts">FindallSchemaUpdatedEvent</a></code>
 - <code><a href="./src/resources/beta/findall.ts">IngestInput</a></code>
-- <code><a href="./src/resources/beta/findall.ts">FindallRetrieveResponse</a></code>
 - <code><a href="./src/resources/beta/findall.ts">FindallCancelResponse</a></code>
 - <code><a href="./src/resources/beta/findall.ts">FindallEventsResponse</a></code>
 
 Methods:
 
 - <code title="post /v1beta/findall/runs">client.beta.findall.<a href="./src/resources/beta/findall.ts">create</a>({ ...params }) -> FindallRun</code>
-- <code title="get /v1beta/findall/runs/{findall_id}">client.beta.findall.<a href="./src/resources/beta/findall.ts">retrieve</a>(findallID, { ...params }) -> FindallRetrieveResponse</code>
+- <code title="get /v1beta/findall/runs/{findall_id}">client.beta.findall.<a href="./src/resources/beta/findall.ts">retrieve</a>(findallID, { ...params }) -> FindallRun</code>
 - <code title="post /v1beta/findall/runs/{findall_id}/cancel">client.beta.findall.<a href="./src/resources/beta/findall.ts">cancel</a>(findallID, { ...params }) -> unknown</code>
 - <code title="post /v1beta/findall/runs/{findall_id}/enrich">client.beta.findall.<a href="./src/resources/beta/findall.ts">enrich</a>(findallID, { ...params }) -> FindallSchema</code>
 - <code title="get /v1beta/findall/runs/{findall_id}/events">client.beta.findall.<a href="./src/resources/beta/findall.ts">events</a>(findallID, { ...params }) -> FindallEventsResponse</code>

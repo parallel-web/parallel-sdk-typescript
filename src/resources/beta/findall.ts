@@ -43,7 +43,7 @@ export class Findall extends APIResource {
     findallID: string,
     params: FindallRetrieveParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<FindallRetrieveResponse> {
+  ): APIPromise<FindallRun> {
     const { betas } = params ?? {};
     return this._client.get(path`/v1beta/findall/runs/${findallID}`, {
       ...options,
@@ -197,10 +197,7 @@ export class Findall extends APIResource {
  */
 export interface FindallCandidateMatchStatusEvent {
   /**
-   * Candidate for a find all run that may end up as a match.
-   *
-   * Contains all the candidate's metadata and the output of the match conditions. A
-   * candidate is a match if all match conditions are satisfied.
+   * The candidate whose match status has been updated.
    */
   data: FindallCandidateMatchStatusEvent.Data;
 
@@ -229,10 +226,7 @@ export interface FindallCandidateMatchStatusEvent {
 
 export namespace FindallCandidateMatchStatusEvent {
   /**
-   * Candidate for a find all run that may end up as a match.
-   *
-   * Contains all the candidate's metadata and the output of the match conditions. A
-   * candidate is a match if all match conditions are satisfied.
+   * The candidate whose match status has been updated.
    */
   export interface Data {
     /**
@@ -280,7 +274,7 @@ export namespace FindallCandidateMatchStatusEvent {
  */
 export interface FindallEnrichInput {
   /**
-   * JSON schema for a task input or output.
+   * JSON schema for the enrichment output schema for the FindAll run.
    */
   output_schema: TaskRunAPI.JsonSchema;
 
@@ -322,7 +316,7 @@ export interface FindallRun {
   generator: 'base' | 'core' | 'pro' | 'preview';
 
   /**
-   * Status object for FindAll run.
+   * Status object for the FindAll run.
    */
   status: FindallRun.Status;
 
@@ -345,7 +339,7 @@ export interface FindallRun {
 
 export namespace FindallRun {
   /**
-   * Status object for FindAll run.
+   * Status object for the FindAll run.
    */
   export interface Status {
     /**
@@ -354,7 +348,7 @@ export namespace FindallRun {
     is_active: boolean;
 
     /**
-     * Metrics object for FindAll run.
+     * Candidate metrics for the FindAll run.
      */
     metrics: Status.Metrics;
 
@@ -366,12 +360,19 @@ export namespace FindallRun {
     /**
      * Reason for termination when FindAll run is in terminal status.
      */
-    termination_reason?: string | null;
+    termination_reason?:
+      | 'low_match_rate'
+      | 'match_limit_met'
+      | 'candidates_exhausted'
+      | 'user_cancelled'
+      | 'error_occurred'
+      | 'timeout'
+      | null;
   }
 
   export namespace Status {
     /**
-     * Metrics object for FindAll run.
+     * Candidate metrics for the FindAll run.
      */
     export interface Metrics {
       /**
@@ -397,7 +398,7 @@ export interface FindallRunInput {
   entity_type: string;
 
   /**
-   * Generator for the FindAll run.
+   * Generator for the FindAll run. One of base, core, pro, preview.
    */
   generator: 'base' | 'core' | 'pro' | 'preview';
 
@@ -407,7 +408,8 @@ export interface FindallRunInput {
   match_conditions: Array<FindallRunInput.MatchCondition>;
 
   /**
-   * Maximum number of matches to find for this FindAll run.
+   * Maximum number of matches to find for this FindAll run. Must be between 5 and
+   * 1000 (inclusive).
    */
   match_limit: number;
 
@@ -480,7 +482,7 @@ export interface FindallRunResult {
   candidates: Array<FindallRunResult.Candidate>;
 
   /**
-   * FindAll run object with status and metadata.
+   * FindAll run object.
    */
   run: FindallRun;
 
@@ -544,7 +546,7 @@ export namespace FindallRunResult {
  */
 export interface FindallRunStatusEvent {
   /**
-   * FindAll run object with status and metadata.
+   * Updated FindAll run information.
    */
   data: FindallRun;
 
@@ -623,7 +625,7 @@ export namespace FindallSchema {
  */
 export interface FindallSchemaUpdatedEvent {
   /**
-   * Response model for FindAll ingest.
+   * Updated FindAll schema.
    */
   data: FindallSchema;
 
@@ -653,435 +655,6 @@ export interface IngestInput {
   objective: string;
 }
 
-/**
- * FindAll run object with status and metadata.
- */
-export type FindallRetrieveResponse = FindallRun | FindallRetrieveResponse.FindAllPollResponse;
-
-export namespace FindallRetrieveResponse {
-  /**
-   * Response format for polling a FindAll run status.
-   */
-  export interface FindAllPollResponse {
-    /**
-     * Billing metrics for the run.
-     */
-    billing_metrics: FindAllPollResponse.BillingMetrics;
-
-    /**
-     * List of candidates being processed
-     */
-    candidates: Array<FindAllPollResponse.Candidate>;
-
-    /**
-     * List of enrichments derived from the query
-     */
-    enrichments: Array<FindAllPollResponse.Enrichment>;
-
-    /**
-     * List of filters derived from the query
-     */
-    filters: Array<FindAllPollResponse.Filter>;
-
-    /**
-     * True if the run is still processing candidates
-     */
-    is_active: boolean;
-
-    /**
-     * Max results processed for the run
-     */
-    max_results: number;
-
-    /**
-     * Query for the run
-     */
-    query: string;
-
-    /**
-     * List of entities which are fully processed
-     */
-    results: Array<FindAllPollResponse.Result>;
-
-    /**
-     * View model for the run.
-     */
-    spec: FindAllPollResponse.Spec;
-
-    /**
-     * Derived overall status (e.g., 'running', 'completed', 'failed')
-     */
-    status: string;
-
-    /**
-     * List of processing steps undertaken with their status
-     */
-    steps: Array<FindAllPollResponse.Step>;
-
-    /**
-     * Title of the run
-     */
-    title: string;
-
-    /**
-     * True if enrichments are still being processed
-     */
-    are_enrichments_active?: boolean;
-
-    /**
-     * Timestamp of the request
-     */
-    created_at?: string | null;
-
-    /**
-     * List of recommended enrichments that could be added
-     */
-    enrichment_recommendations?: Array<FindAllPollResponse.EnrichmentRecommendation>;
-
-    /**
-     * Timestamp of the last status update
-     */
-    modified_at?: string | null;
-
-    /**
-     * Number of web pages considered for this entity
-     */
-    pages_considered?: number | null;
-
-    /**
-     * Number of web pages read for this entity
-     */
-    pages_read?: number | null;
-  }
-
-  export namespace FindAllPollResponse {
-    /**
-     * Billing metrics for the run.
-     */
-    export interface BillingMetrics {
-      /**
-       * Number of enrichment cells processed
-       */
-      enrichment_cells: number;
-
-      /**
-       * Number of rows processed
-       */
-      rows_processed: number;
-
-      cost_mode?: 'lite' | 'base' | 'pro' | 'preview';
-    }
-
-    /**
-     * Simplified entity model for candidates.
-     */
-    export interface Candidate {
-      /**
-       * Unique entity identifier
-       */
-      entity_id: string;
-
-      /**
-       * Entity name
-       */
-      name: string;
-    }
-
-    /**
-     * Column model for filters and enrichments.
-     */
-    export interface Enrichment {
-      /**
-       * Human-readable description of the column
-       */
-      description: string;
-
-      /**
-       * Column identifier
-       */
-      name: string;
-
-      /**
-       * Column type ('enrichment' or 'filter')
-       */
-      type: string;
-
-      /**
-       * Status of the column ('running', 'done', 'failed')
-       */
-      status?: string | null;
-    }
-
-    /**
-     * Column model for filters and enrichments.
-     */
-    export interface Filter {
-      /**
-       * Human-readable description of the column
-       */
-      description: string;
-
-      /**
-       * Column identifier
-       */
-      name: string;
-
-      /**
-       * Column type ('enrichment' or 'filter')
-       */
-      type: string;
-
-      /**
-       * Status of the column ('running', 'done', 'failed')
-       */
-      status?: string | null;
-    }
-
-    /**
-     * Entity model for results and candidates.
-     */
-    export interface Result {
-      /**
-       * Unique entity identifier
-       */
-      entity_id: string;
-
-      /**
-       * Entity name
-       */
-      name: string;
-
-      /**
-       * Entity description if available
-       */
-      description?: string | null;
-
-      /**
-       * List of enrichment results
-       */
-      enrichment_results?: Array<Result.EnrichmentResult>;
-
-      /**
-       * List of filter results
-       */
-      filter_results?: Array<Result.FilterResult>;
-
-      /**
-       * Confidence score (positive real number)
-       */
-      score?: number | null;
-
-      /**
-       * Entity URL if available
-       */
-      url?: string | null;
-    }
-
-    export namespace Result {
-      /**
-       * Result model for filter and enrichment results.
-       */
-      export interface EnrichmentResult {
-        /**
-         * Name of column
-         */
-        key: string;
-
-        /**
-         * Result of column
-         */
-        value: string;
-
-        /**
-         * Space separated list of citation urls
-         */
-        citations?: string | null;
-
-        /**
-         * Confidence score (e.g. 'high', 'medium', 'low')
-         */
-        confidence?: string | null;
-
-        /**
-         * List of enhanced citations with title and excerpts
-         */
-        enhanced_citations?: Array<EnrichmentResult.EnhancedCitation>;
-
-        /**
-         * Reasoning behind the value
-         */
-        reasoning?: string | null;
-      }
-
-      export namespace EnrichmentResult {
-        /**
-         * Enhanced citation model with title, excerpts, and URL for UI.
-         */
-        export interface EnhancedCitation {
-          /**
-           * Citation URL
-           */
-          url: string;
-
-          /**
-           * List of relevant excerpts from the cited page
-           */
-          excerpts?: Array<string>;
-
-          /**
-           * Title of the cited page
-           */
-          title?: string | null;
-        }
-      }
-
-      /**
-       * Result model for filter and enrichment results.
-       */
-      export interface FilterResult {
-        /**
-         * Name of column
-         */
-        key: string;
-
-        /**
-         * Result of column
-         */
-        value: string;
-
-        /**
-         * Space separated list of citation urls
-         */
-        citations?: string | null;
-
-        /**
-         * Confidence score (e.g. 'high', 'medium', 'low')
-         */
-        confidence?: string | null;
-
-        /**
-         * List of enhanced citations with title and excerpts
-         */
-        enhanced_citations?: Array<FilterResult.EnhancedCitation>;
-
-        /**
-         * Reasoning behind the value
-         */
-        reasoning?: string | null;
-      }
-
-      export namespace FilterResult {
-        /**
-         * Enhanced citation model with title, excerpts, and URL for UI.
-         */
-        export interface EnhancedCitation {
-          /**
-           * Citation URL
-           */
-          url: string;
-
-          /**
-           * List of relevant excerpts from the cited page
-           */
-          excerpts?: Array<string>;
-
-          /**
-           * Title of the cited page
-           */
-          title?: string | null;
-        }
-      }
-    }
-
-    /**
-     * View model for the run.
-     */
-    export interface Spec {
-      /**
-       * List of columns in the view
-       */
-      columns: Array<Spec.Column>;
-
-      /**
-       * Name of the view
-       */
-      name: string;
-    }
-
-    export namespace Spec {
-      /**
-       * Column model for filters and enrichments.
-       */
-      export interface Column {
-        /**
-         * Human-readable description of the column
-         */
-        description: string;
-
-        /**
-         * Column identifier
-         */
-        name: string;
-
-        /**
-         * Column type ('enrichment' or 'filter')
-         */
-        type: string;
-
-        /**
-         * Status of the column ('running', 'done', 'failed')
-         */
-        status?: string | null;
-      }
-    }
-
-    /**
-     * Step model for tracking progress of FindAll operations.
-     */
-    export interface Step {
-      /**
-       * Human-readable description of the step
-       */
-      description: string;
-
-      /**
-       * Step identifier
-       */
-      name: string;
-
-      /**
-       * Current status of the step
-       */
-      status: string;
-    }
-
-    /**
-     * Enrichment recommendation model.
-     */
-    export interface EnrichmentRecommendation {
-      /**
-       * Recommended column name
-       */
-      column_name: string;
-
-      /**
-       * Description of the recommended enrichment
-       */
-      description: string;
-
-      /**
-       * Run ID that generated this recommendation
-       */
-      recommendation_run_id: string;
-
-      /**
-       * Task ID that generated this recommendation
-       */
-      recommendation_task_id: string;
-    }
-  }
-}
-
 export type FindallCancelResponse = unknown;
 
 /**
@@ -1100,7 +673,7 @@ export interface FindallCreateParams {
   entity_type: string;
 
   /**
-   * Body param: Generator for the FindAll run.
+   * Body param: Generator for the FindAll run. One of base, core, pro, preview.
    */
   generator: 'base' | 'core' | 'pro' | 'preview';
 
@@ -1110,7 +683,8 @@ export interface FindallCreateParams {
   match_conditions: Array<FindallCreateParams.MatchCondition>;
 
   /**
-   * Body param: Maximum number of matches to find for this FindAll run.
+   * Body param: Maximum number of matches to find for this FindAll run. Must be
+   * between 5 and 1000 (inclusive).
    */
   match_limit: number;
 
@@ -1190,7 +764,7 @@ export interface FindallCancelParams {
 
 export interface FindallEnrichParams {
   /**
-   * Body param: JSON schema for a task input or output.
+   * Body param: JSON schema for the enrichment output schema for the FindAll run.
    */
   output_schema: TaskRunAPI.JsonSchema;
 
@@ -1279,7 +853,6 @@ export declare namespace Findall {
     type FindallSchema as FindallSchema,
     type FindallSchemaUpdatedEvent as FindallSchemaUpdatedEvent,
     type IngestInput as IngestInput,
-    type FindallRetrieveResponse as FindallRetrieveResponse,
     type FindallCancelResponse as FindallCancelResponse,
     type FindallEventsResponse as FindallEventsResponse,
     type FindallCreateParams as FindallCreateParams,

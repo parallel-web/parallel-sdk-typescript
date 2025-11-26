@@ -142,7 +142,7 @@ export interface BetaTaskRunResult {
   output: BetaTaskRunResult.BetaTaskRunTextOutput | BetaTaskRunResult.BetaTaskRunJsonOutput;
 
   /**
-   * Status of a task run.
+   * Beta task run object with status 'completed'.
    */
   run: TaskRunAPI.TaskRun;
 }
@@ -153,7 +153,9 @@ export namespace BetaTaskRunResult {
    */
   export interface BetaTaskRunTextOutput {
     /**
-     * Basis for the output.
+     * Basis for the output. To include per-list-element basis entries, send the
+     * `parallel-beta` header with the value `field-basis-2025-11-25` when creating the
+     * run.
      */
     basis: Array<TaskRunAPI.FieldBasis>;
 
@@ -184,7 +186,9 @@ export namespace BetaTaskRunResult {
    */
   export interface BetaTaskRunJsonOutput {
     /**
-     * Basis for the output.
+     * Basis for the output. To include per-list-element basis entries, send the
+     * `parallel-beta` header with the value `field-basis-2025-11-25` when creating the
+     * run.
      */
     basis: Array<TaskRunAPI.FieldBasis>;
 
@@ -223,7 +227,7 @@ export namespace BetaTaskRunResult {
  */
 export interface ErrorEvent {
   /**
-   * An error message.
+   * Error.
    */
   error: Shared.ErrorObject;
 
@@ -307,6 +311,7 @@ export type ParallelBeta =
   | 'webhook-2025-08-12'
   | 'findall-2025-09-15'
   | 'search-extract-2025-10-10'
+  | 'field-basis-2025-11-25'
   | (string & {});
 
 /**
@@ -321,7 +326,7 @@ export interface TaskRunEvent {
   event_id: string | null;
 
   /**
-   * Status of a task run.
+   * Task run object.
    */
   run: TaskRunAPI.TaskRun;
 
@@ -377,7 +382,7 @@ export namespace TaskRunEventsResponse {
     progress_meter: number;
 
     /**
-     * Source stats for a task run.
+     * Source stats describing progress so far.
      */
     source_stats: TaskRunProgressStatsEvent.SourceStats;
 
@@ -389,7 +394,7 @@ export namespace TaskRunEventsResponse {
 
   export namespace TaskRunProgressStatsEvent {
     /**
-     * Source stats for a task run.
+     * Source stats describing progress so far.
      */
     export interface SourceStats {
       /**

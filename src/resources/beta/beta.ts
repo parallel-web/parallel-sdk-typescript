@@ -18,7 +18,6 @@ import {
   FindallIngestParams,
   FindallResultParams,
   FindallRetrieveParams,
-  FindallRetrieveResponse,
   FindallRun,
   FindallRunInput,
   FindallRunResult,
@@ -108,9 +107,17 @@ export interface ExcerptSettings {
   /**
    * Optional upper bound on the total number of characters to include per url.
    * Excerpts may contain fewer characters than this limit to maximize relevance and
-   * token efficiency.
+   * token efficiency, but will never contain fewer than 1000 characters per result.
    */
   max_chars_per_result?: number | null;
+
+  /**
+   * Optional upper bound on the total number of characters to include across all
+   * urls. Results may contain fewer characters than this limit to maximize relevance
+   * and token efficiency, but will never contain fewer than 1000 characters per
+   * result.This overall limit applies in addition to max_chars_per_result.
+   */
+  max_chars_total?: number | null;
 }
 
 /**
@@ -289,6 +296,11 @@ export interface BetaExtractParams {
   urls: Array<string>;
 
   /**
+   * Header param: Optional header to specify the beta version(s) to enable.
+   */
+  betas: Array<TaskRunAPI.ParallelBeta>;
+
+  /**
    * Body param: Include excerpts from each URL relevant to the search objective and
    * queries. Note that if neither objective nor search_queries is provided, excerpts
    * are redundant with full content.
@@ -317,11 +329,6 @@ export interface BetaExtractParams {
    * search queries.
    */
   search_queries?: Array<string> | null;
-
-  /**
-   * Header param: Optional header to specify the beta version(s) to enable.
-   */
-  betas?: Array<TaskRunAPI.ParallelBeta>;
 }
 
 export namespace BetaExtractParams {
@@ -340,7 +347,7 @@ export namespace BetaExtractParams {
 
 export interface BetaSearchParams {
   /**
-   * Body param: Optional settings for returning relevant excerpts.
+   * Body param: Optional settings to configure excerpt generation.
    */
   excerpts?: ExcerptSettings;
 
@@ -456,7 +463,6 @@ export declare namespace Beta {
     type FindallSchema as FindallSchema,
     type FindallSchemaUpdatedEvent as FindallSchemaUpdatedEvent,
     type IngestInput as IngestInput,
-    type FindallRetrieveResponse as FindallRetrieveResponse,
     type FindallCancelResponse as FindallCancelResponse,
     type FindallEventsResponse as FindallEventsResponse,
     type FindallCreateParams as FindallCreateParams,
