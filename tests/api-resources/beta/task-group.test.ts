@@ -51,7 +51,13 @@ describe('resource taskGroup', () => {
           processor: 'base',
           enable_events: true,
           mcp_servers: [
-            { name: 'name', url: 'url', allowed_tools: ['string'], headers: { foo: 'string' }, type: 'url' },
+            {
+              name: 'name',
+              url: 'url',
+              allowed_tools: ['string'],
+              headers: { foo: 'string' },
+              type: 'url',
+            },
           ],
           metadata: { foo: 'string' },
           source_policy: {
@@ -60,7 +66,12 @@ describe('resource taskGroup', () => {
           },
           task_spec: {
             output_schema: {
-              json_schema: { additionalProperties: 'bar', properties: 'bar', required: 'bar', type: 'bar' },
+              json_schema: {
+                additionalProperties: 'bar',
+                properties: 'bar',
+                required: 'bar',
+                type: 'bar',
+              },
               type: 'json',
             },
             input_schema: 'string',
@@ -70,7 +81,12 @@ describe('resource taskGroup', () => {
       ],
       default_task_spec: {
         output_schema: {
-          json_schema: { additionalProperties: 'bar', properties: 'bar', required: 'bar', type: 'bar' },
+          json_schema: {
+            additionalProperties: 'bar',
+            properties: 'bar',
+            required: 'bar',
+            type: 'bar',
+          },
           type: 'json',
         },
         input_schema: 'string',
@@ -121,7 +137,12 @@ describe('resource taskGroup', () => {
     await expect(
       client.beta.taskGroup.getRuns(
         'taskgroup_id',
-        { include_input: true, include_output: true, last_event_id: 'last_event_id', status: 'queued' },
+        {
+          include_input: true,
+          include_output: true,
+          last_event_id: 'last_event_id',
+          status: 'queued',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Parallel.NotFoundError);

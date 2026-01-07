@@ -98,7 +98,12 @@ describe('resource findall', () => {
   test('enrich: only required params', async () => {
     const responsePromise = client.beta.findall.enrich('findall_id', {
       output_schema: {
-        json_schema: { additionalProperties: 'bar', properties: 'bar', required: 'bar', type: 'bar' },
+        json_schema: {
+          additionalProperties: 'bar',
+          properties: 'bar',
+          required: 'bar',
+          type: 'bar',
+        },
       },
     });
     const rawResponse = await responsePromise.asResponse();
@@ -113,11 +118,22 @@ describe('resource findall', () => {
   test('enrich: required and optional params', async () => {
     const response = await client.beta.findall.enrich('findall_id', {
       output_schema: {
-        json_schema: { additionalProperties: 'bar', properties: 'bar', required: 'bar', type: 'bar' },
+        json_schema: {
+          additionalProperties: 'bar',
+          properties: 'bar',
+          required: 'bar',
+          type: 'bar',
+        },
         type: 'json',
       },
       mcp_servers: [
-        { name: 'name', url: 'url', allowed_tools: ['string'], headers: { foo: 'string' }, type: 'url' },
+        {
+          name: 'name',
+          url: 'url',
+          allowed_tools: ['string'],
+          headers: { foo: 'string' },
+          type: 'url',
+        },
       ],
       processor: 'processor',
       betas: ['mcp-server-2025-07-17'],
@@ -142,7 +158,11 @@ describe('resource findall', () => {
     await expect(
       client.beta.findall.events(
         'findall_id',
-        { last_event_id: 'last_event_id', timeout: 0, betas: ['mcp-server-2025-07-17'] },
+        {
+          last_event_id: 'last_event_id',
+          timeout: 0,
+          betas: ['mcp-server-2025-07-17'],
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Parallel.NotFoundError);

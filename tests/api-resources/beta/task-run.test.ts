@@ -28,7 +28,13 @@ describe('resource taskRun', () => {
       processor: 'base',
       enable_events: true,
       mcp_servers: [
-        { name: 'name', url: 'url', allowed_tools: ['string'], headers: { foo: 'string' }, type: 'url' },
+        {
+          name: 'name',
+          url: 'url',
+          allowed_tools: ['string'],
+          headers: { foo: 'string' },
+          type: 'url',
+        },
       ],
       metadata: { foo: 'string' },
       source_policy: {
@@ -37,7 +43,12 @@ describe('resource taskRun', () => {
       },
       task_spec: {
         output_schema: {
-          json_schema: { additionalProperties: 'bar', properties: 'bar', required: 'bar', type: 'bar' },
+          json_schema: {
+            additionalProperties: 'bar',
+            properties: 'bar',
+            required: 'bar',
+            type: 'bar',
+          },
           type: 'json',
         },
         input_schema: 'string',
