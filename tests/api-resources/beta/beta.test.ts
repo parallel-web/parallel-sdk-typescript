@@ -24,7 +24,11 @@ describe('resource beta', () => {
       urls: ['string'],
       betas: ['mcp-server-2025-07-17'],
       excerpts: true,
-      fetch_policy: { disable_cache_fallback: true, max_age_seconds: 86400, timeout_seconds: 60 },
+      fetch_policy: {
+        disable_cache_fallback: true,
+        max_age_seconds: 86400,
+        timeout_seconds: 60,
+      },
       full_content: true,
       objective: 'objective',
       search_queries: ['string'],

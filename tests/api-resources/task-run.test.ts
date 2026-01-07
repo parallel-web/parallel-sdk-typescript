@@ -33,7 +33,12 @@ describe('resource taskRun', () => {
       },
       task_spec: {
         output_schema: {
-          json_schema: { additionalProperties: 'bar', properties: 'bar', required: 'bar', type: 'bar' },
+          json_schema: {
+            additionalProperties: 'bar',
+            properties: 'bar',
+            required: 'bar',
+            type: 'bar',
+          },
           type: 'json',
         },
         input_schema: 'string',
