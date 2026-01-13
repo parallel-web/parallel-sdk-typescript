@@ -25,7 +25,7 @@ export interface ErrorObject {
  */
 export interface ErrorResponse {
   /**
-   * An error message.
+   * Error.
    */
   error: ErrorObject;
 
@@ -41,6 +41,13 @@ export interface ErrorResponse {
  * This policy governs which sources are allowed/disallowed in results.
  */
 export interface SourcePolicy {
+  /**
+   * Optional start date for filtering search results. Results will be limited to
+   * content published on or after this date. Provided as an RFC 3339 date string
+   * (YYYY-MM-DD).
+   */
+  after_date?: string | null;
+
   /**
    * List of domains to exclude from results. If specified, sources from these
    * domains will be excluded. Accepts plain domains (e.g., example.com,

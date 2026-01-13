@@ -2,30 +2,29 @@
 
 import { APIResource } from '../../core/resource';
 import * as Shared from '../shared';
-import * as FindallAPI from './findall';
+import * as FindAllAPI from './findall';
 import {
-  Findall,
-  FindallCancelParams,
-  FindallCancelResponse,
-  FindallCandidateMatchStatusEvent,
-  FindallCreateParams,
-  FindallEnrichInput,
-  FindallEnrichParams,
-  FindallEventsParams,
-  FindallEventsResponse,
-  FindallExtendInput,
-  FindallExtendParams,
-  FindallIngestParams,
-  FindallResultParams,
-  FindallRetrieveParams,
-  FindallRetrieveResponse,
-  FindallRun,
-  FindallRunInput,
-  FindallRunResult,
-  FindallRunStatusEvent,
-  FindallSchema,
-  FindallSchemaParams,
-  FindallSchemaUpdatedEvent,
+  FindAll,
+  FindAllCancelParams,
+  FindAllCancelResponse,
+  FindAllCandidateMatchStatusEvent,
+  FindAllCreateParams,
+  FindAllEnrichInput,
+  FindAllEnrichParams,
+  FindAllEventsParams,
+  FindAllEventsResponse,
+  FindAllExtendInput,
+  FindAllExtendParams,
+  FindAllIngestParams,
+  FindAllResultParams,
+  FindAllRetrieveParams,
+  FindAllRun,
+  FindAllRunInput,
+  FindAllRunResult,
+  FindAllRunStatusEvent,
+  FindAllSchema,
+  FindAllSchemaParams,
+  FindAllSchemaUpdatedEvent,
   IngestInput,
 } from './findall';
 import * as TaskGroupAPI from './task-group';
@@ -62,7 +61,7 @@ import { RequestOptions } from '../../internal/request-options';
 export class Beta extends APIResource {
   taskRun: TaskRunAPI.TaskRun = new TaskRunAPI.TaskRun(this._client);
   taskGroup: TaskGroupAPI.TaskGroup = new TaskGroupAPI.TaskGroup(this._client);
-  findall: FindallAPI.Findall = new FindallAPI.Findall(this._client);
+  findall: FindAllAPI.FindAll = new FindAllAPI.FindAll(this._client);
 
   /**
    * Extracts relevant content from specific web URLs.
@@ -108,9 +107,17 @@ export interface ExcerptSettings {
   /**
    * Optional upper bound on the total number of characters to include per url.
    * Excerpts may contain fewer characters than this limit to maximize relevance and
-   * token efficiency.
+   * token efficiency, but will never contain fewer than 1000 characters per result.
    */
   max_chars_per_result?: number | null;
+
+  /**
+   * Optional upper bound on the total number of characters to include across all
+   * urls. Results may contain fewer characters than this limit to maximize relevance
+   * and token efficiency, but will never contain fewer than 1000 characters per
+   * result.This overall limit applies in addition to max_chars_per_result.
+   */
+  max_chars_total?: number | null;
 }
 
 /**
@@ -289,6 +296,11 @@ export interface BetaExtractParams {
   urls: Array<string>;
 
   /**
+   * Header param: Optional header to specify the beta version(s) to enable.
+   */
+  betas: Array<TaskRunAPI.ParallelBeta>;
+
+  /**
    * Body param: Include excerpts from each URL relevant to the search objective and
    * queries. Note that if neither objective nor search_queries is provided, excerpts
    * are redundant with full content.
@@ -317,11 +329,6 @@ export interface BetaExtractParams {
    * search queries.
    */
   search_queries?: Array<string> | null;
-
-  /**
-   * Header param: Optional header to specify the beta version(s) to enable.
-   */
-  betas?: Array<TaskRunAPI.ParallelBeta>;
 }
 
 export namespace BetaExtractParams {
@@ -340,7 +347,7 @@ export namespace BetaExtractParams {
 
 export interface BetaSearchParams {
   /**
-   * Body param: Optional settings for returning relevant excerpts.
+   * Body param: Optional settings to configure excerpt generation.
    */
   excerpts?: ExcerptSettings;
 
@@ -401,7 +408,7 @@ export interface BetaSearchParams {
 }
 
 Beta.TaskRun = TaskRun;
-Beta.Findall = Findall;
+Beta.FindAll = FindAll;
 
 export declare namespace Beta {
   export {
@@ -445,28 +452,27 @@ export declare namespace Beta {
   };
 
   export {
-    Findall as Findall,
-    type FindallCandidateMatchStatusEvent as FindallCandidateMatchStatusEvent,
-    type FindallEnrichInput as FindallEnrichInput,
-    type FindallExtendInput as FindallExtendInput,
-    type FindallRun as FindallRun,
-    type FindallRunInput as FindallRunInput,
-    type FindallRunResult as FindallRunResult,
-    type FindallRunStatusEvent as FindallRunStatusEvent,
-    type FindallSchema as FindallSchema,
-    type FindallSchemaUpdatedEvent as FindallSchemaUpdatedEvent,
+    FindAll as FindAll,
+    type FindAllCandidateMatchStatusEvent as FindAllCandidateMatchStatusEvent,
+    type FindAllEnrichInput as FindAllEnrichInput,
+    type FindAllExtendInput as FindAllExtendInput,
+    type FindAllRun as FindAllRun,
+    type FindAllRunInput as FindAllRunInput,
+    type FindAllRunResult as FindAllRunResult,
+    type FindAllRunStatusEvent as FindAllRunStatusEvent,
+    type FindAllSchema as FindAllSchema,
+    type FindAllSchemaUpdatedEvent as FindAllSchemaUpdatedEvent,
     type IngestInput as IngestInput,
-    type FindallRetrieveResponse as FindallRetrieveResponse,
-    type FindallCancelResponse as FindallCancelResponse,
-    type FindallEventsResponse as FindallEventsResponse,
-    type FindallCreateParams as FindallCreateParams,
-    type FindallRetrieveParams as FindallRetrieveParams,
-    type FindallCancelParams as FindallCancelParams,
-    type FindallEnrichParams as FindallEnrichParams,
-    type FindallEventsParams as FindallEventsParams,
-    type FindallExtendParams as FindallExtendParams,
-    type FindallIngestParams as FindallIngestParams,
-    type FindallResultParams as FindallResultParams,
-    type FindallSchemaParams as FindallSchemaParams,
+    type FindAllCancelResponse as FindAllCancelResponse,
+    type FindAllEventsResponse as FindAllEventsResponse,
+    type FindAllCreateParams as FindAllCreateParams,
+    type FindAllRetrieveParams as FindAllRetrieveParams,
+    type FindAllCancelParams as FindAllCancelParams,
+    type FindAllEnrichParams as FindAllEnrichParams,
+    type FindAllEventsParams as FindAllEventsParams,
+    type FindAllExtendParams as FindAllExtendParams,
+    type FindAllIngestParams as FindAllIngestParams,
+    type FindAllResultParams as FindAllResultParams,
+    type FindAllSchemaParams as FindAllSchemaParams,
   };
 }

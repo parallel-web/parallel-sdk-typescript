@@ -28,12 +28,18 @@ describe('resource taskRun', () => {
       processor: 'base',
       metadata: { foo: 'string' },
       source_policy: {
+        after_date: '2024-01-01',
         exclude_domains: ['reddit.com', 'x.com', '.ai'],
         include_domains: ['wikipedia.org', 'usa.gov', '.edu'],
       },
       task_spec: {
         output_schema: {
-          json_schema: { additionalProperties: 'bar', properties: 'bar', required: 'bar', type: 'bar' },
+          json_schema: {
+            additionalProperties: 'bar',
+            properties: 'bar',
+            required: 'bar',
+            type: 'bar',
+          },
           type: 'json',
         },
         input_schema: 'string',

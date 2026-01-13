@@ -9,7 +9,7 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Findall extends APIResource {
+export class FindAll extends APIResource {
   /**
    * Starts a FindAll run.
    *
@@ -24,13 +24,13 @@ export class Findall extends APIResource {
    * - Or specifying a webhook with relevant event types during run creation to
    *   receive notifications.
    */
-  create(params: FindallCreateParams, options?: RequestOptions): APIPromise<FindallRun> {
+  create(params: FindAllCreateParams, options?: RequestOptions): APIPromise<FindAllRun> {
     const { betas, ...body } = params;
     return this._client.post('/v1beta/findall/runs', {
       body,
       ...options,
       headers: buildHeaders([
-        { 'parallel-beta': [...(betas ?? []), 'findall-2025-02-01'].toString() },
+        { 'parallel-beta': [...(betas ?? []), 'findall-2025-09-15'].toString() },
         options?.headers,
       ]),
     });
@@ -41,14 +41,14 @@ export class Findall extends APIResource {
    */
   retrieve(
     findallID: string,
-    params: FindallRetrieveParams | null | undefined = {},
+    params: FindAllRetrieveParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<FindallRetrieveResponse> {
+  ): APIPromise<FindAllRun> {
     const { betas } = params ?? {};
     return this._client.get(path`/v1beta/findall/runs/${findallID}`, {
       ...options,
       headers: buildHeaders([
-        { 'parallel-beta': [...(betas ?? []), 'findall-2025-02-01'].toString() },
+        { 'parallel-beta': [...(betas ?? []), 'findall-2025-09-15'].toString() },
         options?.headers,
       ]),
     });
@@ -59,14 +59,14 @@ export class Findall extends APIResource {
    */
   cancel(
     findallID: string,
-    params: FindallCancelParams | null | undefined = {},
+    params: FindAllCancelParams | null | undefined = {},
     options?: RequestOptions,
   ): APIPromise<unknown> {
     const { betas } = params ?? {};
     return this._client.post(path`/v1beta/findall/runs/${findallID}/cancel`, {
       ...options,
       headers: buildHeaders([
-        { 'parallel-beta': [...(betas ?? []), 'findall-2025-02-01'].toString() },
+        { 'parallel-beta': [...(betas ?? []), 'findall-2025-09-15'].toString() },
         options?.headers,
       ]),
     });
@@ -77,15 +77,15 @@ export class Findall extends APIResource {
    */
   enrich(
     findallID: string,
-    params: FindallEnrichParams,
+    params: FindAllEnrichParams,
     options?: RequestOptions,
-  ): APIPromise<FindallSchema> {
+  ): APIPromise<FindAllSchema> {
     const { betas, ...body } = params;
     return this._client.post(path`/v1beta/findall/runs/${findallID}/enrich`, {
       body,
       ...options,
       headers: buildHeaders([
-        { 'parallel-beta': [...(betas ?? []), 'findall-2025-02-01'].toString() },
+        { 'parallel-beta': [...(betas ?? []), 'findall-2025-09-15'].toString() },
         options?.headers,
       ]),
     });
@@ -101,19 +101,19 @@ export class Findall extends APIResource {
    */
   events(
     findallID: string,
-    params: FindallEventsParams | undefined = {},
+    params: FindAllEventsParams | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<Stream<FindallEventsResponse>> {
+  ): APIPromise<Stream<FindAllEventsResponse>> {
     const { betas, ...query } = params ?? {};
     return this._client.get(path`/v1beta/findall/runs/${findallID}/events`, {
       query,
       ...options,
       headers: buildHeaders([
-        { 'parallel-beta': [...(betas ?? []), 'findall-2025-02-01'].toString(), Accept: 'text/event-stream' },
+        { 'parallel-beta': [...(betas ?? []), 'findall-2025-09-15'].toString(), Accept: 'text/event-stream' },
         options?.headers,
       ]),
       stream: true,
-    }) as APIPromise<Stream<FindallEventsResponse>>;
+    }) as APIPromise<Stream<FindAllEventsResponse>>;
   }
 
   /**
@@ -121,15 +121,15 @@ export class Findall extends APIResource {
    */
   extend(
     findallID: string,
-    params: FindallExtendParams,
+    params: FindAllExtendParams,
     options?: RequestOptions,
-  ): APIPromise<FindallSchema> {
+  ): APIPromise<FindAllSchema> {
     const { betas, ...body } = params;
     return this._client.post(path`/v1beta/findall/runs/${findallID}/extend`, {
       body,
       ...options,
       headers: buildHeaders([
-        { 'parallel-beta': [...(betas ?? []), 'findall-2025-02-01'].toString() },
+        { 'parallel-beta': [...(betas ?? []), 'findall-2025-09-15'].toString() },
         options?.headers,
       ]),
     });
@@ -143,13 +143,13 @@ export class Findall extends APIResource {
    * The generated specification serves as a suggested starting point and can be
    * further customized by the user.
    */
-  ingest(params: FindallIngestParams, options?: RequestOptions): APIPromise<FindallSchema> {
+  ingest(params: FindAllIngestParams, options?: RequestOptions): APIPromise<FindAllSchema> {
     const { betas, ...body } = params;
     return this._client.post('/v1beta/findall/ingest', {
       body,
       ...options,
       headers: buildHeaders([
-        { 'parallel-beta': [...(betas ?? []), 'findall-2025-02-01'].toString() },
+        { 'parallel-beta': [...(betas ?? []), 'findall-2025-09-15'].toString() },
         options?.headers,
       ]),
     });
@@ -160,14 +160,14 @@ export class Findall extends APIResource {
    */
   result(
     findallID: string,
-    params: FindallResultParams | null | undefined = {},
+    params: FindAllResultParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<FindallRunResult> {
+  ): APIPromise<FindAllRunResult> {
     const { betas } = params ?? {};
     return this._client.get(path`/v1beta/findall/runs/${findallID}/result`, {
       ...options,
       headers: buildHeaders([
-        { 'parallel-beta': [...(betas ?? []), 'findall-2025-02-01'].toString() },
+        { 'parallel-beta': [...(betas ?? []), 'findall-2025-09-15'].toString() },
         options?.headers,
       ]),
     });
@@ -178,14 +178,14 @@ export class Findall extends APIResource {
    */
   schema(
     findallID: string,
-    params: FindallSchemaParams | null | undefined = {},
+    params: FindAllSchemaParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<FindallSchema> {
+  ): APIPromise<FindAllSchema> {
     const { betas } = params ?? {};
     return this._client.get(path`/v1beta/findall/runs/${findallID}/schema`, {
       ...options,
       headers: buildHeaders([
-        { 'parallel-beta': [...(betas ?? []), 'findall-2025-02-01'].toString() },
+        { 'parallel-beta': [...(betas ?? []), 'findall-2025-09-15'].toString() },
         options?.headers,
       ]),
     });
@@ -195,14 +195,11 @@ export class Findall extends APIResource {
 /**
  * Event containing a candidate whose match status has changed.
  */
-export interface FindallCandidateMatchStatusEvent {
+export interface FindAllCandidateMatchStatusEvent {
   /**
-   * Candidate for a find all run that may end up as a match.
-   *
-   * Contains all the candidate's metadata and the output of the match conditions. A
-   * candidate is a match if all match conditions are satisfied.
+   * The candidate whose match status has been updated.
    */
-  data: FindallCandidateMatchStatusEvent.Data;
+  data: FindAllCandidateMatchStatusEvent.Data;
 
   /**
    * Unique event identifier for the event.
@@ -227,12 +224,9 @@ export interface FindallCandidateMatchStatusEvent {
     | 'findall.candidate.enriched';
 }
 
-export namespace FindallCandidateMatchStatusEvent {
+export namespace FindAllCandidateMatchStatusEvent {
   /**
-   * Candidate for a find all run that may end up as a match.
-   *
-   * Contains all the candidate's metadata and the output of the match conditions. A
-   * candidate is a match if all match conditions are satisfied.
+   * The candidate whose match status has been updated.
    */
   export interface Data {
     /**
@@ -278,9 +272,9 @@ export namespace FindallCandidateMatchStatusEvent {
 /**
  * Input model for FindAll enrich.
  */
-export interface FindallEnrichInput {
+export interface FindAllEnrichInput {
   /**
-   * JSON schema for a task input or output.
+   * JSON schema for the enrichment output schema for the FindAll run.
    */
   output_schema: TaskRunAPI.JsonSchema;
 
@@ -298,7 +292,7 @@ export interface FindallEnrichInput {
 /**
  * Input model for FindAll extend.
  */
-export interface FindallExtendInput {
+export interface FindAllExtendInput {
   /**
    * Additional number of matches to find for this FindAll run. This value will be
    * added to the current match limit to determine the new total match limit. Must be
@@ -310,7 +304,7 @@ export interface FindallExtendInput {
 /**
  * FindAll run object with status and metadata.
  */
-export interface FindallRun {
+export interface FindAllRun {
   /**
    * ID of the FindAll run.
    */
@@ -322,9 +316,9 @@ export interface FindallRun {
   generator: 'base' | 'core' | 'pro' | 'preview';
 
   /**
-   * Status object for FindAll run.
+   * Status object for the FindAll run.
    */
-  status: FindallRun.Status;
+  status: FindAllRun.Status;
 
   /**
    * Timestamp of the creation of the run, in RFC 3339 format.
@@ -343,9 +337,9 @@ export interface FindallRun {
   modified_at?: string | null;
 }
 
-export namespace FindallRun {
+export namespace FindAllRun {
   /**
-   * Status object for FindAll run.
+   * Status object for the FindAll run.
    */
   export interface Status {
     /**
@@ -354,7 +348,7 @@ export namespace FindallRun {
     is_active: boolean;
 
     /**
-     * Metrics object for FindAll run.
+     * Candidate metrics for the FindAll run.
      */
     metrics: Status.Metrics;
 
@@ -366,12 +360,19 @@ export namespace FindallRun {
     /**
      * Reason for termination when FindAll run is in terminal status.
      */
-    termination_reason?: string | null;
+    termination_reason?:
+      | 'low_match_rate'
+      | 'match_limit_met'
+      | 'candidates_exhausted'
+      | 'user_cancelled'
+      | 'error_occurred'
+      | 'timeout'
+      | null;
   }
 
   export namespace Status {
     /**
-     * Metrics object for FindAll run.
+     * Candidate metrics for the FindAll run.
      */
     export interface Metrics {
       /**
@@ -390,24 +391,25 @@ export namespace FindallRun {
 /**
  * Input model for FindAll run.
  */
-export interface FindallRunInput {
+export interface FindAllRunInput {
   /**
    * Type of the entity for the FindAll run.
    */
   entity_type: string;
 
   /**
-   * Generator for the FindAll run.
+   * Generator for the FindAll run. One of base, core, pro, preview.
    */
   generator: 'base' | 'core' | 'pro' | 'preview';
 
   /**
    * List of match conditions for the FindAll run.
    */
-  match_conditions: Array<FindallRunInput.MatchCondition>;
+  match_conditions: Array<FindAllRunInput.MatchCondition>;
 
   /**
-   * Maximum number of matches to find for this FindAll run.
+   * Maximum number of matches to find for this FindAll run. Must be between 5 and
+   * 1000 (inclusive).
    */
   match_limit: number;
 
@@ -419,7 +421,7 @@ export interface FindallRunInput {
   /**
    * List of entity names/IDs to exclude from results.
    */
-  exclude_list?: Array<FindallRunInput.ExcludeList> | null;
+  exclude_list?: Array<FindAllRunInput.ExcludeList> | null;
 
   /**
    * Metadata for the FindAll run.
@@ -432,7 +434,7 @@ export interface FindallRunInput {
   webhook?: BetaTaskRunAPI.Webhook | null;
 }
 
-export namespace FindallRunInput {
+export namespace FindAllRunInput {
   /**
    * Match condition model for FindAll ingest.
    */
@@ -473,16 +475,16 @@ export namespace FindallRunInput {
  * candidate entities with their match status and details at the time the snapshot
  * was taken.
  */
-export interface FindallRunResult {
+export interface FindAllRunResult {
   /**
    * All evaluated candidates at the time of the snapshot.
    */
-  candidates: Array<FindallRunResult.Candidate>;
+  candidates: Array<FindAllRunResult.Candidate>;
 
   /**
-   * FindAll run object with status and metadata.
+   * FindAll run object.
    */
-  run: FindallRun;
+  run: FindAllRun;
 
   /**
    * ID of the last event of the run at the time of the request. This can be used to
@@ -491,7 +493,7 @@ export interface FindallRunResult {
   last_event_id?: string | null;
 }
 
-export namespace FindallRunResult {
+export namespace FindAllRunResult {
   /**
    * Candidate for a find all run that may end up as a match.
    *
@@ -542,11 +544,11 @@ export namespace FindallRunResult {
 /**
  * Event containing status update for FindAll run.
  */
-export interface FindallRunStatusEvent {
+export interface FindAllRunStatusEvent {
   /**
-   * FindAll run object with status and metadata.
+   * Updated FindAll run information.
    */
-  data: FindallRun;
+  data: FindAllRun;
 
   /**
    * Unique event identifier for the event.
@@ -567,7 +569,7 @@ export interface FindallRunStatusEvent {
 /**
  * Response model for FindAll ingest.
  */
-export interface FindallSchema {
+export interface FindAllSchema {
   /**
    * Type of the entity for the FindAll run.
    */
@@ -576,7 +578,7 @@ export interface FindallSchema {
   /**
    * List of match conditions for the FindAll run.
    */
-  match_conditions: Array<FindallSchema.MatchCondition>;
+  match_conditions: Array<FindAllSchema.MatchCondition>;
 
   /**
    * Natural language objective of the FindAll run.
@@ -586,7 +588,7 @@ export interface FindallSchema {
   /**
    * List of enrichment inputs for the FindAll run.
    */
-  enrichments?: Array<FindallEnrichInput> | null;
+  enrichments?: Array<FindAllEnrichInput> | null;
 
   /**
    * The generator of the FindAll run.
@@ -599,7 +601,7 @@ export interface FindallSchema {
   match_limit?: number | null;
 }
 
-export namespace FindallSchema {
+export namespace FindAllSchema {
   /**
    * Match condition model for FindAll ingest.
    */
@@ -621,11 +623,11 @@ export namespace FindallSchema {
 /**
  * Event containing full snapshot of FindAll run state.
  */
-export interface FindallSchemaUpdatedEvent {
+export interface FindAllSchemaUpdatedEvent {
   /**
-   * Response model for FindAll ingest.
+   * Updated FindAll schema.
    */
-  data: FindallSchema;
+  data: FindAllSchema;
 
   /**
    * Unique event identifier for the event.
@@ -653,464 +655,36 @@ export interface IngestInput {
   objective: string;
 }
 
-/**
- * FindAll run object with status and metadata.
- */
-export type FindallRetrieveResponse = FindallRun | FindallRetrieveResponse.FindAllPollResponse;
-
-export namespace FindallRetrieveResponse {
-  /**
-   * Response format for polling a FindAll run status.
-   */
-  export interface FindAllPollResponse {
-    /**
-     * Billing metrics for the run.
-     */
-    billing_metrics: FindAllPollResponse.BillingMetrics;
-
-    /**
-     * List of candidates being processed
-     */
-    candidates: Array<FindAllPollResponse.Candidate>;
-
-    /**
-     * List of enrichments derived from the query
-     */
-    enrichments: Array<FindAllPollResponse.Enrichment>;
-
-    /**
-     * List of filters derived from the query
-     */
-    filters: Array<FindAllPollResponse.Filter>;
-
-    /**
-     * True if the run is still processing candidates
-     */
-    is_active: boolean;
-
-    /**
-     * Max results processed for the run
-     */
-    max_results: number;
-
-    /**
-     * Query for the run
-     */
-    query: string;
-
-    /**
-     * List of entities which are fully processed
-     */
-    results: Array<FindAllPollResponse.Result>;
-
-    /**
-     * View model for the run.
-     */
-    spec: FindAllPollResponse.Spec;
-
-    /**
-     * Derived overall status (e.g., 'running', 'completed', 'failed')
-     */
-    status: string;
-
-    /**
-     * List of processing steps undertaken with their status
-     */
-    steps: Array<FindAllPollResponse.Step>;
-
-    /**
-     * Title of the run
-     */
-    title: string;
-
-    /**
-     * True if enrichments are still being processed
-     */
-    are_enrichments_active?: boolean;
-
-    /**
-     * Timestamp of the request
-     */
-    created_at?: string | null;
-
-    /**
-     * List of recommended enrichments that could be added
-     */
-    enrichment_recommendations?: Array<FindAllPollResponse.EnrichmentRecommendation>;
-
-    /**
-     * Timestamp of the last status update
-     */
-    modified_at?: string | null;
-
-    /**
-     * Number of web pages considered for this entity
-     */
-    pages_considered?: number | null;
-
-    /**
-     * Number of web pages read for this entity
-     */
-    pages_read?: number | null;
-  }
-
-  export namespace FindAllPollResponse {
-    /**
-     * Billing metrics for the run.
-     */
-    export interface BillingMetrics {
-      /**
-       * Number of enrichment cells processed
-       */
-      enrichment_cells: number;
-
-      /**
-       * Number of rows processed
-       */
-      rows_processed: number;
-
-      cost_mode?: 'lite' | 'base' | 'pro' | 'preview';
-    }
-
-    /**
-     * Simplified entity model for candidates.
-     */
-    export interface Candidate {
-      /**
-       * Unique entity identifier
-       */
-      entity_id: string;
-
-      /**
-       * Entity name
-       */
-      name: string;
-    }
-
-    /**
-     * Column model for filters and enrichments.
-     */
-    export interface Enrichment {
-      /**
-       * Human-readable description of the column
-       */
-      description: string;
-
-      /**
-       * Column identifier
-       */
-      name: string;
-
-      /**
-       * Column type ('enrichment' or 'filter')
-       */
-      type: string;
-
-      /**
-       * Status of the column ('running', 'done', 'failed')
-       */
-      status?: string | null;
-    }
-
-    /**
-     * Column model for filters and enrichments.
-     */
-    export interface Filter {
-      /**
-       * Human-readable description of the column
-       */
-      description: string;
-
-      /**
-       * Column identifier
-       */
-      name: string;
-
-      /**
-       * Column type ('enrichment' or 'filter')
-       */
-      type: string;
-
-      /**
-       * Status of the column ('running', 'done', 'failed')
-       */
-      status?: string | null;
-    }
-
-    /**
-     * Entity model for results and candidates.
-     */
-    export interface Result {
-      /**
-       * Unique entity identifier
-       */
-      entity_id: string;
-
-      /**
-       * Entity name
-       */
-      name: string;
-
-      /**
-       * Entity description if available
-       */
-      description?: string | null;
-
-      /**
-       * List of enrichment results
-       */
-      enrichment_results?: Array<Result.EnrichmentResult>;
-
-      /**
-       * List of filter results
-       */
-      filter_results?: Array<Result.FilterResult>;
-
-      /**
-       * Confidence score (positive real number)
-       */
-      score?: number | null;
-
-      /**
-       * Entity URL if available
-       */
-      url?: string | null;
-    }
-
-    export namespace Result {
-      /**
-       * Result model for filter and enrichment results.
-       */
-      export interface EnrichmentResult {
-        /**
-         * Name of column
-         */
-        key: string;
-
-        /**
-         * Result of column
-         */
-        value: string;
-
-        /**
-         * Space separated list of citation urls
-         */
-        citations?: string | null;
-
-        /**
-         * Confidence score (e.g. 'high', 'medium', 'low')
-         */
-        confidence?: string | null;
-
-        /**
-         * List of enhanced citations with title and excerpts
-         */
-        enhanced_citations?: Array<EnrichmentResult.EnhancedCitation>;
-
-        /**
-         * Reasoning behind the value
-         */
-        reasoning?: string | null;
-      }
-
-      export namespace EnrichmentResult {
-        /**
-         * Enhanced citation model with title, excerpts, and URL for UI.
-         */
-        export interface EnhancedCitation {
-          /**
-           * Citation URL
-           */
-          url: string;
-
-          /**
-           * List of relevant excerpts from the cited page
-           */
-          excerpts?: Array<string>;
-
-          /**
-           * Title of the cited page
-           */
-          title?: string | null;
-        }
-      }
-
-      /**
-       * Result model for filter and enrichment results.
-       */
-      export interface FilterResult {
-        /**
-         * Name of column
-         */
-        key: string;
-
-        /**
-         * Result of column
-         */
-        value: string;
-
-        /**
-         * Space separated list of citation urls
-         */
-        citations?: string | null;
-
-        /**
-         * Confidence score (e.g. 'high', 'medium', 'low')
-         */
-        confidence?: string | null;
-
-        /**
-         * List of enhanced citations with title and excerpts
-         */
-        enhanced_citations?: Array<FilterResult.EnhancedCitation>;
-
-        /**
-         * Reasoning behind the value
-         */
-        reasoning?: string | null;
-      }
-
-      export namespace FilterResult {
-        /**
-         * Enhanced citation model with title, excerpts, and URL for UI.
-         */
-        export interface EnhancedCitation {
-          /**
-           * Citation URL
-           */
-          url: string;
-
-          /**
-           * List of relevant excerpts from the cited page
-           */
-          excerpts?: Array<string>;
-
-          /**
-           * Title of the cited page
-           */
-          title?: string | null;
-        }
-      }
-    }
-
-    /**
-     * View model for the run.
-     */
-    export interface Spec {
-      /**
-       * List of columns in the view
-       */
-      columns: Array<Spec.Column>;
-
-      /**
-       * Name of the view
-       */
-      name: string;
-    }
-
-    export namespace Spec {
-      /**
-       * Column model for filters and enrichments.
-       */
-      export interface Column {
-        /**
-         * Human-readable description of the column
-         */
-        description: string;
-
-        /**
-         * Column identifier
-         */
-        name: string;
-
-        /**
-         * Column type ('enrichment' or 'filter')
-         */
-        type: string;
-
-        /**
-         * Status of the column ('running', 'done', 'failed')
-         */
-        status?: string | null;
-      }
-    }
-
-    /**
-     * Step model for tracking progress of FindAll operations.
-     */
-    export interface Step {
-      /**
-       * Human-readable description of the step
-       */
-      description: string;
-
-      /**
-       * Step identifier
-       */
-      name: string;
-
-      /**
-       * Current status of the step
-       */
-      status: string;
-    }
-
-    /**
-     * Enrichment recommendation model.
-     */
-    export interface EnrichmentRecommendation {
-      /**
-       * Recommended column name
-       */
-      column_name: string;
-
-      /**
-       * Description of the recommended enrichment
-       */
-      description: string;
-
-      /**
-       * Run ID that generated this recommendation
-       */
-      recommendation_run_id: string;
-
-      /**
-       * Task ID that generated this recommendation
-       */
-      recommendation_task_id: string;
-    }
-  }
-}
-
-export type FindallCancelResponse = unknown;
+export type FindAllCancelResponse = unknown;
 
 /**
  * Event containing full snapshot of FindAll run state.
  */
-export type FindallEventsResponse =
-  | FindallSchemaUpdatedEvent
-  | FindallRunStatusEvent
-  | FindallCandidateMatchStatusEvent
+export type FindAllEventsResponse =
+  | FindAllSchemaUpdatedEvent
+  | FindAllRunStatusEvent
+  | FindAllCandidateMatchStatusEvent
   | BetaTaskRunAPI.ErrorEvent;
 
-export interface FindallCreateParams {
+export interface FindAllCreateParams {
   /**
    * Body param: Type of the entity for the FindAll run.
    */
   entity_type: string;
 
   /**
-   * Body param: Generator for the FindAll run.
+   * Body param: Generator for the FindAll run. One of base, core, pro, preview.
    */
   generator: 'base' | 'core' | 'pro' | 'preview';
 
   /**
    * Body param: List of match conditions for the FindAll run.
    */
-  match_conditions: Array<FindallCreateParams.MatchCondition>;
+  match_conditions: Array<FindAllCreateParams.MatchCondition>;
 
   /**
-   * Body param: Maximum number of matches to find for this FindAll run.
+   * Body param: Maximum number of matches to find for this FindAll run. Must be
+   * between 5 and 1000 (inclusive).
    */
   match_limit: number;
 
@@ -1122,7 +696,7 @@ export interface FindallCreateParams {
   /**
    * Body param: List of entity names/IDs to exclude from results.
    */
-  exclude_list?: Array<FindallCreateParams.ExcludeList> | null;
+  exclude_list?: Array<FindAllCreateParams.ExcludeList> | null;
 
   /**
    * Body param: Metadata for the FindAll run.
@@ -1140,7 +714,7 @@ export interface FindallCreateParams {
   betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
-export namespace FindallCreateParams {
+export namespace FindAllCreateParams {
   /**
    * Match condition model for FindAll ingest.
    */
@@ -1174,23 +748,23 @@ export namespace FindallCreateParams {
   }
 }
 
-export interface FindallRetrieveParams {
+export interface FindAllRetrieveParams {
   /**
    * Optional header to specify the beta version(s) to enable.
    */
   betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
-export interface FindallCancelParams {
+export interface FindAllCancelParams {
   /**
    * Optional header to specify the beta version(s) to enable.
    */
   betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
-export interface FindallEnrichParams {
+export interface FindAllEnrichParams {
   /**
-   * Body param: JSON schema for a task input or output.
+   * Body param: JSON schema for the enrichment output schema for the FindAll run.
    */
   output_schema: TaskRunAPI.JsonSchema;
 
@@ -1210,7 +784,7 @@ export interface FindallEnrichParams {
   betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
-export interface FindallEventsParams {
+export interface FindAllEventsParams {
   /**
    * Query param:
    */
@@ -1227,7 +801,7 @@ export interface FindallEventsParams {
   betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
-export interface FindallExtendParams {
+export interface FindAllExtendParams {
   /**
    * Body param: Additional number of matches to find for this FindAll run. This
    * value will be added to the current match limit to determine the new total match
@@ -1241,7 +815,7 @@ export interface FindallExtendParams {
   betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
-export interface FindallIngestParams {
+export interface FindAllIngestParams {
   /**
    * Body param: Natural language objective to create a FindAll run spec.
    */
@@ -1253,19 +827,96 @@ export interface FindallIngestParams {
   betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
-export interface FindallResultParams {
+export interface FindAllResultParams {
   /**
    * Optional header to specify the beta version(s) to enable.
    */
   betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
-export interface FindallSchemaParams {
+export interface FindAllSchemaParams {
   /**
    * Optional header to specify the beta version(s) to enable.
    */
   betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
+
+export declare namespace FindAll {
+  export {
+    type FindAllCandidateMatchStatusEvent as FindAllCandidateMatchStatusEvent,
+    type FindAllEnrichInput as FindAllEnrichInput,
+    type FindAllExtendInput as FindAllExtendInput,
+    type FindAllRun as FindAllRun,
+    type FindAllRunInput as FindAllRunInput,
+    type FindAllRunResult as FindAllRunResult,
+    type FindAllRunStatusEvent as FindAllRunStatusEvent,
+    type FindAllSchema as FindAllSchema,
+    type FindAllSchemaUpdatedEvent as FindAllSchemaUpdatedEvent,
+    type IngestInput as IngestInput,
+    type FindAllCancelResponse as FindAllCancelResponse,
+    type FindAllEventsResponse as FindAllEventsResponse,
+    type FindAllCreateParams as FindAllCreateParams,
+    type FindAllRetrieveParams as FindAllRetrieveParams,
+    type FindAllCancelParams as FindAllCancelParams,
+    type FindAllEnrichParams as FindAllEnrichParams,
+    type FindAllEventsParams as FindAllEventsParams,
+    type FindAllExtendParams as FindAllExtendParams,
+    type FindAllIngestParams as FindAllIngestParams,
+    type FindAllResultParams as FindAllResultParams,
+    type FindAllSchemaParams as FindAllSchemaParams,
+  };
+}
+
+/**
+ * Backwards-compatible aliases (deprecated).
+ *
+ * Historically these types/resources were exported as `Findall*` (lowercase "a").
+ * The canonical names are now `FindAll*`.
+ */
+export class Findall extends FindAll {}
+
+/** @deprecated Use `FindAllCandidateMatchStatusEvent` instead. */
+export type FindallCandidateMatchStatusEvent = FindAllCandidateMatchStatusEvent;
+/** @deprecated Use `FindAllEnrichInput` instead. */
+export type FindallEnrichInput = FindAllEnrichInput;
+/** @deprecated Use `FindAllExtendInput` instead. */
+export type FindallExtendInput = FindAllExtendInput;
+/** @deprecated Use `FindAllRun` instead. */
+export type FindallRun = FindAllRun;
+/** @deprecated Use `FindAllRunInput` instead. */
+export type FindallRunInput = FindAllRunInput;
+/** @deprecated Use `FindAllRunResult` instead. */
+export type FindallRunResult = FindAllRunResult;
+/** @deprecated Use `FindAllRunStatusEvent` instead. */
+export type FindallRunStatusEvent = FindAllRunStatusEvent;
+/** @deprecated Use `FindAllSchema` instead. */
+export type FindallSchema = FindAllSchema;
+/** @deprecated Use `FindAllSchemaUpdatedEvent` instead. */
+export type FindallSchemaUpdatedEvent = FindAllSchemaUpdatedEvent;
+/** @deprecated Use `IngestInput` instead. */
+export type FindallIngestInput = IngestInput;
+/** @deprecated Use `FindAllCancelResponse` instead. */
+export type FindallCancelResponse = FindAllCancelResponse;
+/** @deprecated Use `FindAllEventsResponse` instead. */
+export type FindallEventsResponse = FindAllEventsResponse;
+/** @deprecated Use `FindAllCreateParams` instead. */
+export type FindallCreateParams = FindAllCreateParams;
+/** @deprecated Use `FindAllRetrieveParams` instead. */
+export type FindallRetrieveParams = FindAllRetrieveParams;
+/** @deprecated Use `FindAllCancelParams` instead. */
+export type FindallCancelParams = FindAllCancelParams;
+/** @deprecated Use `FindAllEnrichParams` instead. */
+export type FindallEnrichParams = FindAllEnrichParams;
+/** @deprecated Use `FindAllEventsParams` instead. */
+export type FindallEventsParams = FindAllEventsParams;
+/** @deprecated Use `FindAllExtendParams` instead. */
+export type FindallExtendParams = FindAllExtendParams;
+/** @deprecated Use `FindAllIngestParams` instead. */
+export type FindallIngestParams = FindAllIngestParams;
+/** @deprecated Use `FindAllResultParams` instead. */
+export type FindallResultParams = FindAllResultParams;
+/** @deprecated Use `FindAllSchemaParams` instead. */
+export type FindallSchemaParams = FindAllSchemaParams;
 
 export declare namespace Findall {
   export {
@@ -1278,8 +929,7 @@ export declare namespace Findall {
     type FindallRunStatusEvent as FindallRunStatusEvent,
     type FindallSchema as FindallSchema,
     type FindallSchemaUpdatedEvent as FindallSchemaUpdatedEvent,
-    type IngestInput as IngestInput,
-    type FindallRetrieveResponse as FindallRetrieveResponse,
+    type FindallIngestInput as FindallIngestInput,
     type FindallCancelResponse as FindallCancelResponse,
     type FindallEventsResponse as FindallEventsResponse,
     type FindallCreateParams as FindallCreateParams,

@@ -112,7 +112,7 @@ export interface TaskGroup {
   created_at: string | null;
 
   /**
-   * Status of a task group.
+   * Status of the group.
    */
   status: TaskGroupStatus;
 
@@ -151,7 +151,7 @@ export interface TaskGroupRunResponse {
   run_ids: Array<string>;
 
   /**
-   * Status of a task group.
+   * Status of the group.
    */
   status: TaskGroupStatus;
 }
@@ -206,7 +206,7 @@ export namespace TaskGroupEventsResponse {
     event_id: string;
 
     /**
-     * Status of a task group.
+     * Task group status object.
      */
     status: TaskGroupAPI.TaskGroupStatus;
 
