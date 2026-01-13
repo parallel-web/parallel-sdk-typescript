@@ -1,5 +1,34 @@
 # Changelog
 
+## 0.3.0 (2026-01-13)
+
+Full Changelog: [v0.2.4...v0.3.0](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.2.4...v0.3.0)
+
+### Features
+
+* **api:** add after_date, update findAll nomenclature ([d32f54b](https://github.com/parallel-web/parallel-sdk-typescript/commit/d32f54b4958d0f47135e3f6e612ebd92cd5a139f))
+* **api:** Update excerpt settings ([58c9f47](https://github.com/parallel-web/parallel-sdk-typescript/commit/58c9f47cd642a29a3daf5e6efcf75462639376ac))
+* **ci:** add breaking change detection workflow ([7cff646](https://github.com/parallel-web/parallel-sdk-typescript/commit/7cff646f03b344932da9b1f41a2194935c0ecca5))
+
+
+### Bug Fixes
+
+* **api:** add aliases for old findAll types ([d06ae98](https://github.com/parallel-web/parallel-sdk-typescript/commit/d06ae9826af167dd35cf54a98ce5d80b00dbb833))
+* **mcp:** correct code tool API endpoint ([e9a925c](https://github.com/parallel-web/parallel-sdk-typescript/commit/e9a925cc5da68a7da81a78826df3a6b71d87e7b5))
+* **mcp:** return correct lines on typescript errors ([d6854e6](https://github.com/parallel-web/parallel-sdk-typescript/commit/d6854e660599668a38c679df3c60f311b1569a4a))
+
+
+### Chores
+
+* **api:** update default headers ([e7bcf21](https://github.com/parallel-web/parallel-sdk-typescript/commit/e7bcf210dcfcef9e444218abdf7f0d8d4dfc7d13))
+* break long lines in snippets into multiline ([148860c](https://github.com/parallel-web/parallel-sdk-typescript/commit/148860cb2d1fe30406d81f7eee60c51203dfad68))
+* **client:** fix logger property type ([2d7f64b](https://github.com/parallel-web/parallel-sdk-typescript/commit/2d7f64b25314670de513eda5cb70d2c3b70300fd))
+* fix lint ([d8fff0a](https://github.com/parallel-web/parallel-sdk-typescript/commit/d8fff0aa2479182e4b51e58fc8757911d5c06c5a))
+* **internal:** codegen related update ([d941a00](https://github.com/parallel-web/parallel-sdk-typescript/commit/d941a00eb40c9c3cd056da2fd6955d2aade94849))
+* **internal:** codegen related update ([bc0b8b1](https://github.com/parallel-web/parallel-sdk-typescript/commit/bc0b8b1167be0a5426a1d151e6bcefb7d884fe0c))
+* **internal:** codegen related update ([5ae66ee](https://github.com/parallel-web/parallel-sdk-typescript/commit/5ae66ee9239566c97fe41dd591acf8f58a3252bb))
+* **internal:** upgrade eslint ([e6780b0](https://github.com/parallel-web/parallel-sdk-typescript/commit/e6780b01053f2ef5a09dd544b32223f1cfc2db9b))
+
 ## 0.2.4 (2025-11-13)
 
 Full Changelog: [v0.2.3...v0.2.4](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.2.3...v0.2.4)
