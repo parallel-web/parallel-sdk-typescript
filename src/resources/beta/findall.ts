@@ -866,3 +866,81 @@ export declare namespace FindAll {
     type FindAllSchemaParams as FindAllSchemaParams,
   };
 }
+
+
+/**
+ * Backwards-compatible aliases (deprecated).
+ *
+ * Historically these types/resources were exported as `Findall*` (lowercase "a").
+ * The canonical names are now `FindAll*`.
+ */
+export class Findall extends FindAll {}
+
+/** @deprecated Use `FindAllCandidateMatchStatusEvent` instead. */
+export type FindallCandidateMatchStatusEvent = FindAllCandidateMatchStatusEvent;
+/** @deprecated Use `FindAllEnrichInput` instead. */
+export type FindallEnrichInput = FindAllEnrichInput;
+/** @deprecated Use `FindAllExtendInput` instead. */
+export type FindallExtendInput = FindAllExtendInput;
+/** @deprecated Use `FindAllRun` instead. */
+export type FindallRun = FindAllRun;
+/** @deprecated Use `FindAllRunInput` instead. */
+export type FindallRunInput = FindAllRunInput;
+/** @deprecated Use `FindAllRunResult` instead. */
+export type FindallRunResult = FindAllRunResult;
+/** @deprecated Use `FindAllRunStatusEvent` instead. */
+export type FindallRunStatusEvent = FindAllRunStatusEvent;
+/** @deprecated Use `FindAllSchema` instead. */
+export type FindallSchema = FindAllSchema;
+/** @deprecated Use `FindAllSchemaUpdatedEvent` instead. */
+export type FindallSchemaUpdatedEvent = FindAllSchemaUpdatedEvent;
+/** @deprecated Use `IngestInput` instead. */
+export type FindallIngestInput = IngestInput;
+/** @deprecated Use `FindAllCancelResponse` instead. */
+export type FindallCancelResponse = FindAllCancelResponse;
+/** @deprecated Use `FindAllEventsResponse` instead. */
+export type FindallEventsResponse = FindAllEventsResponse;
+/** @deprecated Use `FindAllCreateParams` instead. */
+export type FindallCreateParams = FindAllCreateParams;
+/** @deprecated Use `FindAllRetrieveParams` instead. */
+export type FindallRetrieveParams = FindAllRetrieveParams;
+/** @deprecated Use `FindAllCancelParams` instead. */
+export type FindallCancelParams = FindAllCancelParams;
+/** @deprecated Use `FindAllEnrichParams` instead. */
+export type FindallEnrichParams = FindAllEnrichParams;
+/** @deprecated Use `FindAllEventsParams` instead. */
+export type FindallEventsParams = FindAllEventsParams;
+/** @deprecated Use `FindAllExtendParams` instead. */
+export type FindallExtendParams = FindAllExtendParams;
+/** @deprecated Use `FindAllIngestParams` instead. */
+export type FindallIngestParams = FindAllIngestParams;
+/** @deprecated Use `FindAllResultParams` instead. */
+export type FindallResultParams = FindAllResultParams;
+/** @deprecated Use `FindAllSchemaParams` instead. */
+export type FindallSchemaParams = FindAllSchemaParams;
+
+export declare namespace Findall {
+  export {
+    type FindallCandidateMatchStatusEvent as FindallCandidateMatchStatusEvent,
+    type FindallEnrichInput as FindallEnrichInput,
+    type FindallExtendInput as FindallExtendInput,
+    type FindallRun as FindallRun,
+    type FindallRunInput as FindallRunInput,
+    type FindallRunResult as FindallRunResult,
+    type FindallRunStatusEvent as FindallRunStatusEvent,
+    type FindallSchema as FindallSchema,
+    type FindallSchemaUpdatedEvent as FindallSchemaUpdatedEvent,
+    type FindallIngestInput as FindallIngestInput,
+    type FindallCancelResponse as FindallCancelResponse,
+    type FindallEventsResponse as FindallEventsResponse,
+    type FindallCreateParams as FindallCreateParams,
+    type FindallRetrieveParams as FindallRetrieveParams,
+    type FindallCancelParams as FindallCancelParams,
+    type FindallEnrichParams as FindallEnrichParams,
+    type FindallEventsParams as FindallEventsParams,
+    type FindallExtendParams as FindallExtendParams,
+    type FindallIngestParams as FindallIngestParams,
+    type FindallResultParams as FindallResultParams,
+    type FindallSchemaParams as FindallSchemaParams,
+  };
+}
