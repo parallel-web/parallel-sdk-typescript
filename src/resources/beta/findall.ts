@@ -30,7 +30,7 @@ export class FindAll extends APIResource {
       body,
       ...options,
       headers: buildHeaders([
-        { 'parallel-beta': [...(betas ?? []), 'findall-2025-02-01'].toString() },
+        { 'parallel-beta': [...(betas ?? []), 'findall-2025-09-15'].toString() },
         options?.headers,
       ]),
     });
@@ -48,7 +48,7 @@ export class FindAll extends APIResource {
     return this._client.get(path`/v1beta/findall/runs/${findallID}`, {
       ...options,
       headers: buildHeaders([
-        { 'parallel-beta': [...(betas ?? []), 'findall-2025-02-01'].toString() },
+        { 'parallel-beta': [...(betas ?? []), 'findall-2025-09-15'].toString() },
         options?.headers,
       ]),
     });
@@ -66,7 +66,7 @@ export class FindAll extends APIResource {
     return this._client.post(path`/v1beta/findall/runs/${findallID}/cancel`, {
       ...options,
       headers: buildHeaders([
-        { 'parallel-beta': [...(betas ?? []), 'findall-2025-02-01'].toString() },
+        { 'parallel-beta': [...(betas ?? []), 'findall-2025-09-15'].toString() },
         options?.headers,
       ]),
     });
@@ -85,7 +85,7 @@ export class FindAll extends APIResource {
       body,
       ...options,
       headers: buildHeaders([
-        { 'parallel-beta': [...(betas ?? []), 'findall-2025-02-01'].toString() },
+        { 'parallel-beta': [...(betas ?? []), 'findall-2025-09-15'].toString() },
         options?.headers,
       ]),
     });
@@ -109,7 +109,7 @@ export class FindAll extends APIResource {
       query,
       ...options,
       headers: buildHeaders([
-        { 'parallel-beta': [...(betas ?? []), 'findall-2025-02-01'].toString(), Accept: 'text/event-stream' },
+        { 'parallel-beta': [...(betas ?? []), 'findall-2025-09-15'].toString(), Accept: 'text/event-stream' },
         options?.headers,
       ]),
       stream: true,
@@ -129,7 +129,7 @@ export class FindAll extends APIResource {
       body,
       ...options,
       headers: buildHeaders([
-        { 'parallel-beta': [...(betas ?? []), 'findall-2025-02-01'].toString() },
+        { 'parallel-beta': [...(betas ?? []), 'findall-2025-09-15'].toString() },
         options?.headers,
       ]),
     });
@@ -149,7 +149,7 @@ export class FindAll extends APIResource {
       body,
       ...options,
       headers: buildHeaders([
-        { 'parallel-beta': [...(betas ?? []), 'findall-2025-02-01'].toString() },
+        { 'parallel-beta': [...(betas ?? []), 'findall-2025-09-15'].toString() },
         options?.headers,
       ]),
     });
@@ -167,7 +167,7 @@ export class FindAll extends APIResource {
     return this._client.get(path`/v1beta/findall/runs/${findallID}/result`, {
       ...options,
       headers: buildHeaders([
-        { 'parallel-beta': [...(betas ?? []), 'findall-2025-02-01'].toString() },
+        { 'parallel-beta': [...(betas ?? []), 'findall-2025-09-15'].toString() },
         options?.headers,
       ]),
     });
@@ -185,7 +185,7 @@ export class FindAll extends APIResource {
     return this._client.get(path`/v1beta/findall/runs/${findallID}/schema`, {
       ...options,
       headers: buildHeaders([
-        { 'parallel-beta': [...(betas ?? []), 'findall-2025-02-01'].toString() },
+        { 'parallel-beta': [...(betas ?? []), 'findall-2025-09-15'].toString() },
         options?.headers,
       ]),
     });
