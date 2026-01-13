@@ -42,6 +42,13 @@ export interface ErrorResponse {
  */
 export interface SourcePolicy {
   /**
+   * Optional start date for filtering search results. Results will be limited to
+   * content published on or after this date. Provided as an RFC 3339 date string
+   * (YYYY-MM-DD).
+   */
+  after_date?: string | null;
+
+  /**
    * List of domains to exclude from results. If specified, sources from these
    * domains will be excluded. Accepts plain domains (e.g., example.com,
    * subdomain.example.gov) or bare domain extension starting with a period (e.g.,
