@@ -28,6 +28,7 @@ describe('resource taskRun', () => {
       processor: 'base',
       metadata: { foo: 'string' },
       source_policy: {
+        after_date: '2024-01-01',
         exclude_domains: ['reddit.com', 'x.com', '.ai'],
         include_domains: ['wikipedia.org', 'usa.gov', '.edu'],
       },

@@ -9,7 +9,7 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Findall extends APIResource {
+export class FindAll extends APIResource {
   /**
    * Starts a FindAll run.
    *
@@ -24,7 +24,7 @@ export class Findall extends APIResource {
    * - Or specifying a webhook with relevant event types during run creation to
    *   receive notifications.
    */
-  create(params: FindallCreateParams, options?: RequestOptions): APIPromise<FindallRun> {
+  create(params: FindAllCreateParams, options?: RequestOptions): APIPromise<FindAllRun> {
     const { betas, ...body } = params;
     return this._client.post('/v1beta/findall/runs', {
       body,
@@ -41,9 +41,9 @@ export class Findall extends APIResource {
    */
   retrieve(
     findallID: string,
-    params: FindallRetrieveParams | null | undefined = {},
+    params: FindAllRetrieveParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<FindallRun> {
+  ): APIPromise<FindAllRun> {
     const { betas } = params ?? {};
     return this._client.get(path`/v1beta/findall/runs/${findallID}`, {
       ...options,
@@ -59,7 +59,7 @@ export class Findall extends APIResource {
    */
   cancel(
     findallID: string,
-    params: FindallCancelParams | null | undefined = {},
+    params: FindAllCancelParams | null | undefined = {},
     options?: RequestOptions,
   ): APIPromise<unknown> {
     const { betas } = params ?? {};
@@ -77,9 +77,9 @@ export class Findall extends APIResource {
    */
   enrich(
     findallID: string,
-    params: FindallEnrichParams,
+    params: FindAllEnrichParams,
     options?: RequestOptions,
-  ): APIPromise<FindallSchema> {
+  ): APIPromise<FindAllSchema> {
     const { betas, ...body } = params;
     return this._client.post(path`/v1beta/findall/runs/${findallID}/enrich`, {
       body,
@@ -101,9 +101,9 @@ export class Findall extends APIResource {
    */
   events(
     findallID: string,
-    params: FindallEventsParams | undefined = {},
+    params: FindAllEventsParams | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<Stream<FindallEventsResponse>> {
+  ): APIPromise<Stream<FindAllEventsResponse>> {
     const { betas, ...query } = params ?? {};
     return this._client.get(path`/v1beta/findall/runs/${findallID}/events`, {
       query,
@@ -113,7 +113,7 @@ export class Findall extends APIResource {
         options?.headers,
       ]),
       stream: true,
-    }) as APIPromise<Stream<FindallEventsResponse>>;
+    }) as APIPromise<Stream<FindAllEventsResponse>>;
   }
 
   /**
@@ -121,9 +121,9 @@ export class Findall extends APIResource {
    */
   extend(
     findallID: string,
-    params: FindallExtendParams,
+    params: FindAllExtendParams,
     options?: RequestOptions,
-  ): APIPromise<FindallSchema> {
+  ): APIPromise<FindAllSchema> {
     const { betas, ...body } = params;
     return this._client.post(path`/v1beta/findall/runs/${findallID}/extend`, {
       body,
@@ -143,7 +143,7 @@ export class Findall extends APIResource {
    * The generated specification serves as a suggested starting point and can be
    * further customized by the user.
    */
-  ingest(params: FindallIngestParams, options?: RequestOptions): APIPromise<FindallSchema> {
+  ingest(params: FindAllIngestParams, options?: RequestOptions): APIPromise<FindAllSchema> {
     const { betas, ...body } = params;
     return this._client.post('/v1beta/findall/ingest', {
       body,
@@ -160,9 +160,9 @@ export class Findall extends APIResource {
    */
   result(
     findallID: string,
-    params: FindallResultParams | null | undefined = {},
+    params: FindAllResultParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<FindallRunResult> {
+  ): APIPromise<FindAllRunResult> {
     const { betas } = params ?? {};
     return this._client.get(path`/v1beta/findall/runs/${findallID}/result`, {
       ...options,
@@ -178,9 +178,9 @@ export class Findall extends APIResource {
    */
   schema(
     findallID: string,
-    params: FindallSchemaParams | null | undefined = {},
+    params: FindAllSchemaParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<FindallSchema> {
+  ): APIPromise<FindAllSchema> {
     const { betas } = params ?? {};
     return this._client.get(path`/v1beta/findall/runs/${findallID}/schema`, {
       ...options,
@@ -195,11 +195,11 @@ export class Findall extends APIResource {
 /**
  * Event containing a candidate whose match status has changed.
  */
-export interface FindallCandidateMatchStatusEvent {
+export interface FindAllCandidateMatchStatusEvent {
   /**
    * The candidate whose match status has been updated.
    */
-  data: FindallCandidateMatchStatusEvent.Data;
+  data: FindAllCandidateMatchStatusEvent.Data;
 
   /**
    * Unique event identifier for the event.
@@ -224,7 +224,7 @@ export interface FindallCandidateMatchStatusEvent {
     | 'findall.candidate.enriched';
 }
 
-export namespace FindallCandidateMatchStatusEvent {
+export namespace FindAllCandidateMatchStatusEvent {
   /**
    * The candidate whose match status has been updated.
    */
@@ -272,7 +272,7 @@ export namespace FindallCandidateMatchStatusEvent {
 /**
  * Input model for FindAll enrich.
  */
-export interface FindallEnrichInput {
+export interface FindAllEnrichInput {
   /**
    * JSON schema for the enrichment output schema for the FindAll run.
    */
@@ -292,7 +292,7 @@ export interface FindallEnrichInput {
 /**
  * Input model for FindAll extend.
  */
-export interface FindallExtendInput {
+export interface FindAllExtendInput {
   /**
    * Additional number of matches to find for this FindAll run. This value will be
    * added to the current match limit to determine the new total match limit. Must be
@@ -304,7 +304,7 @@ export interface FindallExtendInput {
 /**
  * FindAll run object with status and metadata.
  */
-export interface FindallRun {
+export interface FindAllRun {
   /**
    * ID of the FindAll run.
    */
@@ -318,7 +318,7 @@ export interface FindallRun {
   /**
    * Status object for the FindAll run.
    */
-  status: FindallRun.Status;
+  status: FindAllRun.Status;
 
   /**
    * Timestamp of the creation of the run, in RFC 3339 format.
@@ -337,7 +337,7 @@ export interface FindallRun {
   modified_at?: string | null;
 }
 
-export namespace FindallRun {
+export namespace FindAllRun {
   /**
    * Status object for the FindAll run.
    */
@@ -391,7 +391,7 @@ export namespace FindallRun {
 /**
  * Input model for FindAll run.
  */
-export interface FindallRunInput {
+export interface FindAllRunInput {
   /**
    * Type of the entity for the FindAll run.
    */
@@ -405,7 +405,7 @@ export interface FindallRunInput {
   /**
    * List of match conditions for the FindAll run.
    */
-  match_conditions: Array<FindallRunInput.MatchCondition>;
+  match_conditions: Array<FindAllRunInput.MatchCondition>;
 
   /**
    * Maximum number of matches to find for this FindAll run. Must be between 5 and
@@ -421,7 +421,7 @@ export interface FindallRunInput {
   /**
    * List of entity names/IDs to exclude from results.
    */
-  exclude_list?: Array<FindallRunInput.ExcludeList> | null;
+  exclude_list?: Array<FindAllRunInput.ExcludeList> | null;
 
   /**
    * Metadata for the FindAll run.
@@ -434,7 +434,7 @@ export interface FindallRunInput {
   webhook?: BetaTaskRunAPI.Webhook | null;
 }
 
-export namespace FindallRunInput {
+export namespace FindAllRunInput {
   /**
    * Match condition model for FindAll ingest.
    */
@@ -475,16 +475,16 @@ export namespace FindallRunInput {
  * candidate entities with their match status and details at the time the snapshot
  * was taken.
  */
-export interface FindallRunResult {
+export interface FindAllRunResult {
   /**
    * All evaluated candidates at the time of the snapshot.
    */
-  candidates: Array<FindallRunResult.Candidate>;
+  candidates: Array<FindAllRunResult.Candidate>;
 
   /**
    * FindAll run object.
    */
-  run: FindallRun;
+  run: FindAllRun;
 
   /**
    * ID of the last event of the run at the time of the request. This can be used to
@@ -493,7 +493,7 @@ export interface FindallRunResult {
   last_event_id?: string | null;
 }
 
-export namespace FindallRunResult {
+export namespace FindAllRunResult {
   /**
    * Candidate for a find all run that may end up as a match.
    *
@@ -544,11 +544,11 @@ export namespace FindallRunResult {
 /**
  * Event containing status update for FindAll run.
  */
-export interface FindallRunStatusEvent {
+export interface FindAllRunStatusEvent {
   /**
    * Updated FindAll run information.
    */
-  data: FindallRun;
+  data: FindAllRun;
 
   /**
    * Unique event identifier for the event.
@@ -569,7 +569,7 @@ export interface FindallRunStatusEvent {
 /**
  * Response model for FindAll ingest.
  */
-export interface FindallSchema {
+export interface FindAllSchema {
   /**
    * Type of the entity for the FindAll run.
    */
@@ -578,7 +578,7 @@ export interface FindallSchema {
   /**
    * List of match conditions for the FindAll run.
    */
-  match_conditions: Array<FindallSchema.MatchCondition>;
+  match_conditions: Array<FindAllSchema.MatchCondition>;
 
   /**
    * Natural language objective of the FindAll run.
@@ -588,7 +588,7 @@ export interface FindallSchema {
   /**
    * List of enrichment inputs for the FindAll run.
    */
-  enrichments?: Array<FindallEnrichInput> | null;
+  enrichments?: Array<FindAllEnrichInput> | null;
 
   /**
    * The generator of the FindAll run.
@@ -601,7 +601,7 @@ export interface FindallSchema {
   match_limit?: number | null;
 }
 
-export namespace FindallSchema {
+export namespace FindAllSchema {
   /**
    * Match condition model for FindAll ingest.
    */
@@ -623,11 +623,11 @@ export namespace FindallSchema {
 /**
  * Event containing full snapshot of FindAll run state.
  */
-export interface FindallSchemaUpdatedEvent {
+export interface FindAllSchemaUpdatedEvent {
   /**
    * Updated FindAll schema.
    */
-  data: FindallSchema;
+  data: FindAllSchema;
 
   /**
    * Unique event identifier for the event.
@@ -655,18 +655,18 @@ export interface IngestInput {
   objective: string;
 }
 
-export type FindallCancelResponse = unknown;
+export type FindAllCancelResponse = unknown;
 
 /**
  * Event containing full snapshot of FindAll run state.
  */
-export type FindallEventsResponse =
-  | FindallSchemaUpdatedEvent
-  | FindallRunStatusEvent
-  | FindallCandidateMatchStatusEvent
+export type FindAllEventsResponse =
+  | FindAllSchemaUpdatedEvent
+  | FindAllRunStatusEvent
+  | FindAllCandidateMatchStatusEvent
   | BetaTaskRunAPI.ErrorEvent;
 
-export interface FindallCreateParams {
+export interface FindAllCreateParams {
   /**
    * Body param: Type of the entity for the FindAll run.
    */
@@ -680,7 +680,7 @@ export interface FindallCreateParams {
   /**
    * Body param: List of match conditions for the FindAll run.
    */
-  match_conditions: Array<FindallCreateParams.MatchCondition>;
+  match_conditions: Array<FindAllCreateParams.MatchCondition>;
 
   /**
    * Body param: Maximum number of matches to find for this FindAll run. Must be
@@ -696,7 +696,7 @@ export interface FindallCreateParams {
   /**
    * Body param: List of entity names/IDs to exclude from results.
    */
-  exclude_list?: Array<FindallCreateParams.ExcludeList> | null;
+  exclude_list?: Array<FindAllCreateParams.ExcludeList> | null;
 
   /**
    * Body param: Metadata for the FindAll run.
@@ -714,7 +714,7 @@ export interface FindallCreateParams {
   betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
-export namespace FindallCreateParams {
+export namespace FindAllCreateParams {
   /**
    * Match condition model for FindAll ingest.
    */
@@ -748,21 +748,21 @@ export namespace FindallCreateParams {
   }
 }
 
-export interface FindallRetrieveParams {
+export interface FindAllRetrieveParams {
   /**
    * Optional header to specify the beta version(s) to enable.
    */
   betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
-export interface FindallCancelParams {
+export interface FindAllCancelParams {
   /**
    * Optional header to specify the beta version(s) to enable.
    */
   betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
-export interface FindallEnrichParams {
+export interface FindAllEnrichParams {
   /**
    * Body param: JSON schema for the enrichment output schema for the FindAll run.
    */
@@ -784,7 +784,7 @@ export interface FindallEnrichParams {
   betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
-export interface FindallEventsParams {
+export interface FindAllEventsParams {
   /**
    * Query param:
    */
@@ -801,7 +801,7 @@ export interface FindallEventsParams {
   betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
-export interface FindallExtendParams {
+export interface FindAllExtendParams {
   /**
    * Body param: Additional number of matches to find for this FindAll run. This
    * value will be added to the current match limit to determine the new total match
@@ -815,7 +815,7 @@ export interface FindallExtendParams {
   betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
-export interface FindallIngestParams {
+export interface FindAllIngestParams {
   /**
    * Body param: Natural language objective to create a FindAll run spec.
    */
@@ -827,42 +827,42 @@ export interface FindallIngestParams {
   betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
-export interface FindallResultParams {
+export interface FindAllResultParams {
   /**
    * Optional header to specify the beta version(s) to enable.
    */
   betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
-export interface FindallSchemaParams {
+export interface FindAllSchemaParams {
   /**
    * Optional header to specify the beta version(s) to enable.
    */
   betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
-export declare namespace Findall {
+export declare namespace FindAll {
   export {
-    type FindallCandidateMatchStatusEvent as FindallCandidateMatchStatusEvent,
-    type FindallEnrichInput as FindallEnrichInput,
-    type FindallExtendInput as FindallExtendInput,
-    type FindallRun as FindallRun,
-    type FindallRunInput as FindallRunInput,
-    type FindallRunResult as FindallRunResult,
-    type FindallRunStatusEvent as FindallRunStatusEvent,
-    type FindallSchema as FindallSchema,
-    type FindallSchemaUpdatedEvent as FindallSchemaUpdatedEvent,
+    type FindAllCandidateMatchStatusEvent as FindAllCandidateMatchStatusEvent,
+    type FindAllEnrichInput as FindAllEnrichInput,
+    type FindAllExtendInput as FindAllExtendInput,
+    type FindAllRun as FindAllRun,
+    type FindAllRunInput as FindAllRunInput,
+    type FindAllRunResult as FindAllRunResult,
+    type FindAllRunStatusEvent as FindAllRunStatusEvent,
+    type FindAllSchema as FindAllSchema,
+    type FindAllSchemaUpdatedEvent as FindAllSchemaUpdatedEvent,
     type IngestInput as IngestInput,
-    type FindallCancelResponse as FindallCancelResponse,
-    type FindallEventsResponse as FindallEventsResponse,
-    type FindallCreateParams as FindallCreateParams,
-    type FindallRetrieveParams as FindallRetrieveParams,
-    type FindallCancelParams as FindallCancelParams,
-    type FindallEnrichParams as FindallEnrichParams,
-    type FindallEventsParams as FindallEventsParams,
-    type FindallExtendParams as FindallExtendParams,
-    type FindallIngestParams as FindallIngestParams,
-    type FindallResultParams as FindallResultParams,
-    type FindallSchemaParams as FindallSchemaParams,
+    type FindAllCancelResponse as FindAllCancelResponse,
+    type FindAllEventsResponse as FindAllEventsResponse,
+    type FindAllCreateParams as FindAllCreateParams,
+    type FindAllRetrieveParams as FindAllRetrieveParams,
+    type FindAllCancelParams as FindAllCancelParams,
+    type FindAllEnrichParams as FindAllEnrichParams,
+    type FindAllEventsParams as FindAllEventsParams,
+    type FindAllExtendParams as FindAllExtendParams,
+    type FindAllIngestParams as FindAllIngestParams,
+    type FindAllResultParams as FindAllResultParams,
+    type FindAllSchemaParams as FindAllSchemaParams,
   };
 }
