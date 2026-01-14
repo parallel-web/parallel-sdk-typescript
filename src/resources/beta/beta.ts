@@ -291,7 +291,7 @@ export interface WebSearchResult {
 
 export interface BetaExtractParams {
   /**
-   * Body param:
+   * Body param
    */
   urls: Array<string>;
 

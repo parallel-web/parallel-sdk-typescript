@@ -786,12 +786,12 @@ export interface FindAllEnrichParams {
 
 export interface FindAllEventsParams {
   /**
-   * Query param:
+   * Query param
    */
   last_event_id?: string | null;
 
   /**
-   * Query param:
+   * Query param
    */
   timeout?: number | null;
 
