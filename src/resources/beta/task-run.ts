@@ -506,7 +506,7 @@ export interface TaskRunCreateParams {
 
 export interface TaskRunResultParams {
   /**
-   * Query param:
+   * Query param
    */
   timeout?: number;
 
