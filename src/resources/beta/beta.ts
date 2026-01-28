@@ -296,11 +296,6 @@ export interface BetaExtractParams {
   urls: Array<string>;
 
   /**
-   * Header param: Optional header to specify the beta version(s) to enable.
-   */
-  betas: Array<TaskRunAPI.ParallelBeta>;
-
-  /**
    * Body param: Include excerpts from each URL relevant to the search objective and
    * queries. Note that if neither objective nor search_queries is provided, excerpts
    * are redundant with full content.
@@ -329,6 +324,11 @@ export interface BetaExtractParams {
    * search queries.
    */
   search_queries?: Array<string> | null;
+
+  /**
+   * Header param: Optional header to specify the beta version(s) to enable.
+   */
+  betas?: Array<TaskRunAPI.ParallelBeta>;
 }
 
 export namespace BetaExtractParams {
