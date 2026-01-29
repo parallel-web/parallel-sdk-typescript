@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.3.1 (2026-01-28)
+
+Full Changelog: [v0.3.0...v0.3.1](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.3.0...v0.3.1)
+
+### Chores
+
+* **api:** make headers optional ([34c42bc](https://github.com/parallel-web/parallel-sdk-typescript/commit/34c42bcab5ef7b8672002ee0c9ac752a8bffad14))
+* **ci:** upgrade `actions/github-script` ([cc6296c](https://github.com/parallel-web/parallel-sdk-typescript/commit/cc6296c80f464c4e2411e1e6524d02eec1ad48c9))
+* fix typo in descriptions ([7a1e6da](https://github.com/parallel-web/parallel-sdk-typescript/commit/7a1e6da03b86d4eee18179b04e8f3bcce5651dfb))
+* **internal:** update `actions/checkout` version ([80a2a97](https://github.com/parallel-web/parallel-sdk-typescript/commit/80a2a97a0c81c308edd03bbd0835ad31cb1b9b9b))
+* **internal:** upgrade babel, qs, js-yaml ([32a9dee](https://github.com/parallel-web/parallel-sdk-typescript/commit/32a9dee83c6dd3ba998123bb5bfdae30e6bf3d1d))
+
 ## 0.3.0 (2026-01-13)
 
 Full Changelog: [v0.2.4...v0.3.0](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.2.4...v0.3.0)
