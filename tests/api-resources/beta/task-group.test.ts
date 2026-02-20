@@ -96,7 +96,7 @@ describe('resource taskGroup', () => {
     });
   });
 
-  // Prism doesn't support text/event-stream responses
+  // Mock server doesn't support text/event-stream responses
   test.skip('events', async () => {
     const responsePromise = client.beta.taskGroup.events('taskgroup_id');
     const rawResponse = await responsePromise.asResponse();
@@ -108,7 +108,7 @@ describe('resource taskGroup', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism doesn't support text/event-stream responses
+  // Mock server doesn't support text/event-stream responses
   test.skip('events: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -120,7 +120,7 @@ describe('resource taskGroup', () => {
     ).rejects.toThrow(Parallel.NotFoundError);
   });
 
-  // Prism doesn't support text/event-stream responses
+  // Mock server doesn't support text/event-stream responses
   test.skip('getRuns', async () => {
     const responsePromise = client.beta.taskGroup.getRuns('taskgroup_id');
     const rawResponse = await responsePromise.asResponse();
@@ -132,7 +132,7 @@ describe('resource taskGroup', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism doesn't support text/event-stream responses
+  // Mock server doesn't support text/event-stream responses
   test.skip('getRuns: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(

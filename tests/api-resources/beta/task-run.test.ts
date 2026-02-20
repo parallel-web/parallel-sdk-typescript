@@ -59,7 +59,7 @@ describe('resource taskRun', () => {
     });
   });
 
-  // Prism doesn't support text/event-stream responses
+  // Mock server doesn't support text/event-stream responses
   test.skip('events', async () => {
     const responsePromise = client.beta.taskRun.events('run_id');
     const rawResponse = await responsePromise.asResponse();
