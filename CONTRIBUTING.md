@@ -60,7 +60,7 @@ $ yarn link parallel-web
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global parallel-web
+$ pnpm link --global parallel-web
 ```
 
 ## Running tests
