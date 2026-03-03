@@ -10,6 +10,15 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
+/**
+ * The Task Group API is currently in beta and enables batch execution of many independent Task runs with group-level monitoring and failure handling.
+ *  - Submit hundreds or thousands of Tasks as a single group
+ * - Observe group progress and receive results as they complete
+ * - Real-time updates via Server-Sent Events (SSE)
+ * - Add tasks to an existing group while it is running
+ * - Group-level retry and error aggregation
+ * Status: beta and subject to change.
+ */
 export class TaskGroup extends APIResource {
   /**
    * Initiates a TaskGroup to group and track multiple runs.
