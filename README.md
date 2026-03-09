@@ -31,7 +31,7 @@ const taskRun = await client.taskRun.create({
   processor: 'base',
 });
 
-console.log(taskRun.run_id);
+console.log(taskRun.interaction_id);
 ```
 
 ### Request & Response types
@@ -155,7 +155,7 @@ const { data: taskRun, response: raw } = await client.taskRun
   .create({ input: 'What was the GDP of France in 2023?', processor: 'base' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(taskRun.run_id);
+console.log(taskRun.interaction_id);
 ```
 
 ### Logging

@@ -83,19 +83,12 @@ export class Beta extends APIResource {
 
   /**
    * Searches the web.
-   *
-   * To access this endpoint, pass the `parallel-beta` header with the value
-   * `search-extract-2025-10-10`.
    */
-  search(params: BetaSearchParams, options?: RequestOptions): APIPromise<SearchResult> {
-    const { betas, ...body } = params;
+  search(body: BetaSearchParams, options?: RequestOptions): APIPromise<SearchResult> {
     return this._client.post('/v1beta/search', {
       body,
       ...options,
-      headers: buildHeaders([
-        { 'parallel-beta': [...(betas ?? []), 'search-extract-2025-10-10'].toString() },
-        options?.headers,
-      ]),
+      headers: buildHeaders([{ 'parallel-beta': 'search-extract-2025-10-10' }, options?.headers]),
     });
   }
 }
@@ -107,15 +100,15 @@ export interface ExcerptSettings {
   /**
    * Optional upper bound on the total number of characters to include per url.
    * Excerpts may contain fewer characters than this limit to maximize relevance and
-   * token efficiency, but will never contain fewer than 1000 characters per result.
+   * token efficiency. Values below 1000 will be automatically set to 1000.
    */
   max_chars_per_result?: number | null;
 
   /**
    * Optional upper bound on the total number of characters to include across all
    * urls. Results may contain fewer characters than this limit to maximize relevance
-   * and token efficiency, but will never contain fewer than 1000 characters per
-   * result.This overall limit applies in addition to max_chars_per_result.
+   * and token efficiency. Values below 1000 will be automatically set to 1000. This
+   * overall limit applies in addition to max_chars_per_result.
    */
   max_chars_total?: number | null;
 }
@@ -347,64 +340,62 @@ export namespace BetaExtractParams {
 
 export interface BetaSearchParams {
   /**
-   * Body param: Optional settings to configure excerpt generation.
+   * Optional settings to configure excerpt generation.
    */
   excerpts?: ExcerptSettings;
 
   /**
-   * Body param: Policy for live fetching web results.
+   * Policy for live fetching web results.
    */
   fetch_policy?: FetchPolicy | null;
 
   /**
-   * @deprecated Body param: DEPRECATED: Use `excerpts.max_chars_per_result` instead.
+   * @deprecated DEPRECATED: Use `excerpts.max_chars_per_result` instead.
    */
   max_chars_per_result?: number | null;
 
   /**
-   * Body param: Upper bound on the number of results to return. May be limited by
-   * the processor. Defaults to 10 if not provided.
+   * Upper bound on the number of results to return. Defaults to 10 if not provided.
    */
   max_results?: number | null;
 
   /**
-   * Body param: Presets default values for parameters for different use cases.
-   * `one-shot` returns more comprehensive results and longer excerpts to answer
-   * questions from a single response, while `agentic` returns more concise,
-   * token-efficient results for use in an agentic loop.
+   * Presets default values for parameters for different use cases.
+   *
+   * - `one-shot` returns more comprehensive results and longer excerpts to answer
+   *   questions from a single response
+   * - `agentic` returns more concise, token-efficient results for use in an agentic
+   *   loop
+   * - `fast` trades some quality for lower latency, with best results when used with
+   *   concise and high-quality objective and keyword queries
    */
-  mode?: 'one-shot' | 'agentic' | null;
+  mode?: 'one-shot' | 'agentic' | 'fast' | null;
 
   /**
-   * Body param: Natural-language description of what the web search is trying to
-   * find. May include guidance about preferred sources or freshness. At least one of
-   * objective or search_queries must be provided.
+   * Natural-language description of what the web search is trying to find. May
+   * include guidance about preferred sources or freshness. At least one of objective
+   * or search_queries must be provided.
    */
   objective?: string | null;
 
   /**
-   * @deprecated Body param: DEPRECATED: use `mode` instead.
+   * @deprecated DEPRECATED: use `mode` instead.
    */
   processor?: 'base' | 'pro' | null;
 
   /**
-   * Body param: Optional list of traditional keyword search queries to guide the
-   * search. May contain search operators. At least one of objective or
-   * search_queries must be provided.
+   * Optional list of traditional keyword search queries to guide the search. May
+   * contain search operators. At least one of objective or search_queries must be
+   * provided.
    */
   search_queries?: Array<string> | null;
 
   /**
-   * Body param: Source policy for web search results.
+   * Source policy for web search results.
    *
    * This policy governs which sources are allowed/disallowed in results.
    */
   source_policy?: Shared.SourcePolicy | null;
-
-  /**
-   * Header param: Optional header to specify the beta version(s) to enable.
-   */
-  betas?: Array<TaskRunAPI.ParallelBeta>;
 }
 
 Beta.TaskRun = TaskRun;

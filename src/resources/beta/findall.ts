@@ -370,6 +370,7 @@ export namespace FindAllRun {
       | 'user_cancelled'
       | 'error_occurred'
       | 'timeout'
+      | 'insufficient_funds'
       | null;
   }
 
