@@ -84,11 +84,15 @@ export class Beta extends APIResource {
   /**
    * Searches the web.
    */
-  search(body: BetaSearchParams, options?: RequestOptions): APIPromise<SearchResult> {
+  search(params: BetaSearchParams, options?: RequestOptions): APIPromise<SearchResult> {
+    const { betas, ...body } = params;
     return this._client.post('/v1beta/search', {
       body,
       ...options,
-      headers: buildHeaders([{ 'parallel-beta': 'search-extract-2025-10-10' }, options?.headers]),
+      headers: buildHeaders([
+        { 'parallel-beta': [...(betas ?? []), 'search-extract-2025-10-10'].toString() },
+        options?.headers,
+      ]),
     });
   }
 }
@@ -340,27 +344,28 @@ export namespace BetaExtractParams {
 
 export interface BetaSearchParams {
   /**
-   * Optional settings to configure excerpt generation.
+   * Body param: Optional settings to configure excerpt generation.
    */
   excerpts?: ExcerptSettings;
 
   /**
-   * Policy for live fetching web results.
+   * Body param: Policy for live fetching web results.
    */
   fetch_policy?: FetchPolicy | null;
 
   /**
-   * @deprecated DEPRECATED: Use `excerpts.max_chars_per_result` instead.
+   * @deprecated Body param: DEPRECATED: Use `excerpts.max_chars_per_result` instead.
    */
   max_chars_per_result?: number | null;
 
   /**
-   * Upper bound on the number of results to return. Defaults to 10 if not provided.
+   * Body param: Upper bound on the number of results to return. Defaults to 10 if
+   * not provided.
    */
   max_results?: number | null;
 
   /**
-   * Presets default values for parameters for different use cases.
+   * Body param: Presets default values for parameters for different use cases.
    *
    * - `one-shot` returns more comprehensive results and longer excerpts to answer
    *   questions from a single response
@@ -372,30 +377,35 @@ export interface BetaSearchParams {
   mode?: 'one-shot' | 'agentic' | 'fast' | null;
 
   /**
-   * Natural-language description of what the web search is trying to find. May
-   * include guidance about preferred sources or freshness. At least one of objective
-   * or search_queries must be provided.
+   * Body param: Natural-language description of what the web search is trying to
+   * find. May include guidance about preferred sources or freshness. At least one of
+   * objective or search_queries must be provided.
    */
   objective?: string | null;
 
   /**
-   * @deprecated DEPRECATED: use `mode` instead.
+   * @deprecated Body param: DEPRECATED: use `mode` instead.
    */
   processor?: 'base' | 'pro' | null;
 
   /**
-   * Optional list of traditional keyword search queries to guide the search. May
-   * contain search operators. At least one of objective or search_queries must be
-   * provided.
+   * Body param: Optional list of traditional keyword search queries to guide the
+   * search. May contain search operators. At least one of objective or
+   * search_queries must be provided.
    */
   search_queries?: Array<string> | null;
 
   /**
-   * Source policy for web search results.
+   * Body param: Source policy for web search results.
    *
    * This policy governs which sources are allowed/disallowed in results.
    */
   source_policy?: Shared.SourcePolicy | null;
+
+  /**
+   * Header param: Optional header to specify the beta version(s) to enable.
+   */
+  betas?: Array<TaskRunAPI.ParallelBeta>;
 }
 
 Beta.TaskRun = TaskRun;
