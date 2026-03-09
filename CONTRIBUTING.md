@@ -60,7 +60,7 @@ $ yarn link parallel-web
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global parallel-web
+$ pnpm link --global parallel-web
 ```
 
 ## Running tests
@@ -68,7 +68,7 @@ $ pnpm link -—global parallel-web
 Most tests require you to [set up a mock server](https://github.com/stoplightio/prism) against the OpenAPI spec to run the tests.
 
 ```sh
-$ npx prism mock path/to/your/openapi.yml
+$ ./scripts/mock
 ```
 
 ```sh

@@ -83,9 +83,6 @@ export class Beta extends APIResource {
 
   /**
    * Searches the web.
-   *
-   * To access this endpoint, pass the `parallel-beta` header with the value
-   * `search-extract-2025-10-10`.
    */
   search(params: BetaSearchParams, options?: RequestOptions): APIPromise<SearchResult> {
     const { betas, ...body } = params;
@@ -107,15 +104,15 @@ export interface ExcerptSettings {
   /**
    * Optional upper bound on the total number of characters to include per url.
    * Excerpts may contain fewer characters than this limit to maximize relevance and
-   * token efficiency, but will never contain fewer than 1000 characters per result.
+   * token efficiency. Values below 1000 will be automatically set to 1000.
    */
   max_chars_per_result?: number | null;
 
   /**
    * Optional upper bound on the total number of characters to include across all
    * urls. Results may contain fewer characters than this limit to maximize relevance
-   * and token efficiency, but will never contain fewer than 1000 characters per
-   * result.This overall limit applies in addition to max_chars_per_result.
+   * and token efficiency. Values below 1000 will be automatically set to 1000. This
+   * overall limit applies in addition to max_chars_per_result.
    */
   max_chars_total?: number | null;
 }
@@ -362,18 +359,22 @@ export interface BetaSearchParams {
   max_chars_per_result?: number | null;
 
   /**
-   * Body param: Upper bound on the number of results to return. May be limited by
-   * the processor. Defaults to 10 if not provided.
+   * Body param: Upper bound on the number of results to return. Defaults to 10 if
+   * not provided.
    */
   max_results?: number | null;
 
   /**
    * Body param: Presets default values for parameters for different use cases.
-   * `one-shot` returns more comprehensive results and longer excerpts to answer
-   * questions from a single response, while `agentic` returns more concise,
-   * token-efficient results for use in an agentic loop.
+   *
+   * - `one-shot` returns more comprehensive results and longer excerpts to answer
+   *   questions from a single response
+   * - `agentic` returns more concise, token-efficient results for use in an agentic
+   *   loop
+   * - `fast` trades some quality for lower latency, with best results when used with
+   *   concise and high-quality objective and keyword queries
    */
-  mode?: 'one-shot' | 'agentic' | null;
+  mode?: 'one-shot' | 'agentic' | 'fast' | null;
 
   /**
    * Body param: Natural-language description of what the web search is trying to

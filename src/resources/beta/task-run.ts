@@ -10,6 +10,10 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
+/**
+ * The Task API executes web research and extraction tasks. Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+ * - Output metadata: citations, excerpts, reasoning, and confidence per field
+ */
 export class TaskRun extends APIResource {
   /**
    * Initiates a task run.
@@ -108,6 +112,11 @@ export interface BetaRunInput {
    * a maximum length of 16 and 512 characters respectively.
    */
   metadata?: { [key: string]: string | number | boolean } | null;
+
+  /**
+   * Interaction ID to use as context for this request.
+   */
+  previous_interaction_id?: string | null;
 
   /**
    * Source policy for web search results.
@@ -475,6 +484,11 @@ export interface TaskRunCreateParams {
    * strings with a maximum length of 16 and 512 characters respectively.
    */
   metadata?: { [key: string]: string | number | boolean } | null;
+
+  /**
+   * Body param: Interaction ID to use as context for this request.
+   */
+  previous_interaction_id?: string | null;
 
   /**
    * Body param: Source policy for web search results.

@@ -6,6 +6,10 @@ import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
+/**
+ * The Task API executes web research and extraction tasks. Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+ * - Output metadata: citations, excerpts, reasoning, and confidence per field
+ */
 export class TaskRun extends APIResource {
   /**
    * Initiates a task run.
@@ -132,6 +136,11 @@ export interface RunInput {
   metadata?: { [key: string]: string | number | boolean } | null;
 
   /**
+   * Interaction ID to use as context for this request.
+   */
+  previous_interaction_id?: string | null;
+
+  /**
    * Source policy for web search results.
    *
    * This policy governs which sources are allowed/disallowed in results.
@@ -157,6 +166,12 @@ export interface TaskRun {
    * Timestamp of the creation of the task, as an RFC 3339 string.
    */
   created_at: string | null;
+
+  /**
+   * Identifier for this interaction. Pass this value as `previous_interaction_id` to
+   * reuse context for a future request.
+   */
+  interaction_id: string;
 
   /**
    * Whether the run is currently active, i.e. status is one of {'cancelling',
@@ -354,6 +369,11 @@ export interface TaskRunCreateParams {
    * a maximum length of 16 and 512 characters respectively.
    */
   metadata?: { [key: string]: string | number | boolean } | null;
+
+  /**
+   * Interaction ID to use as context for this request.
+   */
+  previous_interaction_id?: string | null;
 
   /**
    * Source policy for web search results.

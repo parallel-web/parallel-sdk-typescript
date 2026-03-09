@@ -1,5 +1,37 @@
 # Changelog
 
+## 0.3.2 (2026-03-09)
+
+Full Changelog: [v0.3.1...v0.3.2](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.3.1...v0.3.2)
+
+### Features
+
+* **api:** add betas back in for search ([88ffc07](https://github.com/parallel-web/parallel-sdk-typescript/commit/88ffc0723b8ad725b626d47d95d45cc088a97bd9))
+* **api:** sync openapi spec ([8b8c04d](https://github.com/parallel-web/parallel-sdk-typescript/commit/8b8c04d813a6f29274cb0e0a416539e0ec7aa5d4))
+
+
+### Bug Fixes
+
+* **client:** avoid memory leak with abort signals ([b5891d2](https://github.com/parallel-web/parallel-sdk-typescript/commit/b5891d2e289ba683e2f977cf52199b8185d1a375))
+* **client:** avoid removing abort listener too early ([971bc60](https://github.com/parallel-web/parallel-sdk-typescript/commit/971bc60f78633e423d4434cc64cbf56a3fe2a08d))
+* **client:** preserve URL params already embedded in path ([0aa4a14](https://github.com/parallel-web/parallel-sdk-typescript/commit/0aa4a148cf3bfc956a1d9de358695df75dbd214e))
+* **docs/contributing:** correct pnpm link command ([0fba230](https://github.com/parallel-web/parallel-sdk-typescript/commit/0fba230efc58ec8db7e3b97e498c970e9d5a42f3))
+
+
+### Chores
+
+* **ci:** skip uploading artifacts on stainless-internal branches ([4d15af4](https://github.com/parallel-web/parallel-sdk-typescript/commit/4d15af4c852abb1422cb3b79579e4f76b837c1d4))
+* **client:** do not parse responses with empty content-length ([5f852e5](https://github.com/parallel-web/parallel-sdk-typescript/commit/5f852e53c6d293dcdd940bcb1fc741b2215c5023))
+* **client:** restructure abort controller binding ([09b3c0f](https://github.com/parallel-web/parallel-sdk-typescript/commit/09b3c0fdd35a41325408f2304488c41c4fcf44e4))
+* format all `api.md` files ([112a9ed](https://github.com/parallel-web/parallel-sdk-typescript/commit/112a9ede4af725999c475e62a590a2273abc6dfe))
+* **internal/client:** fix form-urlencoded requests ([645d7f8](https://github.com/parallel-web/parallel-sdk-typescript/commit/645d7f8e772f781bf86a77b1f35b2ddb6cd215eb))
+* **internal:** avoid type checking errors with ts-reset ([8f10069](https://github.com/parallel-web/parallel-sdk-typescript/commit/8f100690328b09531482ec54e4cf38e0b0d59a9b))
+* **internal:** codegen related update ([ffdc333](https://github.com/parallel-web/parallel-sdk-typescript/commit/ffdc333a95868e11c587facb0ffb3b4f68e2fbad))
+* **internal:** codegen related update ([f66750f](https://github.com/parallel-web/parallel-sdk-typescript/commit/f66750f2632f5e9f32dc2e334c9472fb7aebc7a5))
+* **internal:** move stringifyQuery implementation to internal function ([2cf4c15](https://github.com/parallel-web/parallel-sdk-typescript/commit/2cf4c156bfa74dd29369f77b60ab5fc4281fe1be))
+* **test:** do not count install time for mock server timeout ([3b3f3ed](https://github.com/parallel-web/parallel-sdk-typescript/commit/3b3f3ed79c2ce888d831ed7a26c3a8dcde085ce0))
+* update mock server docs ([004672e](https://github.com/parallel-web/parallel-sdk-typescript/commit/004672ea0157df3c026277c5d892849bb0b9a9fe))
+
 ## 0.3.1 (2026-01-28)
 
 Full Changelog: [v0.3.0...v0.3.1](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.3.0...v0.3.1)

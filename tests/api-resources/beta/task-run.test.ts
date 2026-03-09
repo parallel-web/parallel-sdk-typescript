@@ -37,6 +37,7 @@ describe('resource taskRun', () => {
         },
       ],
       metadata: { foo: 'string' },
+      previous_interaction_id: 'previous_interaction_id',
       source_policy: {
         after_date: '2024-01-01',
         exclude_domains: ['reddit.com', 'x.com', '.ai'],
@@ -59,7 +60,7 @@ describe('resource taskRun', () => {
     });
   });
 
-  // Prism doesn't support text/event-stream responses
+  // Mock server doesn't support text/event-stream responses
   test.skip('events', async () => {
     const responsePromise = client.beta.taskRun.events('run_id');
     const rawResponse = await responsePromise.asResponse();

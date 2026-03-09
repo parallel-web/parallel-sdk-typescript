@@ -140,7 +140,7 @@ describe('resource findall', () => {
     });
   });
 
-  // Prism doesn't support text/event-stream responses
+  // Mock server doesn't support text/event-stream responses
   test.skip('events', async () => {
     const responsePromise = client.beta.findall.events('findall_id');
     const rawResponse = await responsePromise.asResponse();
@@ -152,7 +152,7 @@ describe('resource findall', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism doesn't support text/event-stream responses
+  // Mock server doesn't support text/event-stream responses
   test.skip('events: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
