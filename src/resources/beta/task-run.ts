@@ -114,6 +114,11 @@ export interface BetaRunInput {
   metadata?: { [key: string]: string | number | boolean } | null;
 
   /**
+   * Interaction ID to use as context for this request.
+   */
+  previous_interaction_id?: string | null;
+
+  /**
    * Source policy for web search results.
    *
    * This policy governs which sources are allowed/disallowed in results.
@@ -479,6 +484,11 @@ export interface TaskRunCreateParams {
    * strings with a maximum length of 16 and 512 characters respectively.
    */
   metadata?: { [key: string]: string | number | boolean } | null;
+
+  /**
+   * Body param: Interaction ID to use as context for this request.
+   */
+  previous_interaction_id?: string | null;
 
   /**
    * Body param: Source policy for web search results.

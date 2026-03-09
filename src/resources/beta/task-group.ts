@@ -242,7 +242,9 @@ export interface TaskGroupCreateParams {
 
 export interface TaskGroupAddRunsParams {
   /**
-   * Body param: List of task runs to execute.
+   * Body param: List of task runs to execute. Up to 1,000 runs can be specified per
+   * request. If you'd like to add more runs, split them across multiple TaskGroup
+   * POST requests.
    */
   inputs: Array<BetaTaskRunAPI.BetaRunInput>;
 
