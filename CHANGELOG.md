@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.3 (2026-03-10)
+
+Full Changelog: [v0.3.2...v0.3.3](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.3.2...v0.3.3)
+
+### Chores
+
+* **internal:** update dependencies to address dependabot vulnerabilities ([17f20a6](https://github.com/parallel-web/parallel-sdk-typescript/commit/17f20a687efdd187f588d770bbd8d31013d42a4b))
+
 ## 0.3.2 (2026-03-09)
 
 Full Changelog: [v0.3.1...v0.3.2](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.3.1...v0.3.2)
