@@ -284,7 +284,7 @@ export interface FindAllEnrichInput {
   /**
    * List of MCP servers to use for the task.
    */
-  mcp_servers?: Array<BetaTaskRunAPI.McpServer> | null;
+  mcp_servers?: Array<TaskRunAPI.McpServer> | null;
 
   /**
    * Processor to use for the task.
@@ -435,7 +435,7 @@ export interface FindAllRunInput {
   /**
    * Webhooks for Task Runs.
    */
-  webhook?: BetaTaskRunAPI.Webhook | null;
+  webhook?: TaskRunAPI.Webhook | null;
 }
 
 export namespace FindAllRunInput {
@@ -668,7 +668,7 @@ export type FindAllEventsResponse =
   | FindAllSchemaUpdatedEvent
   | FindAllRunStatusEvent
   | FindAllCandidateMatchStatusEvent
-  | BetaTaskRunAPI.ErrorEvent;
+  | TaskRunAPI.ErrorEvent;
 
 export interface FindAllCreateParams {
   /**
@@ -710,7 +710,7 @@ export interface FindAllCreateParams {
   /**
    * Body param: Webhooks for Task Runs.
    */
-  webhook?: BetaTaskRunAPI.Webhook | null;
+  webhook?: TaskRunAPI.Webhook | null;
 
   /**
    * Header param: Optional header to specify the beta version(s) to enable.
@@ -775,7 +775,7 @@ export interface FindAllEnrichParams {
   /**
    * Body param: List of MCP servers to use for the task.
    */
-  mcp_servers?: Array<BetaTaskRunAPI.McpServer> | null;
+  mcp_servers?: Array<TaskRunAPI.McpServer> | null;
 
   /**
    * Body param: Processor to use for the task.
