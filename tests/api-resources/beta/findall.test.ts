@@ -140,8 +140,7 @@ describe('resource findall', () => {
     });
   });
 
-  // Mock server doesn't support text/event-stream responses
-  test.skip('events', async () => {
+  test('events', async () => {
     const responsePromise = client.beta.findall.events('findall_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -152,8 +151,7 @@ describe('resource findall', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server doesn't support text/event-stream responses
-  test.skip('events: request options and params are passed correctly', async () => {
+  test('events: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.beta.findall.events(
