@@ -65,9 +65,6 @@ export class Beta extends APIResource {
 
   /**
    * Extracts relevant content from specific web URLs.
-   *
-   * To access this endpoint, pass the `parallel-beta` header with the value
-   * `search-extract-2025-10-10`.
    */
   extract(params: BetaExtractParams, options?: RequestOptions): APIPromise<ExtractResponse> {
     const { betas, ...body } = params;
@@ -427,15 +424,15 @@ export declare namespace Beta {
 
   export {
     TaskRun as TaskRun,
+    type ParallelBeta as ParallelBeta,
+    type TaskRunEventsResponse as TaskRunEventsResponse,
     type BetaRunInput as BetaRunInput,
     type BetaTaskRunResult as BetaTaskRunResult,
-    type ErrorEvent as ErrorEvent,
+    type Webhook as Webhook,
     type McpServer as McpServer,
     type McpToolCall as McpToolCall,
-    type ParallelBeta as ParallelBeta,
     type TaskRunEvent as TaskRunEvent,
-    type Webhook as Webhook,
-    type TaskRunEventsResponse as TaskRunEventsResponse,
+    type ErrorEvent as ErrorEvent,
     type TaskRunCreateParams as TaskRunCreateParams,
     type TaskRunResultParams as TaskRunResultParams,
   };
