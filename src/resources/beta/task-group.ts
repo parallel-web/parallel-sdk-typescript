@@ -201,8 +201,8 @@ export interface TaskGroupStatus {
  */
 export type TaskGroupEventsResponse =
   | TaskGroupEventsResponse.TaskGroupStatusEvent
-  | BetaTaskRunAPI.TaskRunEvent
-  | BetaTaskRunAPI.ErrorEvent;
+  | TaskRunAPI.TaskRunEvent
+  | TaskRunAPI.ErrorEvent;
 
 export namespace TaskGroupEventsResponse {
   /**
@@ -231,7 +231,7 @@ export namespace TaskGroupEventsResponse {
  *
  * May indicate completion, cancellation, or failure.
  */
-export type TaskGroupGetRunsResponse = BetaTaskRunAPI.TaskRunEvent | BetaTaskRunAPI.ErrorEvent;
+export type TaskGroupGetRunsResponse = TaskRunAPI.TaskRunEvent | TaskRunAPI.ErrorEvent;
 
 export interface TaskGroupCreateParams {
   /**
@@ -246,7 +246,7 @@ export interface TaskGroupAddRunsParams {
    * request. If you'd like to add more runs, split them across multiple TaskGroup
    * POST requests.
    */
-  inputs: Array<BetaTaskRunAPI.BetaRunInput>;
+  inputs: Array<TaskRunAPI.RunInput>;
 
   /**
    * Body param: Specification for a task.

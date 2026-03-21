@@ -26,6 +26,16 @@ describe('resource taskRun', () => {
     const response = await client.taskRun.create({
       input: 'What was the GDP of France in 2023?',
       processor: 'base',
+      enable_events: true,
+      mcp_servers: [
+        {
+          name: 'name',
+          url: 'url',
+          allowed_tools: ['string'],
+          headers: { foo: 'string' },
+          type: 'url',
+        },
+      ],
       metadata: { foo: 'string' },
       previous_interaction_id: 'previous_interaction_id',
       source_policy: {
@@ -45,11 +55,24 @@ describe('resource taskRun', () => {
         },
         input_schema: 'string',
       },
+      webhook: { url: 'url', event_types: ['task_run.status'] },
+      betas: ['mcp-server-2025-07-17'],
     });
   });
 
   test('retrieve', async () => {
     const responsePromise = client.taskRun.retrieve('run_id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('events', async () => {
+    const responsePromise = client.taskRun.events('run_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -73,7 +96,11 @@ describe('resource taskRun', () => {
   test('result: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.taskRun.result('run_id', { timeout: 0 }, { path: '/_stainless_unknown_path' }),
+      client.taskRun.result(
+        'run_id',
+        { timeout: 0, betas: ['mcp-server-2025-07-17'] },
+        { path: '/_stainless_unknown_path' },
+      ),
     ).rejects.toThrow(Parallel.NotFoundError);
   });
 });

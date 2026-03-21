@@ -2,7 +2,10 @@
 
 import { APIResource } from '../core/resource';
 import * as Shared from './shared';
+import * as BetaTaskRunAPI from './beta/task-run';
 import { APIPromise } from '../core/api-promise';
+import { Stream } from '../core/streaming';
+import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
@@ -18,8 +21,16 @@ export class TaskRun extends APIResource {
    *
    * Beta features can be enabled by setting the 'parallel-beta' header.
    */
-  create(body: TaskRunCreateParams, options?: RequestOptions): APIPromise<TaskRun> {
-    return this._client.post('/v1/tasks/runs', { body, ...options });
+  create(params: TaskRunCreateParams, options?: RequestOptions): APIPromise<TaskRun> {
+    const { betas, ...body } = params;
+    return this._client.post('/v1/tasks/runs', {
+      body,
+      ...options,
+      headers: buildHeaders([
+        { ...(betas?.toString() != null ? { 'parallel-beta': betas?.toString() } : undefined) },
+        options?.headers,
+      ]),
+    });
   }
 
   /**
@@ -32,14 +43,39 @@ export class TaskRun extends APIResource {
   }
 
   /**
+   * Streams events for a task run.
+   *
+   * Returns a stream of events showing progress updates and state changes for the
+   * task run.
+   *
+   * For task runs that did not have enable_events set to true during creation, the
+   * frequency of events will be reduced.
+   */
+  events(runID: string, options?: RequestOptions): APIPromise<Stream<TaskRunEventsResponse>> {
+    return this._client.get(path`/v1/tasks/runs/${runID}/events`, {
+      ...options,
+      headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
+      stream: true,
+    }) as APIPromise<Stream<TaskRunEventsResponse>>;
+  }
+
+  /**
    * Retrieves a run result by run_id, blocking until the run is completed.
    */
   result(
     runID: string,
-    query: TaskRunResultParams | null | undefined = {},
+    params: TaskRunResultParams | null | undefined = {},
     options?: RequestOptions,
   ): APIPromise<TaskRunResult> {
-    return this._client.get(path`/v1/tasks/runs/${runID}/result`, { query, ...options });
+    const { betas, ...query } = params ?? {};
+    return this._client.get(path`/v1/tasks/runs/${runID}/result`, {
+      query,
+      ...options,
+      headers: buildHeaders([
+        { ...(betas?.toString() != null ? { 'parallel-beta': betas?.toString() } : undefined) },
+        options?.headers,
+      ]),
+    });
   }
 }
 
@@ -72,6 +108,21 @@ export interface Citation {
    * Title of the citation.
    */
   title?: string | null;
+}
+
+/**
+ * Event indicating an error.
+ */
+export interface ErrorEvent {
+  /**
+   * Error.
+   */
+  error: Shared.ErrorObject;
+
+  /**
+   * Event type; always 'error'.
+   */
+  type: 'error';
 }
 
 /**
@@ -116,6 +167,71 @@ export interface JsonSchema {
 }
 
 /**
+ * MCP server configuration.
+ */
+export interface McpServer {
+  /**
+   * Name of the MCP server.
+   */
+  name: string;
+
+  /**
+   * URL of the MCP server.
+   */
+  url: string;
+
+  /**
+   * List of allowed tools for the MCP server.
+   */
+  allowed_tools?: Array<string> | null;
+
+  /**
+   * Headers for the MCP server.
+   */
+  headers?: { [key: string]: string } | null;
+
+  /**
+   * Type of MCP server being configured. Always `url`.
+   */
+  type?: 'url';
+}
+
+/**
+ * Result of an MCP tool call.
+ */
+export interface McpToolCall {
+  /**
+   * Arguments used to call the MCP tool.
+   */
+  arguments: string;
+
+  /**
+   * Name of the MCP server.
+   */
+  server_name: string;
+
+  /**
+   * Identifier for the tool call.
+   */
+  tool_call_id: string;
+
+  /**
+   * Name of the tool being called.
+   */
+  tool_name: string;
+
+  /**
+   * Output received from the tool call, if successful.
+   */
+  content?: string | null;
+
+  /**
+   * Error message if the tool call failed.
+   */
+  error?: string | null;
+}
+
+/**
  * Request to run a task.
  */
 export interface RunInput {
@@ -128,6 +244,21 @@ export interface RunInput {
    * Processor to use for the task.
    */
   processor: string;
+
+  /**
+   * Controls tracking of task run execution progress. When set to true, progress
+   * events are recorded and can be accessed via the
+   * [Task Run events](https://platform.parallel.ai/api-reference) endpoint. When
+   * false, no progress events are tracked. Note that progress tracking cannot be
+   * enabled after a run has been created. The flag is set to true by default for
+   * premium processors (pro and above).
+   */
+  enable_events?: boolean | null;
+
+  /**
+   * Optional list of MCP servers to use for the run.
+   */
+  mcp_servers?: Array<McpServer> | null;
 
   /**
    * User-provided metadata stored with the run. Keys and values must be strings with
@@ -156,6 +287,11 @@ export interface RunInput {
    * For convenience bare strings are also accepted as input or output schemas.
    */
   task_spec?: TaskSpec | null;
+
+  /**
+   * Webhooks for Task Runs.
+   */
+  webhook?: Webhook | null;
 }
 
 /**
@@ -221,6 +357,38 @@ export interface TaskRun {
 }
 
 /**
+ * Event when a task run transitions to a non-active status.
+ *
+ * May indicate completion, cancellation, or failure.
+ */
+export interface TaskRunEvent {
+  /**
+   * Cursor to resume the event stream. Always empty for non Task Group runs.
+   */
+  event_id: string | null;
+
+  /**
+   * Task run object.
+   */
+  run: TaskRun;
+
+  /**
+   * Event type; always 'task_run.state'.
+   */
+  type: 'task_run.state';
+
+  /**
+   * Request to run a task.
+   */
+  input?: RunInput | null;
+
+  /**
+   * Output from the run; included only if requested and if status == `completed`.
+   */
+  output?: TaskRunTextOutput | TaskRunJsonOutput | null;
+}
+
+/**
  * Output from a task that returns JSON.
  */
 export interface TaskRunJsonOutput {
@@ -244,18 +412,15 @@ export interface TaskRunJsonOutput {
   type: 'json';
 
   /**
-   * Additional fields from beta features used in this task run. When beta features
-   * are specified during both task run creation and result retrieval, this field
-   * will be empty and instead the relevant beta attributes will be directly included
-   * in the `BetaTaskRunJsonOutput` or corresponding output type. However, if beta
-   * features were specified during task run creation but not during result
-   * retrieval, this field will contain the dump of fields from those beta features.
-   * Each key represents the beta feature version (one amongst parallel-beta headers)
-   * and the values correspond to the beta feature attributes, if any. For now, only
-   * MCP server beta features have attributes. For example,
-   * `{mcp-server-2025-07-17: [{'server_name':'mcp_server', 'tool_call_id': 'tc_123', ...}]}}`
+   * @deprecated Deprecated. mcp-server-2025-07-17 is now included directly in the
+   * output (e.g. mcp_tool_calls).
    */
   beta_fields?: { [key: string]: unknown } | null;
+
+  /**
+   * MCP tool calls made by the task.
+   */
+  mcp_tool_calls?: Array<McpToolCall> | null;
 
   /**
    * Output schema for the Task Run. Populated only if the task was executed with an
@@ -300,18 +465,15 @@ export interface TaskRunTextOutput {
   type: 'text';
 
   /**
-   * Additional fields from beta features used in this task run. When beta features
-   * are specified during both task run creation and result retrieval, this field
-   * will be empty and instead the relevant beta attributes will be directly included
-   * in the `BetaTaskRunJsonOutput` or corresponding output type. However, if beta
-   * features were specified during task run creation but not during result
-   * retrieval, this field will contain the dump of fields from those beta features.
-   * Each key represents the beta feature version (one amongst parallel-beta headers)
-   * and the values correspond to the beta feature attributes, if any. For now, only
-   * MCP server beta features have attributes. For example,
-   * `{mcp-server-2025-07-17: [{'server_name':'mcp_server', 'tool_call_id': 'tc_123', ...}]}}`
+   * @deprecated Deprecated. mcp-server-2025-07-17 is now included directly in the
+   * output (e.g. mcp_tool_calls).
    */
   beta_fields?: { [key: string]: unknown } | null;
+
+  /**
+   * MCP tool calls made by the task.
+   */
+  mcp_tool_calls?: Array<McpToolCall> | null;
 }
 
 /**
@@ -353,37 +515,146 @@ export interface TextSchema {
   type?: 'text';
 }
 
+/**
+ * Webhooks for Task Runs.
+ */
+export interface Webhook {
+  /**
+   * URL for the webhook.
+   */
+  url: string;
+
+  /**
+   * Event types to send the webhook notifications for.
+   */
+  event_types?: Array<'task_run.status'>;
+}
+
+/**
+ * A progress update for a task run.
+ */
+export type TaskRunEventsResponse =
+  | TaskRunEventsResponse.TaskRunProgressStatsEvent
+  | TaskRunEventsResponse.TaskRunProgressMessageEvent
+  | TaskRunEvent
+  | ErrorEvent;
+
+export namespace TaskRunEventsResponse {
+  /**
+   * A progress update for a task run.
+   */
+  export interface TaskRunProgressStatsEvent {
+    /**
+     * Completion percentage of the task run. Ranges from 0 to 100 where 0 indicates no
+     * progress and 100 indicates completion.
+     */
+    progress_meter: number;
+
+    /**
+     * Source stats describing progress so far.
+     */
+    source_stats: TaskRunProgressStatsEvent.SourceStats;
+
+    /**
+     * Event type; always 'task_run.progress_stats'.
+     */
+    type: 'task_run.progress_stats';
+  }
+
+  export namespace TaskRunProgressStatsEvent {
+    /**
+     * Source stats describing progress so far.
+     */
+    export interface SourceStats {
+      /**
+       * Number of sources considered in processing the task.
+       */
+      num_sources_considered: number | null;
+
+      /**
+       * Number of sources read in processing the task.
+       */
+      num_sources_read: number | null;
+
+      /**
+       * A sample of URLs of sources read in processing the task.
+       */
+      sources_read_sample: Array<string> | null;
+    }
+  }
+
+  /**
+   * A message for a task run progress update.
+   */
+  export interface TaskRunProgressMessageEvent {
+    /**
+     * Progress update message.
+     */
+    message: string;
+
+    /**
+     * Timestamp of the message.
+     */
+    timestamp: string | null;
+
+    /**
+     * Event type; always starts with 'task_run.progress_msg'.
+     */
+    type:
+      | 'task_run.progress_msg.plan'
+      | 'task_run.progress_msg.search'
+      | 'task_run.progress_msg.result'
+      | 'task_run.progress_msg.tool_call'
+      | 'task_run.progress_msg.exec_status';
+  }
+}
+
 export interface TaskRunCreateParams {
   /**
-   * Input to the task, either text or a JSON object.
+   * Body param: Input to the task, either text or a JSON object.
    */
   input: string | { [key: string]: unknown };
 
   /**
-   * Processor to use for the task.
+   * Body param: Processor to use for the task.
    */
   processor: string;
 
   /**
-   * User-provided metadata stored with the run. Keys and values must be strings with
-   * a maximum length of 16 and 512 characters respectively.
+   * Body param: Controls tracking of task run execution progress. When set to true,
+   * progress events are recorded and can be accessed via the
+   * [Task Run events](https://platform.parallel.ai/api-reference) endpoint. When
+   * false, no progress events are tracked. Note that progress tracking cannot be
+   * enabled after a run has been created. The flag is set to true by default for
+   * premium processors (pro and above).
+   */
+  enable_events?: boolean | null;
+
+  /**
+   * Body param: Optional list of MCP servers to use for the run.
+   */
+  mcp_servers?: Array<McpServer> | null;
+
+  /**
+   * Body param: User-provided metadata stored with the run. Keys and values must be
+   * strings with a maximum length of 16 and 512 characters respectively.
    */
   metadata?: { [key: string]: string | number | boolean } | null;
 
   /**
-   * Interaction ID to use as context for this request.
+   * Body param: Interaction ID to use as context for this request.
    */
   previous_interaction_id?: string | null;
 
   /**
-   * Source policy for web search results.
+   * Body param: Source policy for web search results.
    *
    * This policy governs which sources are allowed/disallowed in results.
    */
   source_policy?: Shared.SourcePolicy | null;
 
   /**
-   * Specification for a task.
+   * Body param: Specification for a task.
    *
    * Auto output schemas can be specified by setting `output_schema={"type":"auto"}`.
    * Not specifying a TaskSpec is the same as setting an auto output schema.
@@ -391,25 +662,49 @@ export interface TaskRunCreateParams {
    * For convenience bare strings are also accepted as input or output schemas.
    */
   task_spec?: TaskSpec | null;
+
+  /**
+   * Body param: Webhooks for Task Runs.
+   */
+  webhook?: Webhook | null;
+
+  /**
+   * Header param: Optional header to specify the beta version(s) to enable.
+   */
+  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
 export interface TaskRunResultParams {
+  /**
+   * Query param
+   */
   timeout?: number;
+
+  /**
+   * Header param: Optional header to specify the beta version(s) to enable.
+   */
+  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
 export declare namespace TaskRun {
   export {
     type AutoSchema as AutoSchema,
     type Citation as Citation,
+    type ErrorEvent as ErrorEvent,
     type FieldBasis as FieldBasis,
     type JsonSchema as JsonSchema,
+    type McpServer as McpServer,
+    type McpToolCall as McpToolCall,
     type RunInput as RunInput,
     type TaskRun as TaskRun,
+    type TaskRunEvent as TaskRunEvent,
     type TaskRunJsonOutput as TaskRunJsonOutput,
     type TaskRunResult as TaskRunResult,
     type TaskRunTextOutput as TaskRunTextOutput,
     type TaskSpec as TaskSpec,
     type TextSchema as TextSchema,
+    type Webhook as Webhook,
+    type TaskRunEventsResponse as TaskRunEventsResponse,
     type TaskRunCreateParams as TaskRunCreateParams,
     type TaskRunResultParams as TaskRunResultParams,
   };
