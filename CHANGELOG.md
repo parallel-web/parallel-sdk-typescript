@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.4.0 (2026-03-21)
+
+Full Changelog: [v0.3.2...v0.4.0](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.3.2...v0.4.0)
+
+### Features
+
+* **api:** task to GA v1 ([8f03ca8](https://github.com/parallel-web/parallel-sdk-typescript/commit/8f03ca85200f5e5635d89e2462d0c7caa5ea71cb))
+
+
+### Chores
+
+* **internal:** tweak CI branches ([3b86286](https://github.com/parallel-web/parallel-sdk-typescript/commit/3b86286059a92b246e2edad7d477b9f26e7377a3))
+* **internal:** update dependencies to address dependabot vulnerabilities ([17f20a6](https://github.com/parallel-web/parallel-sdk-typescript/commit/17f20a687efdd187f588d770bbd8d31013d42a4b))
+* **tests:** bump steady to v0.19.4 ([3a21ec1](https://github.com/parallel-web/parallel-sdk-typescript/commit/3a21ec1835ddec9cc45d06af52d78151821a5c50))
+* **tests:** bump steady to v0.19.5 ([85850b6](https://github.com/parallel-web/parallel-sdk-typescript/commit/85850b6a1088b370d9dbf47cf45db2b630e3a51d))
+
+
+### Refactors
+
+* **tests:** switch from prism to steady ([6d6d1d9](https://github.com/parallel-web/parallel-sdk-typescript/commit/6d6d1d990d8a3f398a43bd2a36bbc99eb7a63da6))
+
 ## 0.3.2 (2026-03-09)
 
 Full Changelog: [v0.3.1...v0.3.2](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.3.1...v0.3.2)
