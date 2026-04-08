@@ -181,11 +181,6 @@ export interface ExtractResult {
   excerpts?: Array<string> | null;
 
   /**
-   * Full content from the URL formatted as markdown, if requested.
-   */
-  full_content?: string | null;
-
-  /**
    * Publish date of the webpage in YYYY-MM-DD format, if available.
    */
   publish_date?: string | null;
@@ -291,8 +286,7 @@ export interface BetaExtractParams {
 
   /**
    * Body param: Include excerpts from each URL relevant to the search objective and
-   * queries. Note that if neither objective nor search_queries is provided, excerpts
-   * are redundant with full content.
+   * queries.
    */
   excerpts?: boolean | ExcerptSettings;
 
@@ -300,12 +294,6 @@ export interface BetaExtractParams {
    * Body param: Policy for live fetching web results.
    */
   fetch_policy?: FetchPolicy | null;
-
-  /**
-   * Body param: Include full content from each URL. Note that if neither objective
-   * nor search_queries is provided, excerpts are redundant with full content.
-   */
-  full_content?: boolean | BetaExtractParams.FullContentSettings;
 
   /**
    * Body param: If provided, focuses extracted content on the specified search
@@ -323,20 +311,6 @@ export interface BetaExtractParams {
    * Header param: Optional header to specify the beta version(s) to enable.
    */
   betas?: Array<TaskRunAPI.ParallelBeta>;
-}
-
-export namespace BetaExtractParams {
-  /**
-   * Optional settings for returning full content.
-   */
-  export interface FullContentSettings {
-    /**
-     * Optional limit on the number of characters to include in the full content for
-     * each url. Full content always starts at the beginning of the page and is
-     * truncated at the limit if necessary.
-     */
-    max_chars_per_result?: number | null;
-  }
 }
 
 export interface BetaSearchParams {
