@@ -81,6 +81,7 @@ describe('resource taskGroup', () => {
           webhook: { url: 'url', event_types: ['task_run.status'] },
         },
       ],
+      refresh_status: true,
       default_task_spec: {
         output_schema: {
           json_schema: {

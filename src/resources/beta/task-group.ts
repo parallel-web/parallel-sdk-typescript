@@ -49,8 +49,9 @@ export class TaskGroup extends APIResource {
     params: TaskGroupAddRunsParams,
     options?: RequestOptions,
   ): APIPromise<TaskGroupRunResponse> {
-    const { betas, ...body } = params;
+    const { refresh_status, betas, ...body } = params;
     return this._client.post(path`/v1beta/tasks/groups/${taskGroupID}/runs`, {
+      query: { refresh_status },
       body,
       ...options,
       headers: buildHeaders([
@@ -247,6 +248,11 @@ export interface TaskGroupAddRunsParams {
    * POST requests.
    */
   inputs: Array<TaskRunAPI.RunInput>;
+
+  /**
+   * Query param
+   */
+  refresh_status?: boolean;
 
   /**
    * Body param: Specification for a task.
