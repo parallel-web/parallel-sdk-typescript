@@ -16,6 +16,19 @@ import { VERSION } from './version';
 import * as Errors from './core/error';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
+import * as TopLevelAPI from './resources/top-level';
+import {
+  ExcerptSettings,
+  ExtractError,
+  ExtractParams,
+  ExtractResponse,
+  ExtractResult,
+  FetchPolicy,
+  SearchParams,
+  SearchResult,
+  UsageItem,
+  WebSearchResult,
+} from './resources/top-level';
 import { APIPromise } from './core/api-promise';
 import {
   AutoSchema,
@@ -218,6 +231,23 @@ export class Parallel {
    */
   #baseURLOverridden(): boolean {
     return this.baseURL !== 'https://api.parallel.ai';
+  }
+
+  /**
+   * Extracts relevant content from specific web URLs.
+   */
+  extract(
+    body: TopLevelAPI.ExtractParams,
+    options?: RequestOptions,
+  ): APIPromise<TopLevelAPI.ExtractResponse> {
+    return this.post('/v1/extract', { body, ...options });
+  }
+
+  /**
+   * Searches the web.
+   */
+  search(body: TopLevelAPI.SearchParams, options?: RequestOptions): APIPromise<TopLevelAPI.SearchResult> {
+    return this.post('/v1/search', { body, ...options });
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {
@@ -742,6 +772,13 @@ export class Parallel {
   /**
    * The Task API executes web research and extraction tasks. Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
    * - Output metadata: citations, excerpts, reasoning, and confidence per field
+   *
+   * Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+   *  - Submit hundreds or thousands of Tasks as a single group
+   * - Observe group progress and receive results as they complete
+   * - Real-time updates via Server-Sent Events (SSE)
+   * - Add tasks to an existing group while it is running
+   * - Group-level retry and error aggregation
    */
   taskRun: API.TaskRun = new API.TaskRun(this);
   beta: API.Beta = new API.Beta(this);
@@ -751,6 +788,19 @@ Parallel.Beta = Beta;
 
 export declare namespace Parallel {
   export type RequestOptions = Opts.RequestOptions;
+
+  export {
+    type ExcerptSettings as ExcerptSettings,
+    type ExtractError as ExtractError,
+    type ExtractResponse as ExtractResponse,
+    type ExtractResult as ExtractResult,
+    type FetchPolicy as FetchPolicy,
+    type SearchResult as SearchResult,
+    type UsageItem as UsageItem,
+    type WebSearchResult as WebSearchResult,
+    type ExtractParams as ExtractParams,
+    type SearchParams as SearchParams,
+  };
 
   export {
     type TaskRun as TaskRun,
