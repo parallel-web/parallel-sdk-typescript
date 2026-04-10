@@ -1,0 +1,345 @@
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+import * as TopLevelAPI from './top-level';
+import * as Shared from './shared';
+
+/**
+ * Optional settings for returning relevant excerpts.
+ */
+export interface ExcerptSettings {
+  /**
+   * Optional upper bound on the total number of characters to include per url.
+   * Excerpts may contain fewer characters than this limit to maximize relevance and
+   * token efficiency. Values below 1000 will be automatically set to 1000.
+   */
+  max_chars_per_result?: number | null;
+}
+
+/**
+ * Extract error details.
+ */
+export interface ExtractError {
+  /**
+   * Content returned for http client or server errors, if any.
+   */
+  content: string | null;
+
+  /**
+   * Error type.
+   */
+  error_type: string;
+
+  /**
+   * HTTP status code, if available.
+   */
+  http_status_code: number | null;
+
+  url: string;
+}
+
+/**
+ * Extract response (GA).
+ */
+export interface ExtractResponse {
+  /**
+   * Extract errors: requested URLs not in the results.
+   */
+  errors: Array<ExtractError>;
+
+  /**
+   * Extract request ID, e.g. `extract_cad0a6d2dec046bd95ae900527d880e7`
+   */
+  extract_id: string;
+
+  /**
+   * Successful extract results.
+   */
+  results: Array<ExtractResult>;
+
+  /**
+   * Usage metrics for the extract request.
+   */
+  usage?: Array<UsageItem> | null;
+
+  /**
+   * Warnings for the extract request, if any.
+   */
+  warnings?: Array<Shared.Warning> | null;
+}
+
+/**
+ * Extract result for a single URL.
+ */
+export interface ExtractResult {
+  /**
+   * Relevant excerpted content from the URL, formatted as markdown.
+   */
+  excerpts: Array<string>;
+
+  /**
+   * URL associated with the search result.
+   */
+  url: string;
+
+  /**
+   * Full content from the URL formatted as markdown, if requested.
+   */
+  full_content?: string | null;
+
+  /**
+   * Publish date of the webpage in YYYY-MM-DD format, if available.
+   */
+  publish_date?: string | null;
+
+  /**
+   * Title of the webpage, if available.
+   */
+  title?: string | null;
+}
+
+/**
+ * Policy for live fetching web results.
+ */
+export interface FetchPolicy {
+  /**
+   * If false, fallback to cached content older than max-age if live fetch fails or
+   * times out. If true, returns an error instead.
+   */
+  disable_cache_fallback?: boolean;
+
+  /**
+   * Maximum age of cached content in seconds to trigger a live fetch. Minimum value
+   * 600 seconds (10 minutes).
+   */
+  max_age_seconds?: number | null;
+
+  /**
+   * Timeout in seconds for fetching live content if unavailable in cache.
+   */
+  timeout_seconds?: number | null;
+}
+
+/**
+ * Search response (GA).
+ */
+export interface SearchResult {
+  /**
+   * A list of search results, ordered by decreasing relevance.
+   */
+  results: Array<WebSearchResult>;
+
+  /**
+   * Search ID. Example: `search_cad0a6d2dec046bd95ae900527d880e7`
+   */
+  search_id: string;
+
+  /**
+   * Usage metrics for the search request.
+   */
+  usage?: Array<UsageItem> | null;
+
+  /**
+   * Warnings for the search request, if any.
+   */
+  warnings?: Array<Shared.Warning> | null;
+}
+
+/**
+ * Usage item for a single operation.
+ */
+export interface UsageItem {
+  /**
+   * Count of the SKU.
+   */
+  count: number;
+
+  /**
+   * Name of the SKU.
+   */
+  name: string;
+}
+
+/**
+ * A single search result from the web search API.
+ */
+export interface WebSearchResult {
+  /**
+   * Relevant excerpted content from the URL, formatted as markdown.
+   */
+  excerpts: Array<string>;
+
+  /**
+   * URL associated with the search result.
+   */
+  url: string;
+
+  /**
+   * Publish date of the webpage in YYYY-MM-DD format, if available.
+   */
+  publish_date?: string | null;
+
+  /**
+   * Title of the webpage, if available.
+   */
+  title?: string | null;
+}
+
+export interface ExtractParams {
+  /**
+   * URLs to extract content from. Up to 20 URLs.
+   */
+  urls: Array<string>;
+
+  /**
+   * Advanced extract configuration.
+   */
+  advanced?: ExtractParams.Advanced | null;
+
+  /**
+   * The model generating this request and consuming the results. Enables
+   * optimizations and tailors default settings for the model's capabilities.
+   */
+  client_model?: string | null;
+
+  /**
+   * Upper bound on total characters across excerpts from all extracted results. Does
+   * not affect full_content if requested. Default is dynamic based on urls,
+   * objective, and client_model.
+   */
+  max_chars_total?: number | null;
+
+  /**
+   * As in SearchRequest, a natural-language description of the underlying question
+   * or goal driving the request. Used together with search_queries to focus excerpts
+   * on the most relevant content.
+   */
+  objective?: string | null;
+
+  /**
+   * Optional keyword search queries, as in SearchRequest. Used together with
+   * objective to focus excerpts on the most relevant content.
+   */
+  search_queries?: Array<string> | null;
+}
+
+export namespace ExtractParams {
+  /**
+   * Advanced extract configuration.
+   */
+  export interface Advanced {
+    /**
+     * Optional settings for returning relevant excerpts.
+     */
+    excerpt_settings?: TopLevelAPI.ExcerptSettings | null;
+
+    /**
+     * Policy for live fetching web results.
+     */
+    fetch_policy?: TopLevelAPI.FetchPolicy | null;
+
+    /**
+     * Controls full content extraction. Set to true to enable with defaults, false to
+     * disable, or provide FullContentSettings for fine-grained control.
+     */
+    full_content?: Advanced.FullContentSettings | boolean;
+  }
+
+  export namespace Advanced {
+    /**
+     * Optional settings for returning full content.
+     */
+    export interface FullContentSettings {
+      /**
+       * Optional limit on the number of characters to include in the full content for
+       * each url. Full content always starts at the beginning of the page and is
+       * truncated at the limit if necessary.
+       */
+      max_chars_per_result?: number | null;
+    }
+  }
+}
+
+export interface SearchParams {
+  /**
+   * Concise keyword search queries, 3-6 words each. At least one query is required,
+   * provide 2-3 for best results. Used together with objective to focus results on
+   * the most relevant content.
+   */
+  search_queries: Array<string>;
+
+  /**
+   * Advanced search configuration.
+   */
+  advanced?: SearchParams.Advanced | null;
+
+  /**
+   * The model generating this request and consuming the results. Enables
+   * optimizations and tailors default settings for the model's capabilities.
+   */
+  client_model?: string | null;
+
+  /**
+   * Upper bound on total characters across excerpts from all results. Default is
+   * dynamic based on search_queries, objective, and client_model.
+   */
+  max_chars_total?: number | null;
+
+  /**
+   * Search mode preset: supported values are basic and standard. Basic mode offers
+   * the lowest latency and works best with 2-3 high-quality search_queries. Standard
+   * mode provides higher quality with more advanced retrieval and compression.
+   */
+  mode?: 'basic' | 'standard' | null;
+
+  /**
+   * Natural-language description of the underlying question or goal driving the
+   * search. Used together with search_queries to focus results on the most relevant
+   * content. Should be self-contained with enough context to understand the intent
+   * of the search.
+   */
+  objective?: string | null;
+}
+
+export namespace SearchParams {
+  /**
+   * Advanced search configuration.
+   */
+  export interface Advanced {
+    /**
+     * Optional settings for returning relevant excerpts.
+     */
+    excerpt_settings?: TopLevelAPI.ExcerptSettings | null;
+
+    /**
+     * Policy for live fetching web results.
+     */
+    fetch_policy?: TopLevelAPI.FetchPolicy | null;
+
+    /**
+     * ISO 3166-1 alpha-2 country code for geo-targeted search results.
+     */
+    location?: string | null;
+
+    /**
+     * Source policy for web search results.
+     *
+     * This policy governs which sources are allowed/disallowed in results.
+     */
+    source_policy?: Shared.SourcePolicy | null;
+  }
+}
+
+export declare namespace TopLevel {
+  export {
+    type ExcerptSettings as ExcerptSettings,
+    type ExtractError as ExtractError,
+    type ExtractResponse as ExtractResponse,
+    type ExtractResult as ExtractResult,
+    type FetchPolicy as FetchPolicy,
+    type SearchResult as SearchResult,
+    type UsageItem as UsageItem,
+    type WebSearchResult as WebSearchResult,
+    type ExtractParams as ExtractParams,
+    type SearchParams as SearchParams,
+  };
+}

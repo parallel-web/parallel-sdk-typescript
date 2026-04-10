@@ -28,6 +28,7 @@ describe('resource beta', () => {
         max_age_seconds: 86400,
         timeout_seconds: 60,
       },
+      full_content: true,
       objective: 'objective',
       search_queries: ['string'],
       betas: ['mcp-server-2025-07-17'],

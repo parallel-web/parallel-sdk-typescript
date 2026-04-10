@@ -23,3 +23,15 @@ export {
   type TaskRunCreateParams,
   type TaskRunResultParams,
 } from './task-run';
+export {
+  type ExcerptSettings,
+  type ExtractError,
+  type ExtractResponse,
+  type ExtractResult,
+  type FetchPolicy,
+  type SearchResult,
+  type UsageItem,
+  type WebSearchResult,
+  type ExtractParams,
+  type SearchParams,
+} from './top-level';

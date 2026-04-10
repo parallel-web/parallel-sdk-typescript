@@ -3,13 +3,13 @@
 Types:
 
 - <code><a href="./src/resources/beta/beta.ts">ExcerptSettings</a></code>
-- <code><a href="./src/resources/beta/beta.ts">ExtractError</a></code>
 - <code><a href="./src/resources/beta/beta.ts">ExtractResponse</a></code>
 - <code><a href="./src/resources/beta/beta.ts">ExtractResult</a></code>
-- <code><a href="./src/resources/beta/beta.ts">FetchPolicy</a></code>
 - <code><a href="./src/resources/beta/beta.ts">SearchResult</a></code>
-- <code><a href="./src/resources/beta/beta.ts">UsageItem</a></code>
 - <code><a href="./src/resources/beta/beta.ts">WebSearchResult</a></code>
+- <code><a href="./src/resources/beta/beta.ts">ExtractError</a></code>
+- <code><a href="./src/resources/beta/beta.ts">FetchPolicy</a></code>
+- <code><a href="./src/resources/beta/beta.ts">UsageItem</a></code>
 
 Methods:
 

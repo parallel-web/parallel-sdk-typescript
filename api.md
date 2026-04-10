@@ -1,3 +1,21 @@
+# Parallel
+
+Types:
+
+- <code><a href="./src/resources/top-level.ts">ExcerptSettings</a></code>
+- <code><a href="./src/resources/top-level.ts">ExtractError</a></code>
+- <code><a href="./src/resources/top-level.ts">ExtractResponse</a></code>
+- <code><a href="./src/resources/top-level.ts">ExtractResult</a></code>
+- <code><a href="./src/resources/top-level.ts">FetchPolicy</a></code>
+- <code><a href="./src/resources/top-level.ts">SearchResult</a></code>
+- <code><a href="./src/resources/top-level.ts">UsageItem</a></code>
+- <code><a href="./src/resources/top-level.ts">WebSearchResult</a></code>
+
+Methods:
+
+- <code title="post /v1/extract">client.<a href="./src/index.ts">extract</a>({ ...params }) -> ExtractResponse</code>
+- <code title="post /v1/search">client.<a href="./src/index.ts">search</a>({ ...params }) -> SearchResult</code>
+
 # Shared
 
 Types:

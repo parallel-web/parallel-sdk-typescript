@@ -2,6 +2,7 @@
 
 import { APIResource } from '../../core/resource';
 import * as Shared from '../shared';
+import * as TopLevelAPI from '../top-level';
 import * as FindAllAPI from './findall';
 import {
   FindAll,
@@ -115,35 +116,13 @@ export interface ExcerptSettings {
 }
 
 /**
- * Extract error details.
- */
-export interface ExtractError {
-  /**
-   * Content returned for http client or server errors, if any.
-   */
-  content: string | null;
-
-  /**
-   * Error type.
-   */
-  error_type: string;
-
-  /**
-   * HTTP status code, if available.
-   */
-  http_status_code: number | null;
-
-  url: string;
-}
-
-/**
  * Fetch result.
  */
 export interface ExtractResponse {
   /**
    * Extract errors: requested URLs not in the results.
    */
-  errors: Array<ExtractError>;
+  errors: Array<TopLevelAPI.ExtractError>;
 
   /**
    * Extract request ID, e.g. `extract_cad0a6d2dec046bd95ae900527d880e7`
@@ -158,7 +137,7 @@ export interface ExtractResponse {
   /**
    * Usage metrics for the extract request.
    */
-  usage?: Array<UsageItem> | null;
+  usage?: Array<TopLevelAPI.UsageItem> | null;
 
   /**
    * Warnings for the extract request, if any.
@@ -181,6 +160,11 @@ export interface ExtractResult {
   excerpts?: Array<string> | null;
 
   /**
+   * Full content from the URL formatted as markdown, if requested.
+   */
+  full_content?: string | null;
+
+  /**
    * Publish date of the webpage in YYYY-MM-DD format, if available.
    */
   publish_date?: string | null;
@@ -189,28 +173,6 @@ export interface ExtractResult {
    * Title of the webpage, if available.
    */
   title?: string | null;
-}
-
-/**
- * Policy for live fetching web results.
- */
-export interface FetchPolicy {
-  /**
-   * If false, fallback to cached content older than max-age if live fetch fails or
-   * times out. If true, returns an error instead.
-   */
-  disable_cache_fallback?: boolean;
-
-  /**
-   * Maximum age of cached content in seconds to trigger a live fetch. Minimum value
-   * 600 seconds (10 minutes).
-   */
-  max_age_seconds?: number | null;
-
-  /**
-   * Timeout in seconds for fetching live content if unavailable in cache.
-   */
-  timeout_seconds?: number | null;
 }
 
 /**
@@ -230,27 +192,12 @@ export interface SearchResult {
   /**
    * Usage metrics for the search request.
    */
-  usage?: Array<UsageItem> | null;
+  usage?: Array<TopLevelAPI.UsageItem> | null;
 
   /**
    * Warnings for the search request, if any.
    */
   warnings?: Array<Shared.Warning> | null;
-}
-
-/**
- * Usage item for a single operation.
- */
-export interface UsageItem {
-  /**
-   * Count of the SKU.
-   */
-  count: number;
-
-  /**
-   * Name of the SKU.
-   */
-  name: string;
 }
 
 /**
@@ -278,6 +225,12 @@ export interface WebSearchResult {
   title?: string | null;
 }
 
+export type ExtractError = TopLevelAPI.ExtractError;
+
+export type FetchPolicy = TopLevelAPI.FetchPolicy;
+
+export type UsageItem = TopLevelAPI.UsageItem;
+
 export interface BetaExtractParams {
   /**
    * Body param
@@ -286,14 +239,21 @@ export interface BetaExtractParams {
 
   /**
    * Body param: Include excerpts from each URL relevant to the search objective and
-   * queries.
+   * queries. Note that if neither objective nor search_queries is provided, excerpts
+   * are redundant with full content.
    */
   excerpts?: boolean | ExcerptSettings;
 
   /**
    * Body param: Policy for live fetching web results.
    */
-  fetch_policy?: FetchPolicy | null;
+  fetch_policy?: TopLevelAPI.FetchPolicy | null;
+
+  /**
+   * Body param: Include full content from each URL. Note that if neither objective
+   * nor search_queries is provided, excerpts are redundant with full content.
+   */
+  full_content?: boolean | BetaExtractParams.FullContentSettings;
 
   /**
    * Body param: If provided, focuses extracted content on the specified search
@@ -313,6 +273,20 @@ export interface BetaExtractParams {
   betas?: Array<TaskRunAPI.ParallelBeta>;
 }
 
+export namespace BetaExtractParams {
+  /**
+   * Optional settings for returning full content.
+   */
+  export interface FullContentSettings {
+    /**
+     * Optional limit on the number of characters to include in the full content for
+     * each url. Full content always starts at the beginning of the page and is
+     * truncated at the limit if necessary.
+     */
+    max_chars_per_result?: number | null;
+  }
+}
+
 export interface BetaSearchParams {
   /**
    * Body param: Optional settings to configure excerpt generation.
@@ -322,7 +296,12 @@ export interface BetaSearchParams {
   /**
    * Body param: Policy for live fetching web results.
    */
-  fetch_policy?: FetchPolicy | null;
+  fetch_policy?: TopLevelAPI.FetchPolicy | null;
+
+  /**
+   * Body param: ISO 3166-1 alpha-2 country code for geo-targeted search results.
+   */
+  location?: string | null;
 
   /**
    * @deprecated Body param: DEPRECATED: Use `excerpts.max_chars_per_result` instead.
@@ -385,13 +364,13 @@ Beta.FindAll = FindAll;
 export declare namespace Beta {
   export {
     type ExcerptSettings as ExcerptSettings,
-    type ExtractError as ExtractError,
     type ExtractResponse as ExtractResponse,
     type ExtractResult as ExtractResult,
-    type FetchPolicy as FetchPolicy,
     type SearchResult as SearchResult,
-    type UsageItem as UsageItem,
     type WebSearchResult as WebSearchResult,
+    type ExtractError as ExtractError,
+    type FetchPolicy as FetchPolicy,
+    type UsageItem as UsageItem,
     type BetaExtractParams as BetaExtractParams,
     type BetaSearchParams as BetaSearchParams,
   };
