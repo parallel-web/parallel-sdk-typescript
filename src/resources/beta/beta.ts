@@ -66,6 +66,13 @@ export class Beta extends APIResource {
 
   /**
    * Extracts relevant content from specific web URLs.
+   *
+   * @example
+   * ```ts
+   * const extractResponse = await client.beta.extract({
+   *   urls: ['string'],
+   * });
+   * ```
    */
   extract(params: BetaExtractParams, options?: RequestOptions): APIPromise<ExtractResponse> {
     const { betas, ...body } = params;
@@ -81,6 +88,11 @@ export class Beta extends APIResource {
 
   /**
    * Searches the web.
+   *
+   * @example
+   * ```ts
+   * const searchResult = await client.beta.search();
+   * ```
    */
   search(params: BetaSearchParams, options?: RequestOptions): APIPromise<SearchResult> {
     const { betas, ...body } = params;

@@ -26,6 +26,23 @@ export class FindAll extends APIResource {
    *   /v1beta/findall/runs/{findall_id}/events endpoint,
    * - Or specifying a webhook with relevant event types during run creation to
    *   receive notifications.
+   *
+   * @example
+   * ```ts
+   * const findallRun = await client.beta.findall.create({
+   *   entity_type: 'entity_type',
+   *   generator: 'base',
+   *   match_conditions: [
+   *     {
+   *       description:
+   *         "Company must have SOC2 Type II certification (not Type I). Look for evidence in: trust centers, security/compliance pages, audit reports, or press releases specifically mentioning 'SOC2 Type II'. If no explicit SOC2 Type II mention is found, consider requirement not satisfied.",
+   *       name: 'name',
+   *     },
+   *   ],
+   *   match_limit: 0,
+   *   objective: 'objective',
+   * });
+   * ```
    */
   create(params: FindAllCreateParams, options?: RequestOptions): APIPromise<FindAllRun> {
     const { betas, ...body } = params;
@@ -41,6 +58,13 @@ export class FindAll extends APIResource {
 
   /**
    * Retrieve a FindAll run.
+   *
+   * @example
+   * ```ts
+   * const findallRun = await client.beta.findall.retrieve(
+   *   'findall_id',
+   * );
+   * ```
    */
   retrieve(
     findallID: string,
@@ -59,6 +83,13 @@ export class FindAll extends APIResource {
 
   /**
    * Cancel a FindAll run.
+   *
+   * @example
+   * ```ts
+   * const response = await client.beta.findall.cancel(
+   *   'findall_id',
+   * );
+   * ```
    */
   cancel(
     findallID: string,
@@ -77,6 +108,23 @@ export class FindAll extends APIResource {
 
   /**
    * Add an enrichment to a FindAll run.
+   *
+   * @example
+   * ```ts
+   * const findallSchema = await client.beta.findall.enrich(
+   *   'findall_id',
+   *   {
+   *     output_schema: {
+   *       json_schema: {
+   *         additionalProperties: 'bar',
+   *         properties: 'bar',
+   *         required: 'bar',
+   *         type: 'bar',
+   *       },
+   *     },
+   *   },
+   * );
+   * ```
    */
   enrich(
     findallID: string,
@@ -101,6 +149,13 @@ export class FindAll extends APIResource {
    * Optional event ID to resume from. timeout: Optional timeout in seconds. If None,
    * keep connection alive as long as the run is going. If set, stop after specified
    * duration.
+   *
+   * @example
+   * ```ts
+   * const response = await client.beta.findall.events(
+   *   'findall_id',
+   * );
+   * ```
    */
   events(
     findallID: string,
@@ -121,6 +176,14 @@ export class FindAll extends APIResource {
 
   /**
    * Extend a FindAll run by adding additional matches to the current match limit.
+   *
+   * @example
+   * ```ts
+   * const findallSchema = await client.beta.findall.extend(
+   *   'findall_id',
+   *   { additional_match_limit: 0 },
+   * );
+   * ```
    */
   extend(
     findallID: string,
@@ -145,6 +208,14 @@ export class FindAll extends APIResource {
    *
    * The generated specification serves as a suggested starting point and can be
    * further customized by the user.
+   *
+   * @example
+   * ```ts
+   * const findallSchema = await client.beta.findall.ingest({
+   *   objective:
+   *     'Find all AI companies that raised Series A funding in 2024',
+   * });
+   * ```
    */
   ingest(params: FindAllIngestParams, options?: RequestOptions): APIPromise<FindAllSchema> {
     const { betas, ...body } = params;
@@ -160,6 +231,13 @@ export class FindAll extends APIResource {
 
   /**
    * Retrieve the FindAll run result at the time of the request.
+   *
+   * @example
+   * ```ts
+   * const findallRunResult = await client.beta.findall.result(
+   *   'findall_id',
+   * );
+   * ```
    */
   result(
     findallID: string,
@@ -178,6 +256,13 @@ export class FindAll extends APIResource {
 
   /**
    * Get FindAll Run Schema
+   *
+   * @example
+   * ```ts
+   * const findallSchema = await client.beta.findall.schema(
+   *   'findall_id',
+   * );
+   * ```
    */
   schema(
     findallID: string,

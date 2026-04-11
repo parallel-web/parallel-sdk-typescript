@@ -27,6 +27,14 @@ export class TaskRun extends APIResource {
    * Returns immediately with a run object in status 'queued'.
    *
    * Beta features can be enabled by setting the 'parallel-beta' header.
+   *
+   * @example
+   * ```ts
+   * const taskRun = await client.taskRun.create({
+   *   input: 'What was the GDP of France in 2023?',
+   *   processor: 'base',
+   * });
+   * ```
    */
   create(params: TaskRunCreateParams, options?: RequestOptions): APIPromise<TaskRun> {
     const { betas, ...body } = params;
@@ -44,6 +52,11 @@ export class TaskRun extends APIResource {
    * Retrieves run status by run_id.
    *
    * The run result is available from the `/result` endpoint.
+   *
+   * @example
+   * ```ts
+   * const taskRun = await client.taskRun.retrieve('run_id');
+   * ```
    */
   retrieve(runID: string, options?: RequestOptions): APIPromise<TaskRun> {
     return this._client.get(path`/v1/tasks/runs/${runID}`, options);
@@ -57,6 +70,11 @@ export class TaskRun extends APIResource {
    *
    * For task runs that did not have enable_events set to true during creation, the
    * frequency of events will be reduced.
+   *
+   * @example
+   * ```ts
+   * const response = await client.taskRun.events('run_id');
+   * ```
    */
   events(runID: string, options?: RequestOptions): APIPromise<Stream<TaskRunEventsResponse>> {
     return this._client.get(path`/v1/tasks/runs/${runID}/events`, {
@@ -68,6 +86,11 @@ export class TaskRun extends APIResource {
 
   /**
    * Retrieves a run result by run_id, blocking until the run is completed.
+   *
+   * @example
+   * ```ts
+   * const taskRunResult = await client.taskRun.result('run_id');
+   * ```
    */
   result(
     runID: string,
