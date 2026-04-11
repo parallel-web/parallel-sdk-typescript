@@ -235,6 +235,13 @@ export class Parallel {
 
   /**
    * Extracts relevant content from specific web URLs.
+   *
+   * @example
+   * ```ts
+   * const extractResponse = await client.extract({
+   *   urls: ['string'],
+   * });
+   * ```
    */
   extract(
     body: TopLevelAPI.ExtractParams,
@@ -245,6 +252,13 @@ export class Parallel {
 
   /**
    * Searches the web.
+   *
+   * @example
+   * ```ts
+   * const searchResult = await client.search({
+   *   search_queries: ['string'],
+   * });
+   * ```
    */
   search(body: TopLevelAPI.SearchParams, options?: RequestOptions): APIPromise<TopLevelAPI.SearchResult> {
     return this.post('/v1/search', { body, ...options });
