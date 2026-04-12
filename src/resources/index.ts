@@ -24,6 +24,8 @@ export {
   type TaskRunResultParams,
 } from './task-run';
 export {
+  type AdvancedExtractSettings,
+  type AdvancedSearchSettings,
   type ExcerptSettings,
   type ExtractError,
   type ExtractResponse,

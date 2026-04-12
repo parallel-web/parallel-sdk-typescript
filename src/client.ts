@@ -18,6 +18,8 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import * as TopLevelAPI from './resources/top-level';
 import {
+  AdvancedExtractSettings,
+  AdvancedSearchSettings,
   ExcerptSettings,
   ExtractError,
   ExtractParams,
@@ -804,6 +806,8 @@ export declare namespace Parallel {
   export type RequestOptions = Opts.RequestOptions;
 
   export {
+    type AdvancedExtractSettings as AdvancedExtractSettings,
+    type AdvancedSearchSettings as AdvancedSearchSettings,
     type ExcerptSettings as ExcerptSettings,
     type ExtractError as ExtractError,
     type ExtractResponse as ExtractResponse,
