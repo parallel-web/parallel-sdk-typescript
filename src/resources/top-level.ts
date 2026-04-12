@@ -1,7 +1,68 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as TopLevelAPI from './top-level';
 import * as Shared from './shared';
+
+/**
+ * Advanced extract configuration.
+ */
+export interface AdvancedExtractSettings {
+  /**
+   * Optional settings for returning relevant excerpts.
+   */
+  excerpt_settings?: ExcerptSettings | null;
+
+  /**
+   * Policy for live fetching web results.
+   */
+  fetch_policy?: FetchPolicy | null;
+
+  /**
+   * Controls full content extraction. Set to true to enable with defaults, false to
+   * disable, or provide FullContentSettings for fine-grained control.
+   */
+  full_content?: AdvancedExtractSettings.FullContentSettings | boolean;
+}
+
+export namespace AdvancedExtractSettings {
+  /**
+   * Optional settings for returning full content.
+   */
+  export interface FullContentSettings {
+    /**
+     * Optional limit on the number of characters to include in the full content for
+     * each url. Full content always starts at the beginning of the page and is
+     * truncated at the limit if necessary.
+     */
+    max_chars_per_result?: number | null;
+  }
+}
+
+/**
+ * Advanced search configuration.
+ */
+export interface AdvancedSearchSettings {
+  /**
+   * Optional settings for returning relevant excerpts.
+   */
+  excerpt_settings?: ExcerptSettings | null;
+
+  /**
+   * Policy for live fetching web results.
+   */
+  fetch_policy?: FetchPolicy | null;
+
+  /**
+   * ISO 3166-1 alpha-2 country code for geo-targeted search results.
+   */
+  location?: string | null;
+
+  /**
+   * Source policy for web search results.
+   *
+   * This policy governs which sources are allowed/disallowed in results.
+   */
+  source_policy?: Shared.SourcePolicy | null;
+}
 
 /**
  * Optional settings for returning relevant excerpts.
@@ -193,7 +254,7 @@ export interface ExtractParams {
   /**
    * Advanced extract configuration.
    */
-  advanced?: ExtractParams.Advanced | null;
+  advanced?: AdvancedExtractSettings | null;
 
   /**
    * The model generating this request and consuming the results. Enables
@@ -222,43 +283,6 @@ export interface ExtractParams {
   search_queries?: Array<string> | null;
 }
 
-export namespace ExtractParams {
-  /**
-   * Advanced extract configuration.
-   */
-  export interface Advanced {
-    /**
-     * Optional settings for returning relevant excerpts.
-     */
-    excerpt_settings?: TopLevelAPI.ExcerptSettings | null;
-
-    /**
-     * Policy for live fetching web results.
-     */
-    fetch_policy?: TopLevelAPI.FetchPolicy | null;
-
-    /**
-     * Controls full content extraction. Set to true to enable with defaults, false to
-     * disable, or provide FullContentSettings for fine-grained control.
-     */
-    full_content?: Advanced.FullContentSettings | boolean;
-  }
-
-  export namespace Advanced {
-    /**
-     * Optional settings for returning full content.
-     */
-    export interface FullContentSettings {
-      /**
-       * Optional limit on the number of characters to include in the full content for
-       * each url. Full content always starts at the beginning of the page and is
-       * truncated at the limit if necessary.
-       */
-      max_chars_per_result?: number | null;
-    }
-  }
-}
-
 export interface SearchParams {
   /**
    * Concise keyword search queries, 3-6 words each. At least one query is required,
@@ -270,7 +294,7 @@ export interface SearchParams {
   /**
    * Advanced search configuration.
    */
-  advanced?: SearchParams.Advanced | null;
+  advanced?: AdvancedSearchSettings | null;
 
   /**
    * The model generating this request and consuming the results. Enables
@@ -300,37 +324,10 @@ export interface SearchParams {
   objective?: string | null;
 }
 
-export namespace SearchParams {
-  /**
-   * Advanced search configuration.
-   */
-  export interface Advanced {
-    /**
-     * Optional settings for returning relevant excerpts.
-     */
-    excerpt_settings?: TopLevelAPI.ExcerptSettings | null;
-
-    /**
-     * Policy for live fetching web results.
-     */
-    fetch_policy?: TopLevelAPI.FetchPolicy | null;
-
-    /**
-     * ISO 3166-1 alpha-2 country code for geo-targeted search results.
-     */
-    location?: string | null;
-
-    /**
-     * Source policy for web search results.
-     *
-     * This policy governs which sources are allowed/disallowed in results.
-     */
-    source_policy?: Shared.SourcePolicy | null;
-  }
-}
-
 export declare namespace TopLevel {
   export {
+    type AdvancedExtractSettings as AdvancedExtractSettings,
+    type AdvancedSearchSettings as AdvancedSearchSettings,
     type ExcerptSettings as ExcerptSettings,
     type ExtractError as ExtractError,
     type ExtractResponse as ExtractResponse,

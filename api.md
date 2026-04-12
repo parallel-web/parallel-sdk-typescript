@@ -2,6 +2,8 @@
 
 Types:
 
+- <code><a href="./src/resources/top-level.ts">AdvancedExtractSettings</a></code>
+- <code><a href="./src/resources/top-level.ts">AdvancedSearchSettings</a></code>
 - <code><a href="./src/resources/top-level.ts">ExcerptSettings</a></code>
 - <code><a href="./src/resources/top-level.ts">ExtractError</a></code>
 - <code><a href="./src/resources/top-level.ts">ExtractResponse</a></code>
