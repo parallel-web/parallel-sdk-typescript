@@ -57,6 +57,11 @@ export interface AdvancedSearchSettings {
   location?: string | null;
 
   /**
+   * Upper bound on the number of results to return. Defaults to 10 if not provided.
+   */
+  max_results?: number | null;
+
+  /**
    * Source policy for web search results.
    *
    * This policy governs which sources are allowed/disallowed in results.
@@ -254,7 +259,7 @@ export interface ExtractParams {
   /**
    * Advanced extract configuration.
    */
-  advanced?: AdvancedExtractSettings | null;
+  advanced_settings?: AdvancedExtractSettings | null;
 
   /**
    * The model generating this request and consuming the results. Enables
@@ -294,7 +299,7 @@ export interface SearchParams {
   /**
    * Advanced search configuration.
    */
-  advanced?: AdvancedSearchSettings | null;
+  advanced_settings?: AdvancedSearchSettings | null;
 
   /**
    * The model generating this request and consuming the results. Enables
@@ -312,6 +317,7 @@ export interface SearchParams {
    * Search mode preset: supported values are basic and standard. Basic mode offers
    * the lowest latency and works best with 2-3 high-quality search_queries. Standard
    * mode provides higher quality with more advanced retrieval and compression.
+   * Defaults to standard when omitted.
    */
   mode?: 'basic' | 'standard' | null;
 

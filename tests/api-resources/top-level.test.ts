@@ -22,7 +22,7 @@ describe('top level methods', () => {
   test('extract: required and optional params', async () => {
     const response = await client.extract({
       urls: ['string'],
-      advanced: {
+      advanced_settings: {
         excerpt_settings: { max_chars_per_result: 0 },
         fetch_policy: {
           disable_cache_fallback: true,
@@ -52,7 +52,7 @@ describe('top level methods', () => {
   test('search: required and optional params', async () => {
     const response = await client.search({
       search_queries: ['string'],
-      advanced: {
+      advanced_settings: {
         excerpt_settings: { max_chars_per_result: 0 },
         fetch_policy: {
           disable_cache_fallback: true,
@@ -60,6 +60,7 @@ describe('top level methods', () => {
           timeout_seconds: 60,
         },
         location: 'us',
+        max_results: 0,
         source_policy: {
           after_date: '2024-01-01',
           exclude_domains: ['reddit.com', 'x.com', '.ai'],
