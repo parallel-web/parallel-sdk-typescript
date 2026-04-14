@@ -498,7 +498,7 @@ export interface FindAllRunInput {
 
   /**
    * Maximum number of matches to find for this FindAll run. Must be between 5 and
-   * 1000 (inclusive).
+   * 1000 (inclusive). May return fewer results.
    */
   match_limit: number;
 
@@ -773,7 +773,7 @@ export interface FindAllCreateParams {
 
   /**
    * Body param: Maximum number of matches to find for this FindAll run. Must be
-   * between 5 and 1000 (inclusive).
+   * between 5 and 1000 (inclusive). May return fewer results.
    */
   match_limit: number;
 
