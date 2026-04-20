@@ -226,6 +226,11 @@ export interface TaskRunCreateParams {
   processor: string;
 
   /**
+   * Body param: Advanced search configuration for a task run.
+   */
+  advanced_settings?: TaskRunCreateParams.AdvancedSettings | null;
+
+  /**
    * Body param: Controls tracking of task run execution progress. When set to true,
    * progress events are recorded and can be accessed via the
    * [Task Run events](https://platform.parallel.ai/api-reference) endpoint. When
@@ -277,6 +282,18 @@ export interface TaskRunCreateParams {
    * Header param: Optional header to specify the beta version(s) to enable.
    */
   betas?: Array<ParallelBeta>;
+}
+
+export namespace TaskRunCreateParams {
+  /**
+   * Advanced search configuration for a task run.
+   */
+  export interface AdvancedSettings {
+    /**
+     * ISO 3166-1 alpha-2 country code for geo-targeted search results.
+     */
+    location?: string | null;
+  }
 }
 
 export interface TaskRunResultParams {

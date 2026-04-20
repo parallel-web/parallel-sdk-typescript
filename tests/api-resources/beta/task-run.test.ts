@@ -26,6 +26,7 @@ describe('resource taskRun', () => {
     const response = await client.beta.taskRun.create({
       input: 'What was the GDP of France in 2023?',
       processor: 'base',
+      advanced_settings: { location: 'us' },
       enable_events: true,
       mcp_servers: [
         {
