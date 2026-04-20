@@ -49,6 +49,7 @@ describe('resource taskGroup', () => {
         {
           input: 'What was the GDP of France in 2023?',
           processor: 'base',
+          advanced_settings: { location: 'us' },
           enable_events: true,
           mcp_servers: [
             {

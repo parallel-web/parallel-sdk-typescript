@@ -35,6 +35,7 @@ describe('top level methods', () => {
       max_chars_total: 0,
       objective: 'objective',
       search_queries: ['string'],
+      session_id: 'session_id',
     });
   });
 
@@ -71,6 +72,7 @@ describe('top level methods', () => {
       max_chars_total: 0,
       mode: 'basic',
       objective: 'objective',
+      session_id: 'session_id',
     });
   });
 });

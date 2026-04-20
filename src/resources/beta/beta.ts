@@ -280,6 +280,13 @@ export interface BetaExtractParams {
   search_queries?: Array<string> | null;
 
   /**
+   * Body param: Session identifier for calls to search and extract made by an agent
+   * as part of a larger task. May be a user-generated random string (e.g. a uuid) or
+   * a session_id from a previous request.
+   */
+  session_id?: string | null;
+
+  /**
    * Header param: Optional header to specify the beta version(s) to enable.
    */
   betas?: Array<TaskRunAPI.ParallelBeta>;
@@ -356,6 +363,13 @@ export interface BetaSearchParams {
    * search_queries must be provided.
    */
   search_queries?: Array<string> | null;
+
+  /**
+   * Body param: Session identifier for calls to search and extract made by an agent
+   * as part of a larger task. May be a user-generated random string (e.g. a uuid) or
+   * a session_id from a previous request.
+   */
+  session_id?: string | null;
 
   /**
    * Body param: Source policy for web search results.
