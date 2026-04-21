@@ -4,6 +4,8 @@ export { Beta } from './beta';
 export {
   FindAll,
   type FindAllCandidateMatchStatusEvent,
+  type FindAllCandidatesRequest,
+  type FindAllCandidatesResponse,
   type FindAllEnrichInput,
   type FindAllExtendInput,
   type FindAllRun,
@@ -18,6 +20,7 @@ export {
   type FindAllCreateParams,
   type FindAllRetrieveParams,
   type FindAllCancelParams,
+  type FindAllCandidatesParams,
   type FindAllEnrichParams,
   type FindAllEventsParams,
   type FindAllExtendParams,
