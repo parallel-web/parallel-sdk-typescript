@@ -190,6 +190,17 @@ export type BetaRunInput = TaskRunAPI.RunInput;
 export type BetaTaskRunResult = TaskRunAPI.TaskRunResult;
 
 /**
+ * Backwards-compatible namespace for `BetaTaskRunResult`.
+ * @deprecated Use `TaskRunJsonOutput` and `TaskRunTextOutput` from `task-run` instead.
+ */
+export namespace BetaTaskRunResult {
+  /** @deprecated Use `TaskRunAPI.TaskRunTextOutput` instead */
+  export type BetaTaskRunTextOutput = TaskRunAPI.TaskRunTextOutput;
+  /** @deprecated Use `TaskRunAPI.TaskRunJsonOutput` instead */
+  export type BetaTaskRunJsonOutput = TaskRunAPI.TaskRunJsonOutput;
+}
+
+/**
  * @deprecated Use parallel.types.task_run.Webhook instead
  */
 export type Webhook = TaskRunAPI.Webhook;
