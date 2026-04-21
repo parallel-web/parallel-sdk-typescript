@@ -52,7 +52,8 @@ export interface SourcePolicy {
    * List of domains to exclude from results. If specified, sources from these
    * domains will be excluded. Accepts plain domains (e.g., example.com,
    * subdomain.example.gov) or bare domain extension starting with a period (e.g.,
-   * .gov, .edu, .co.uk).
+   * .gov, .edu, .co.uk). The combined number of domains in include_domains and
+   * exclude_domains cannot exceed 200.
    */
   exclude_domains?: Array<string>;
 
@@ -60,7 +61,8 @@ export interface SourcePolicy {
    * List of domains to restrict the results to. If specified, only sources from
    * these domains will be included. Accepts plain domains (e.g., example.com,
    * subdomain.example.gov) or bare domain extension starting with a period (e.g.,
-   * .gov, .edu, .co.uk).
+   * .gov, .edu, .co.uk). The combined number of domains in include_domains and
+   * exclude_domains cannot exceed 200.
    */
   include_domains?: Array<string>;
 }
