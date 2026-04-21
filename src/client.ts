@@ -16,21 +16,42 @@ import { VERSION } from './version';
 import * as Errors from './core/error';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
+import * as TopLevelAPI from './resources/top-level';
+import {
+  AdvancedExtractSettings,
+  AdvancedSearchSettings,
+  ExcerptSettings,
+  ExtractError,
+  ExtractParams,
+  ExtractResponse,
+  ExtractResult,
+  FetchPolicy,
+  SearchParams,
+  SearchResult,
+  UsageItem,
+  WebSearchResult,
+} from './resources/top-level';
 import { APIPromise } from './core/api-promise';
 import {
   AutoSchema,
   Citation,
+  ErrorEvent,
   FieldBasis,
   JsonSchema,
+  McpServer,
+  McpToolCall,
   RunInput,
   TaskRun,
   TaskRunCreateParams,
+  TaskRunEvent,
+  TaskRunEventsResponse,
   TaskRunJsonOutput,
   TaskRunResult,
   TaskRunResultParams,
   TaskRunTextOutput,
   TaskSpec,
   TextSchema,
+  Webhook,
 } from './resources/task-run';
 import { Beta } from './resources/beta/beta';
 import { type Fetch } from './internal/builtin-types';
@@ -212,6 +233,43 @@ export class Parallel {
    */
   #baseURLOverridden(): boolean {
     return this.baseURL !== 'https://api.parallel.ai';
+  }
+
+  /**
+   * Extracts relevant content from specific web URLs.
+   *
+   * The legacy Extract API reference is available
+   * [here](https://docs.parallel.ai/api-reference/legacy/extract-beta/extract).
+   *
+   * @example
+   * ```ts
+   * const extractResponse = await client.extract({
+   *   urls: ['string'],
+   * });
+   * ```
+   */
+  extract(
+    body: TopLevelAPI.ExtractParams,
+    options?: RequestOptions,
+  ): APIPromise<TopLevelAPI.ExtractResponse> {
+    return this.post('/v1/extract', { body, ...options });
+  }
+
+  /**
+   * Searches the web.
+   *
+   * The legacy Search API reference is available
+   * [here](https://docs.parallel.ai/api-reference/legacy/search-beta/search).
+   *
+   * @example
+   * ```ts
+   * const searchResult = await client.search({
+   *   search_queries: ['string'],
+   * });
+   * ```
+   */
+  search(body: TopLevelAPI.SearchParams, options?: RequestOptions): APIPromise<TopLevelAPI.SearchResult> {
+    return this.post('/v1/search', { body, ...options });
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {
@@ -736,6 +794,13 @@ export class Parallel {
   /**
    * The Task API executes web research and extraction tasks. Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
    * - Output metadata: citations, excerpts, reasoning, and confidence per field
+   *
+   * Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+   *  - Submit hundreds or thousands of Tasks as a single group
+   * - Observe group progress and receive results as they complete
+   * - Real-time updates via Server-Sent Events (SSE)
+   * - Add tasks to an existing group while it is running
+   * - Group-level retry and error aggregation
    */
   taskRun: API.TaskRun = new API.TaskRun(this);
   beta: API.Beta = new API.Beta(this);
@@ -747,17 +812,38 @@ export declare namespace Parallel {
   export type RequestOptions = Opts.RequestOptions;
 
   export {
+    type AdvancedExtractSettings as AdvancedExtractSettings,
+    type AdvancedSearchSettings as AdvancedSearchSettings,
+    type ExcerptSettings as ExcerptSettings,
+    type ExtractError as ExtractError,
+    type ExtractResponse as ExtractResponse,
+    type ExtractResult as ExtractResult,
+    type FetchPolicy as FetchPolicy,
+    type SearchResult as SearchResult,
+    type UsageItem as UsageItem,
+    type WebSearchResult as WebSearchResult,
+    type ExtractParams as ExtractParams,
+    type SearchParams as SearchParams,
+  };
+
+  export {
     type TaskRun as TaskRun,
     type AutoSchema as AutoSchema,
     type Citation as Citation,
+    type ErrorEvent as ErrorEvent,
     type FieldBasis as FieldBasis,
     type JsonSchema as JsonSchema,
+    type McpServer as McpServer,
+    type McpToolCall as McpToolCall,
     type RunInput as RunInput,
+    type TaskRunEvent as TaskRunEvent,
     type TaskRunJsonOutput as TaskRunJsonOutput,
     type TaskRunResult as TaskRunResult,
     type TaskRunTextOutput as TaskRunTextOutput,
     type TaskSpec as TaskSpec,
     type TextSchema as TextSchema,
+    type Webhook as Webhook,
+    type TaskRunEventsResponse as TaskRunEventsResponse,
     type TaskRunCreateParams as TaskRunCreateParams,
     type TaskRunResultParams as TaskRunResultParams,
   };

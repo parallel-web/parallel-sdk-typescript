@@ -26,6 +26,23 @@ export class FindAll extends APIResource {
    *   /v1beta/findall/runs/{findall_id}/events endpoint,
    * - Or specifying a webhook with relevant event types during run creation to
    *   receive notifications.
+   *
+   * @example
+   * ```ts
+   * const findallRun = await client.beta.findall.create({
+   *   entity_type: 'entity_type',
+   *   generator: 'base',
+   *   match_conditions: [
+   *     {
+   *       description:
+   *         "Company must have SOC2 Type II certification (not Type I). Look for evidence in: trust centers, security/compliance pages, audit reports, or press releases specifically mentioning 'SOC2 Type II'. If no explicit SOC2 Type II mention is found, consider requirement not satisfied.",
+   *       name: 'name',
+   *     },
+   *   ],
+   *   match_limit: 0,
+   *   objective: 'objective',
+   * });
+   * ```
    */
   create(params: FindAllCreateParams, options?: RequestOptions): APIPromise<FindAllRun> {
     const { betas, ...body } = params;
@@ -41,6 +58,13 @@ export class FindAll extends APIResource {
 
   /**
    * Retrieve a FindAll run.
+   *
+   * @example
+   * ```ts
+   * const findallRun = await client.beta.findall.retrieve(
+   *   'findall_id',
+   * );
+   * ```
    */
   retrieve(
     findallID: string,
@@ -59,6 +83,13 @@ export class FindAll extends APIResource {
 
   /**
    * Cancel a FindAll run.
+   *
+   * @example
+   * ```ts
+   * const response = await client.beta.findall.cancel(
+   *   'findall_id',
+   * );
+   * ```
    */
   cancel(
     findallID: string,
@@ -76,7 +107,48 @@ export class FindAll extends APIResource {
   }
 
   /**
+   * Return ranked entity candidates matching a natural language objective.
+   *
+   * This endpoint performs a best-effort search optimised for low latency. For
+   * comprehensive match evaluation and enrichment, use the
+   * [FindAll API](https://docs.parallel.ai/findall-api/findall-quickstart).
+   *
+   * @example
+   * ```ts
+   * const findallCandidatesResponse =
+   *   await client.beta.findall.candidates({
+   *     entity_type: 'company',
+   *     objective: 'objective',
+   *   });
+   * ```
+   */
+  candidates(body: FindAllCandidatesParams, options?: RequestOptions): APIPromise<FindAllCandidatesResponse> {
+    return this._client.post('/v1beta/findall/candidates', {
+      body,
+      ...options,
+      headers: buildHeaders([{ 'parallel-beta': 'findall-2025-09-15' }, options?.headers]),
+    });
+  }
+
+  /**
    * Add an enrichment to a FindAll run.
+   *
+   * @example
+   * ```ts
+   * const findallSchema = await client.beta.findall.enrich(
+   *   'findall_id',
+   *   {
+   *     output_schema: {
+   *       json_schema: {
+   *         additionalProperties: 'bar',
+   *         properties: 'bar',
+   *         required: 'bar',
+   *         type: 'bar',
+   *       },
+   *     },
+   *   },
+   * );
+   * ```
    */
   enrich(
     findallID: string,
@@ -101,6 +173,13 @@ export class FindAll extends APIResource {
    * Optional event ID to resume from. timeout: Optional timeout in seconds. If None,
    * keep connection alive as long as the run is going. If set, stop after specified
    * duration.
+   *
+   * @example
+   * ```ts
+   * const response = await client.beta.findall.events(
+   *   'findall_id',
+   * );
+   * ```
    */
   events(
     findallID: string,
@@ -121,6 +200,14 @@ export class FindAll extends APIResource {
 
   /**
    * Extend a FindAll run by adding additional matches to the current match limit.
+   *
+   * @example
+   * ```ts
+   * const findallSchema = await client.beta.findall.extend(
+   *   'findall_id',
+   *   { additional_match_limit: 0 },
+   * );
+   * ```
    */
   extend(
     findallID: string,
@@ -145,6 +232,14 @@ export class FindAll extends APIResource {
    *
    * The generated specification serves as a suggested starting point and can be
    * further customized by the user.
+   *
+   * @example
+   * ```ts
+   * const findallSchema = await client.beta.findall.ingest({
+   *   objective:
+   *     'Find all AI companies that raised Series A funding in 2024',
+   * });
+   * ```
    */
   ingest(params: FindAllIngestParams, options?: RequestOptions): APIPromise<FindAllSchema> {
     const { betas, ...body } = params;
@@ -160,6 +255,13 @@ export class FindAll extends APIResource {
 
   /**
    * Retrieve the FindAll run result at the time of the request.
+   *
+   * @example
+   * ```ts
+   * const findallRunResult = await client.beta.findall.result(
+   *   'findall_id',
+   * );
+   * ```
    */
   result(
     findallID: string,
@@ -178,6 +280,13 @@ export class FindAll extends APIResource {
 
   /**
    * Get FindAll Run Schema
+   *
+   * @example
+   * ```ts
+   * const findallSchema = await client.beta.findall.schema(
+   *   'findall_id',
+   * );
+   * ```
    */
   schema(
     findallID: string,
@@ -272,6 +381,56 @@ export namespace FindAllCandidateMatchStatusEvent {
   }
 }
 
+export interface FindAllCandidatesRequest {
+  /**
+   * Type of entity to search for.
+   */
+  entity_type: 'company' | 'people';
+
+  /**
+   * Natural language description of target entities.
+   */
+  objective: string;
+
+  /**
+   * Maximum number of candidates to return. Must be between 5 and 1000 (inclusive).
+   * May return fewer results. Defaults to 100.
+   */
+  match_limit?: number;
+}
+
+export interface FindAllCandidatesResponse {
+  /**
+   * Candidate set request ID. Example:
+   * `candidate_set_cad0a6d2dec046bd95ae900527d880e7`
+   */
+  candidate_set_id: string;
+
+  /**
+   * Ranked list of entity candidates.
+   */
+  candidates: Array<FindAllCandidatesResponse.Candidate>;
+}
+
+export namespace FindAllCandidatesResponse {
+  export interface Candidate {
+    /**
+     * Descriptive text about the entity.
+     */
+    description: string;
+
+    /**
+     * Entity name.
+     */
+    name: string;
+
+    /**
+     * Canonical URL for the entity.
+     */
+    url: string;
+  }
+}
+
 /**
  * Input model for FindAll enrich.
  */
@@ -284,7 +443,7 @@ export interface FindAllEnrichInput {
   /**
    * List of MCP servers to use for the task.
    */
-  mcp_servers?: Array<BetaTaskRunAPI.McpServer> | null;
+  mcp_servers?: Array<TaskRunAPI.McpServer> | null;
 
   /**
    * Processor to use for the task.
@@ -413,7 +572,7 @@ export interface FindAllRunInput {
 
   /**
    * Maximum number of matches to find for this FindAll run. Must be between 5 and
-   * 1000 (inclusive).
+   * 1000 (inclusive). May return fewer results.
    */
   match_limit: number;
 
@@ -435,7 +594,7 @@ export interface FindAllRunInput {
   /**
    * Webhooks for Task Runs.
    */
-  webhook?: BetaTaskRunAPI.Webhook | null;
+  webhook?: TaskRunAPI.Webhook | null;
 }
 
 export namespace FindAllRunInput {
@@ -668,7 +827,7 @@ export type FindAllEventsResponse =
   | FindAllSchemaUpdatedEvent
   | FindAllRunStatusEvent
   | FindAllCandidateMatchStatusEvent
-  | BetaTaskRunAPI.ErrorEvent;
+  | TaskRunAPI.ErrorEvent;
 
 export interface FindAllCreateParams {
   /**
@@ -688,7 +847,7 @@ export interface FindAllCreateParams {
 
   /**
    * Body param: Maximum number of matches to find for this FindAll run. Must be
-   * between 5 and 1000 (inclusive).
+   * between 5 and 1000 (inclusive). May return fewer results.
    */
   match_limit: number;
 
@@ -710,7 +869,7 @@ export interface FindAllCreateParams {
   /**
    * Body param: Webhooks for Task Runs.
    */
-  webhook?: BetaTaskRunAPI.Webhook | null;
+  webhook?: TaskRunAPI.Webhook | null;
 
   /**
    * Header param: Optional header to specify the beta version(s) to enable.
@@ -766,6 +925,24 @@ export interface FindAllCancelParams {
   betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
+export interface FindAllCandidatesParams {
+  /**
+   * Type of entity to search for.
+   */
+  entity_type: 'company' | 'people';
+
+  /**
+   * Natural language description of target entities.
+   */
+  objective: string;
+
+  /**
+   * Maximum number of candidates to return. Must be between 5 and 1000 (inclusive).
+   * May return fewer results. Defaults to 100.
+   */
+  match_limit?: number;
+}
+
 export interface FindAllEnrichParams {
   /**
    * Body param: JSON schema for the enrichment output schema for the FindAll run.
@@ -775,7 +952,7 @@ export interface FindAllEnrichParams {
   /**
    * Body param: List of MCP servers to use for the task.
    */
-  mcp_servers?: Array<BetaTaskRunAPI.McpServer> | null;
+  mcp_servers?: Array<TaskRunAPI.McpServer> | null;
 
   /**
    * Body param: Processor to use for the task.
@@ -848,6 +1025,8 @@ export interface FindAllSchemaParams {
 export declare namespace FindAll {
   export {
     type FindAllCandidateMatchStatusEvent as FindAllCandidateMatchStatusEvent,
+    type FindAllCandidatesRequest as FindAllCandidatesRequest,
+    type FindAllCandidatesResponse as FindAllCandidatesResponse,
     type FindAllEnrichInput as FindAllEnrichInput,
     type FindAllExtendInput as FindAllExtendInput,
     type FindAllRun as FindAllRun,
@@ -862,6 +1041,7 @@ export declare namespace FindAll {
     type FindAllCreateParams as FindAllCreateParams,
     type FindAllRetrieveParams as FindAllRetrieveParams,
     type FindAllCancelParams as FindAllCancelParams,
+    type FindAllCandidatesParams as FindAllCandidatesParams,
     type FindAllEnrichParams as FindAllEnrichParams,
     type FindAllEventsParams as FindAllEventsParams,
     type FindAllExtendParams as FindAllExtendParams,

@@ -31,6 +31,7 @@ describe('resource beta', () => {
       full_content: true,
       objective: 'objective',
       search_queries: ['string'],
+      session_id: 'session_id',
       betas: ['mcp-server-2025-07-17'],
     });
   });

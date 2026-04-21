@@ -2,12 +2,16 @@
 
 import { APIResource } from '../../core/resource';
 import * as Shared from '../shared';
+import * as TopLevelAPI from '../top-level';
 import * as FindAllAPI from './findall';
 import {
   FindAll,
   FindAllCancelParams,
   FindAllCancelResponse,
   FindAllCandidateMatchStatusEvent,
+  FindAllCandidatesParams,
+  FindAllCandidatesRequest,
+  FindAllCandidatesResponse,
   FindAllCreateParams,
   FindAllEnrichInput,
   FindAllEnrichParams,
@@ -66,8 +70,12 @@ export class Beta extends APIResource {
   /**
    * Extracts relevant content from specific web URLs.
    *
-   * To access this endpoint, pass the `parallel-beta` header with the value
-   * `search-extract-2025-10-10`.
+   * @example
+   * ```ts
+   * const extractResponse = await client.beta.extract({
+   *   urls: ['string'],
+   * });
+   * ```
    */
   extract(params: BetaExtractParams, options?: RequestOptions): APIPromise<ExtractResponse> {
     const { betas, ...body } = params;
@@ -83,6 +91,11 @@ export class Beta extends APIResource {
 
   /**
    * Searches the web.
+   *
+   * @example
+   * ```ts
+   * const searchResult = await client.beta.search();
+   * ```
    */
   search(params: BetaSearchParams, options?: RequestOptions): APIPromise<SearchResult> {
     const { betas, ...body } = params;
@@ -118,35 +131,13 @@ export interface ExcerptSettings {
 }
 
 /**
- * Extract error details.
- */
-export interface ExtractError {
-  /**
-   * Content returned for http client or server errors, if any.
-   */
-  content: string | null;
-
-  /**
-   * Error type.
-   */
-  error_type: string;
-
-  /**
-   * HTTP status code, if available.
-   */
-  http_status_code: number | null;
-
-  url: string;
-}
-
-/**
  * Fetch result.
  */
 export interface ExtractResponse {
   /**
    * Extract errors: requested URLs not in the results.
    */
-  errors: Array<ExtractError>;
+  errors: Array<TopLevelAPI.ExtractError>;
 
   /**
    * Extract request ID, e.g. `extract_cad0a6d2dec046bd95ae900527d880e7`
@@ -161,7 +152,7 @@ export interface ExtractResponse {
   /**
    * Usage metrics for the extract request.
    */
-  usage?: Array<UsageItem> | null;
+  usage?: Array<TopLevelAPI.UsageItem> | null;
 
   /**
    * Warnings for the extract request, if any.
@@ -200,28 +191,6 @@ export interface ExtractResult {
 }
 
 /**
- * Policy for live fetching web results.
- */
-export interface FetchPolicy {
-  /**
-   * If false, fallback to cached content older than max-age if live fetch fails or
-   * times out. If true, returns an error instead.
-   */
-  disable_cache_fallback?: boolean;
-
-  /**
-   * Maximum age of cached content in seconds to trigger a live fetch. Minimum value
-   * 600 seconds (10 minutes).
-   */
-  max_age_seconds?: number | null;
-
-  /**
-   * Timeout in seconds for fetching live content if unavailable in cache.
-   */
-  timeout_seconds?: number | null;
-}
-
-/**
  * Output for the Search API.
  */
 export interface SearchResult {
@@ -238,27 +207,12 @@ export interface SearchResult {
   /**
    * Usage metrics for the search request.
    */
-  usage?: Array<UsageItem> | null;
+  usage?: Array<TopLevelAPI.UsageItem> | null;
 
   /**
    * Warnings for the search request, if any.
    */
   warnings?: Array<Shared.Warning> | null;
-}
-
-/**
- * Usage item for a single operation.
- */
-export interface UsageItem {
-  /**
-   * Count of the SKU.
-   */
-  count: number;
-
-  /**
-   * Name of the SKU.
-   */
-  name: string;
 }
 
 /**
@@ -286,6 +240,12 @@ export interface WebSearchResult {
   title?: string | null;
 }
 
+export type ExtractError = TopLevelAPI.ExtractError;
+
+export type FetchPolicy = TopLevelAPI.FetchPolicy;
+
+export type UsageItem = TopLevelAPI.UsageItem;
+
 export interface BetaExtractParams {
   /**
    * Body param
@@ -302,7 +262,7 @@ export interface BetaExtractParams {
   /**
    * Body param: Policy for live fetching web results.
    */
-  fetch_policy?: FetchPolicy | null;
+  fetch_policy?: TopLevelAPI.FetchPolicy | null;
 
   /**
    * Body param: Include full content from each URL. Note that if neither objective
@@ -321,6 +281,13 @@ export interface BetaExtractParams {
    * search queries.
    */
   search_queries?: Array<string> | null;
+
+  /**
+   * Body param: Session identifier to track calls across separate search and extract
+   * calls, to be used as part of a larger task. Specifying it may give better
+   * contextual results for subsequent API calls.
+   */
+  session_id?: string | null;
 
   /**
    * Header param: Optional header to specify the beta version(s) to enable.
@@ -351,7 +318,12 @@ export interface BetaSearchParams {
   /**
    * Body param: Policy for live fetching web results.
    */
-  fetch_policy?: FetchPolicy | null;
+  fetch_policy?: TopLevelAPI.FetchPolicy | null;
+
+  /**
+   * Body param: ISO 3166-1 alpha-2 country code for geo-targeted search results.
+   */
+  location?: string | null;
 
   /**
    * @deprecated Body param: DEPRECATED: Use `excerpts.max_chars_per_result` instead.
@@ -396,6 +368,13 @@ export interface BetaSearchParams {
   search_queries?: Array<string> | null;
 
   /**
+   * Body param: Session identifier to track calls across separate search and extract
+   * calls, to be used as part of a larger task. Specifying it may give better
+   * contextual results for subsequent API calls.
+   */
+  session_id?: string | null;
+
+  /**
    * Body param: Source policy for web search results.
    *
    * This policy governs which sources are allowed/disallowed in results.
@@ -414,28 +393,28 @@ Beta.FindAll = FindAll;
 export declare namespace Beta {
   export {
     type ExcerptSettings as ExcerptSettings,
-    type ExtractError as ExtractError,
     type ExtractResponse as ExtractResponse,
     type ExtractResult as ExtractResult,
-    type FetchPolicy as FetchPolicy,
     type SearchResult as SearchResult,
-    type UsageItem as UsageItem,
     type WebSearchResult as WebSearchResult,
+    type ExtractError as ExtractError,
+    type FetchPolicy as FetchPolicy,
+    type UsageItem as UsageItem,
     type BetaExtractParams as BetaExtractParams,
     type BetaSearchParams as BetaSearchParams,
   };
 
   export {
     TaskRun as TaskRun,
+    type ParallelBeta as ParallelBeta,
+    type TaskRunEventsResponse as TaskRunEventsResponse,
     type BetaRunInput as BetaRunInput,
     type BetaTaskRunResult as BetaTaskRunResult,
-    type ErrorEvent as ErrorEvent,
+    type Webhook as Webhook,
     type McpServer as McpServer,
     type McpToolCall as McpToolCall,
-    type ParallelBeta as ParallelBeta,
     type TaskRunEvent as TaskRunEvent,
-    type Webhook as Webhook,
-    type TaskRunEventsResponse as TaskRunEventsResponse,
+    type ErrorEvent as ErrorEvent,
     type TaskRunCreateParams as TaskRunCreateParams,
     type TaskRunResultParams as TaskRunResultParams,
   };
@@ -455,6 +434,8 @@ export declare namespace Beta {
   export {
     FindAll as FindAll,
     type FindAllCandidateMatchStatusEvent as FindAllCandidateMatchStatusEvent,
+    type FindAllCandidatesRequest as FindAllCandidatesRequest,
+    type FindAllCandidatesResponse as FindAllCandidatesResponse,
     type FindAllEnrichInput as FindAllEnrichInput,
     type FindAllExtendInput as FindAllExtendInput,
     type FindAllRun as FindAllRun,
@@ -469,6 +450,7 @@ export declare namespace Beta {
     type FindAllCreateParams as FindAllCreateParams,
     type FindAllRetrieveParams as FindAllRetrieveParams,
     type FindAllCancelParams as FindAllCancelParams,
+    type FindAllCandidatesParams as FindAllCandidatesParams,
     type FindAllEnrichParams as FindAllEnrichParams,
     type FindAllEventsParams as FindAllEventsParams,
     type FindAllExtendParams as FindAllExtendParams,

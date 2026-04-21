@@ -26,6 +26,7 @@ describe('resource taskRun', () => {
     const response = await client.beta.taskRun.create({
       input: 'What was the GDP of France in 2023?',
       processor: 'base',
+      advanced_settings: { location: 'us' },
       enable_events: true,
       mcp_servers: [
         {
@@ -60,8 +61,7 @@ describe('resource taskRun', () => {
     });
   });
 
-  // Mock server doesn't support text/event-stream responses
-  test.skip('events', async () => {
+  test('events', async () => {
     const responsePromise = client.beta.taskRun.events('run_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);

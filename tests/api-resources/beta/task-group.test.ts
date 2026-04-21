@@ -49,6 +49,7 @@ describe('resource taskGroup', () => {
         {
           input: 'What was the GDP of France in 2023?',
           processor: 'base',
+          advanced_settings: { location: 'us' },
           enable_events: true,
           mcp_servers: [
             {
@@ -81,6 +82,7 @@ describe('resource taskGroup', () => {
           webhook: { url: 'url', event_types: ['task_run.status'] },
         },
       ],
+      refresh_status: true,
       default_task_spec: {
         output_schema: {
           json_schema: {
@@ -97,8 +99,7 @@ describe('resource taskGroup', () => {
     });
   });
 
-  // Mock server doesn't support text/event-stream responses
-  test.skip('events', async () => {
+  test('events', async () => {
     const responsePromise = client.beta.taskGroup.events('taskgroup_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -109,8 +110,7 @@ describe('resource taskGroup', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server doesn't support text/event-stream responses
-  test.skip('events: request options and params are passed correctly', async () => {
+  test('events: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.beta.taskGroup.events(
@@ -121,8 +121,7 @@ describe('resource taskGroup', () => {
     ).rejects.toThrow(Parallel.NotFoundError);
   });
 
-  // Mock server doesn't support text/event-stream responses
-  test.skip('getRuns', async () => {
+  test('getRuns', async () => {
     const responsePromise = client.beta.taskGroup.getRuns('taskgroup_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -133,8 +132,7 @@ describe('resource taskGroup', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server doesn't support text/event-stream responses
-  test.skip('getRuns: request options and params are passed correctly', async () => {
+  test('getRuns: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.beta.taskGroup.getRuns(

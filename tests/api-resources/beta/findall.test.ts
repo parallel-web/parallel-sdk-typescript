@@ -95,6 +95,28 @@ describe('resource findall', () => {
     ).rejects.toThrow(Parallel.NotFoundError);
   });
 
+  test('candidates: only required params', async () => {
+    const responsePromise = client.beta.findall.candidates({
+      entity_type: 'company',
+      objective: 'objective',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('candidates: required and optional params', async () => {
+    const response = await client.beta.findall.candidates({
+      entity_type: 'company',
+      objective: 'objective',
+      match_limit: 5,
+    });
+  });
+
   test('enrich: only required params', async () => {
     const responsePromise = client.beta.findall.enrich('findall_id', {
       output_schema: {
@@ -140,8 +162,7 @@ describe('resource findall', () => {
     });
   });
 
-  // Mock server doesn't support text/event-stream responses
-  test.skip('events', async () => {
+  test('events', async () => {
     const responsePromise = client.beta.findall.events('findall_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -152,8 +173,7 @@ describe('resource findall', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server doesn't support text/event-stream responses
-  test.skip('events: request options and params are passed correctly', async () => {
+  test('events: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.beta.findall.events(
