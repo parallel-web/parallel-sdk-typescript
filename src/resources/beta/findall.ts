@@ -107,6 +107,30 @@ export class FindAll extends APIResource {
   }
 
   /**
+   * Return ranked entity candidates matching a natural language objective.
+   *
+   * This endpoint performs a best-effort search optimised for low latency. For
+   * comprehensive match evaluation and enrichment, use the
+   * [FindAll API](https://docs.parallel.ai/findall-api/findall-quickstart).
+   *
+   * @example
+   * ```ts
+   * const findallCandidatesResponse =
+   *   await client.beta.findall.candidates({
+   *     entity_type: 'company',
+   *     objective: 'objective',
+   *   });
+   * ```
+   */
+  candidates(body: FindAllCandidatesParams, options?: RequestOptions): APIPromise<FindAllCandidatesResponse> {
+    return this._client.post('/v1beta/findall/candidates', {
+      body,
+      ...options,
+      headers: buildHeaders([{ 'parallel-beta': 'findall-2025-09-15' }, options?.headers]),
+    });
+  }
+
+  /**
    * Add an enrichment to a FindAll run.
    *
    * @example
@@ -354,6 +378,56 @@ export namespace FindAllCandidateMatchStatusEvent {
      * overall FindAll objective.
      */
     output?: { [key: string]: unknown } | null;
+  }
+}
+
+export interface FindAllCandidatesRequest {
+  /**
+   * Type of entity to search for.
+   */
+  entity_type: 'company' | 'people';
+
+  /**
+   * Natural language description of target entities.
+   */
+  objective: string;
+
+  /**
+   * Maximum number of candidates to return. Must be between 5 and 1000 (inclusive).
+   * May return fewer results. Defaults to 100.
+   */
+  match_limit?: number;
+}
+
+export interface FindAllCandidatesResponse {
+  /**
+   * Candidate set request ID. Example:
+   * `candidate_set_cad0a6d2dec046bd95ae900527d880e7`
+   */
+  candidate_set_id: string;
+
+  /**
+   * Ranked list of entity candidates.
+   */
+  candidates: Array<FindAllCandidatesResponse.Candidate>;
+}
+
+export namespace FindAllCandidatesResponse {
+  export interface Candidate {
+    /**
+     * Descriptive text about the entity.
+     */
+    description: string;
+
+    /**
+     * Entity name.
+     */
+    name: string;
+
+    /**
+     * Canonical URL for the entity.
+     */
+    url: string;
   }
 }
 
@@ -851,6 +925,24 @@ export interface FindAllCancelParams {
   betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
+export interface FindAllCandidatesParams {
+  /**
+   * Type of entity to search for.
+   */
+  entity_type: 'company' | 'people';
+
+  /**
+   * Natural language description of target entities.
+   */
+  objective: string;
+
+  /**
+   * Maximum number of candidates to return. Must be between 5 and 1000 (inclusive).
+   * May return fewer results. Defaults to 100.
+   */
+  match_limit?: number;
+}
+
 export interface FindAllEnrichParams {
   /**
    * Body param: JSON schema for the enrichment output schema for the FindAll run.
@@ -933,6 +1025,8 @@ export interface FindAllSchemaParams {
 export declare namespace FindAll {
   export {
     type FindAllCandidateMatchStatusEvent as FindAllCandidateMatchStatusEvent,
+    type FindAllCandidatesRequest as FindAllCandidatesRequest,
+    type FindAllCandidatesResponse as FindAllCandidatesResponse,
     type FindAllEnrichInput as FindAllEnrichInput,
     type FindAllExtendInput as FindAllExtendInput,
     type FindAllRun as FindAllRun,
@@ -947,6 +1041,7 @@ export declare namespace FindAll {
     type FindAllCreateParams as FindAllCreateParams,
     type FindAllRetrieveParams as FindAllRetrieveParams,
     type FindAllCancelParams as FindAllCancelParams,
+    type FindAllCandidatesParams as FindAllCandidatesParams,
     type FindAllEnrichParams as FindAllEnrichParams,
     type FindAllEventsParams as FindAllEventsParams,
     type FindAllExtendParams as FindAllExtendParams,
