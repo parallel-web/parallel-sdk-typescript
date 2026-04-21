@@ -283,9 +283,9 @@ export interface BetaExtractParams {
   search_queries?: Array<string> | null;
 
   /**
-   * Body param: Session identifier for calls to search and extract made by an agent
-   * as part of a larger task. May be a user-generated random string (e.g. a uuid) or
-   * a session_id from a previous request.
+   * Body param: Session identifier to track calls across separate search and extract
+   * calls, to be used as part of a larger task. Specifying it may give better
+   * contextual results for subsequent API calls.
    */
   session_id?: string | null;
 
@@ -368,9 +368,9 @@ export interface BetaSearchParams {
   search_queries?: Array<string> | null;
 
   /**
-   * Body param: Session identifier for calls to search and extract made by an agent
-   * as part of a larger task. May be a user-generated random string (e.g. a uuid) or
-   * a session_id from a previous request.
+   * Body param: Session identifier to track calls across separate search and extract
+   * calls, to be used as part of a larger task. Specifying it may give better
+   * contextual results for subsequent API calls.
    */
   session_id?: string | null;
 

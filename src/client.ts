@@ -238,6 +238,9 @@ export class Parallel {
   /**
    * Extracts relevant content from specific web URLs.
    *
+   * The legacy Extract API reference is available
+   * [here](https://docs.parallel.ai/api-reference/legacy/extract-beta/extract).
+   *
    * @example
    * ```ts
    * const extractResponse = await client.extract({
@@ -254,6 +257,9 @@ export class Parallel {
 
   /**
    * Searches the web.
+   *
+   * The legacy Search API reference is available
+   * [here](https://docs.parallel.ai/api-reference/legacy/search-beta/search).
    *
    * @example
    * ```ts
