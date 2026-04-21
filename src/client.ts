@@ -238,8 +238,10 @@ export class Parallel {
   /**
    * Extracts relevant content from specific web URLs.
    *
-   * The legacy Extract API reference is available
-   * [here](https://docs.parallel.ai/api-reference/legacy/extract-beta/extract).
+   * The legacy Extract API reference (`/v1beta/extract` endpoint) is available
+   * [here](https://docs.parallel.ai/api-reference/legacy/extract-beta/extract), and
+   * migration guide is
+   * [here](https://docs.parallel.ai/extract/extract-migration-guide).
    *
    * @example
    * ```ts
@@ -258,8 +260,10 @@ export class Parallel {
   /**
    * Searches the web.
    *
-   * The legacy Search API reference is available
-   * [here](https://docs.parallel.ai/api-reference/legacy/search-beta/search).
+   * The legacy Search API reference (`/v1beta/search` endpoint) is available
+   * [here](https://docs.parallel.ai/api-reference/legacy/search-beta/search), and
+   * migration guide is
+   * [here](https://docs.parallel.ai/search/search-migration-guide).
    *
    * @example
    * ```ts
