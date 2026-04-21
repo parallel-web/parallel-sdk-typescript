@@ -1,5 +1,49 @@
 # Changelog
 
+## 0.4.0 (2026-04-21)
+
+Full Changelog: [v0.3.2...v0.4.0](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.3.2...v0.4.0)
+
+### Features
+
+* **api:** Add Findall Candidates ([425681c](https://github.com/parallel-web/parallel-sdk-typescript/commit/425681c15c71e26b9e7bb6a7f1821eb801f51d96))
+* **api:** Add Search and Extract v1 and associated types ([31fdbd0](https://github.com/parallel-web/parallel-sdk-typescript/commit/31fdbd0279c88476b7ad7eafdf28d50a8747c3c5))
+* **api:** manual - add AdvancedSearchSettings and AdvancedExtractSettings models ([dd4da4a](https://github.com/parallel-web/parallel-sdk-typescript/commit/dd4da4a330e651719013a4d6fc2634b1b65da246))
+* **api:** manual updates - update openapi spec ([6db3155](https://github.com/parallel-web/parallel-sdk-typescript/commit/6db3155b02f1049c76954617410ddbe12bb81129))
+* **api:** Remove full_content from OpenAPI Spec ([5601518](https://github.com/parallel-web/parallel-sdk-typescript/commit/5601518a366f2d003c4435d937f04bd0b2f4c033))
+* **api:** Search/Extract v1 with advanced_settings and max_results ([b8890dd](https://github.com/parallel-web/parallel-sdk-typescript/commit/b8890ddd516a127fec6802bf7285bd76dec62d36))
+* **api:** task to GA v1 ([8f03ca8](https://github.com/parallel-web/parallel-sdk-typescript/commit/8f03ca85200f5e5635d89e2462d0c7caa5ea71cb))
+* **api:** Update OpenAPI spec ([86bcd30](https://github.com/parallel-web/parallel-sdk-typescript/commit/86bcd301677c02492cdc41f59ab0865e79dd9592))
+* **api:** Update OpenAPI spec ([bd31a9a](https://github.com/parallel-web/parallel-sdk-typescript/commit/bd31a9abae974f70562da9389b155d2f9e583cfc))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([a67ea61](https://github.com/parallel-web/parallel-sdk-typescript/commit/a67ea61a1c016afbe9f6a32168baf1df5f1267a3))
+* **internal:** codegen related update ([1ede4ba](https://github.com/parallel-web/parallel-sdk-typescript/commit/1ede4ba052196d020b05ad4aee529d757601d3bd))
+* **internal:** codegen related update ([46fa759](https://github.com/parallel-web/parallel-sdk-typescript/commit/46fa759aca57b99b388a6328a23fd116894ec6e8))
+* **internal:** tweak CI branches ([3b86286](https://github.com/parallel-web/parallel-sdk-typescript/commit/3b86286059a92b246e2edad7d477b9f26e7377a3))
+* **internal:** update dependencies to address dependabot vulnerabilities ([17f20a6](https://github.com/parallel-web/parallel-sdk-typescript/commit/17f20a687efdd187f588d770bbd8d31013d42a4b))
+* **internal:** update gitignore ([44b2874](https://github.com/parallel-web/parallel-sdk-typescript/commit/44b28740646b26bde693e3c784b9fa0b0916864b))
+* **internal:** update multipart form array serialization ([94d5441](https://github.com/parallel-web/parallel-sdk-typescript/commit/94d54418380cf7b76bc7b2418fe0c38d9b4adf52))
+* **tests:** bump steady to v0.19.4 ([3a21ec1](https://github.com/parallel-web/parallel-sdk-typescript/commit/3a21ec1835ddec9cc45d06af52d78151821a5c50))
+* **tests:** bump steady to v0.19.5 ([85850b6](https://github.com/parallel-web/parallel-sdk-typescript/commit/85850b6a1088b370d9dbf47cf45db2b630e3a51d))
+* **tests:** bump steady to v0.19.6 ([1fa3c6a](https://github.com/parallel-web/parallel-sdk-typescript/commit/1fa3c6ae2305c44adab524a02e34289d7d84ea8f))
+* **tests:** bump steady to v0.19.7 ([5334631](https://github.com/parallel-web/parallel-sdk-typescript/commit/5334631e16969bb918233659cd253c10ac181e25))
+* **tests:** bump steady to v0.20.1 ([5fe5db0](https://github.com/parallel-web/parallel-sdk-typescript/commit/5fe5db092909bcbb5c7d311b4f08d8ab946f91f8))
+* **tests:** bump steady to v0.20.2 ([a6a363c](https://github.com/parallel-web/parallel-sdk-typescript/commit/a6a363c06a5a21f94b39cd6cf8741ddf6182ed6d))
+* **tests:** bump steady to v0.22.1 ([1d73f54](https://github.com/parallel-web/parallel-sdk-typescript/commit/1d73f543021f3f70cb1d30b9e0ee44c63a24fbd8))
+
+
+### Documentation
+
+* update examples ([6f0e64e](https://github.com/parallel-web/parallel-sdk-typescript/commit/6f0e64e663419703cc87bf14f496880f7cdeff43))
+
+
+### Refactors
+
+* **tests:** switch from prism to steady ([6d6d1d9](https://github.com/parallel-web/parallel-sdk-typescript/commit/6d6d1d990d8a3f398a43bd2a36bbc99eb7a63da6))
+
 ## 0.3.2 (2026-03-09)
 
 Full Changelog: [v0.3.1...v0.3.2](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.3.1...v0.3.2)
