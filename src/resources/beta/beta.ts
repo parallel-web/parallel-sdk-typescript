@@ -70,12 +70,7 @@ export class Beta extends APIResource {
   /**
    * Extracts relevant content from specific web URLs.
    *
-   * @example
-   * ```ts
-   * const extractResponse = await client.beta.extract({
-   *   urls: ['string'],
-   * });
-   * ```
+   * @deprecated Use client.extract instead. For more info, see https://docs.parallel.ai/extract/extract-migration-guide
    */
   extract(params: BetaExtractParams, options?: RequestOptions): APIPromise<ExtractResponse> {
     const { betas, ...body } = params;
@@ -92,10 +87,7 @@ export class Beta extends APIResource {
   /**
    * Searches the web.
    *
-   * @example
-   * ```ts
-   * const searchResult = await client.beta.search();
-   * ```
+   * @deprecated Use client.search instead. For more info, see https://docs.parallel.ai/search/search-migration-guide
    */
   search(params: BetaSearchParams, options?: RequestOptions): APIPromise<SearchResult> {
     const { betas, ...body } = params;
