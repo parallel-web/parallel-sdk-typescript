@@ -22,6 +22,7 @@ describe('resource beta', () => {
   test('extract: required and optional params', async () => {
     const response = await client.beta.extract({
       urls: ['string'],
+      client_model: 'claude-opus-4-7',
       excerpts: true,
       fetch_policy: {
         disable_cache_fallback: true,

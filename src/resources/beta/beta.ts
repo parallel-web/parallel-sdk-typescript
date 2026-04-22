@@ -245,6 +245,12 @@ export interface BetaExtractParams {
   urls: Array<string>;
 
   /**
+   * Body param: The model generating this request and consuming the results. Enables
+   * optimizations and tailors default settings for the model's capabilities.
+   */
+  client_model?: string | null;
+
+  /**
    * Body param: Include excerpts from each URL relevant to the search objective and
    * queries. Note that if neither objective nor search_queries is provided, excerpts
    * are redundant with full content.
@@ -302,6 +308,12 @@ export namespace BetaExtractParams {
 }
 
 export interface BetaSearchParams {
+  /**
+   * Body param: The model generating this request and consuming the results. Enables
+   * optimizations and tailors default settings for the model's capabilities.
+   */
+  client_model?: string | null;
+
   /**
    * Body param: Optional settings to configure excerpt generation.
    */
