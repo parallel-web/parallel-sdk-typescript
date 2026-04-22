@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.1 (2026-04-22)
+
+Full Changelog: [v0.4.0...v0.4.1](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.4.0...v0.4.1)
+
+### Features
+
+* **api:** manual updates ([ae5cb89](https://github.com/parallel-web/parallel-sdk-typescript/commit/ae5cb89998ed6f6a11d4ee9fb5769646d78a8bd4))
+* **api:** Mark search and extract as deprecated ([60f6e90](https://github.com/parallel-web/parallel-sdk-typescript/commit/60f6e907e3c65eb5003f3863ff60d48cace23b6e))
+* **api:** OpenAPI changes ([3a435c0](https://github.com/parallel-web/parallel-sdk-typescript/commit/3a435c0bbbb9520cbf3470c44c0c97f0471ecab0))
+
 ## 0.4.0 (2026-04-21)
 
 Full Changelog: [v0.3.2...v0.4.0](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.3.2...v0.4.0)
