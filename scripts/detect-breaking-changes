@@ -9,6 +9,7 @@ echo "==> Detecting breaking changes"
 TEST_PATHS=(
 	tests/api-resources/top-level.test.ts
 	tests/api-resources/task-run.test.ts
+	tests/api-resources/task-group.test.ts
 	tests/api-resources/beta/beta.test.ts
 	tests/api-resources/beta/task-run.test.ts
 	tests/api-resources/beta/task-group.test.ts
