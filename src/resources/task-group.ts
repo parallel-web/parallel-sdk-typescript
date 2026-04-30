@@ -1,80 +1,56 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../core/resource';
-import * as TaskGroupAPI from '../task-group';
-import * as TaskRunAPI from '../task-run';
-import * as BetaTaskRunAPI from './task-run';
-import { APIPromise } from '../../core/api-promise';
-import { Stream } from '../../core/streaming';
-import { buildHeaders } from '../../internal/headers';
-import { RequestOptions } from '../../internal/request-options';
-import { path } from '../../internal/utils/path';
+import { APIResource } from '../core/resource';
+import * as TaskGroupAPI from './task-group';
+import * as TaskRunAPI from './task-run';
+import * as BetaTaskRunAPI from './beta/task-run';
+import { APIPromise } from '../core/api-promise';
+import { Stream } from '../core/streaming';
+import { buildHeaders } from '../internal/headers';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 /**
- * Tasks (Beta)
+ * The Task API executes web research and extraction tasks. Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+ * - Output metadata: citations, excerpts, reasoning, and confidence per field
+ *
+ * Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+ * - Submit hundreds or thousands of Tasks as a single group
+ * - Observe group progress and receive results as they complete
+ * - Real-time updates via Server-Sent Events (SSE)
+ * - Add tasks to an existing group while it is running
+ * - Group-level retry and error aggregation
  */
 export class TaskGroup extends APIResource {
   /**
    * Initiates a TaskGroup to group and track multiple runs.
-   *
-   * @example
-   * ```ts
-   * const taskGroup = await client.beta.taskGroup.create();
-   * ```
    */
-  create(body: TaskGroupCreateParams, options?: RequestOptions): APIPromise<TaskGroupAPI.TaskGroup> {
-    return this._client.post('/v1beta/tasks/groups', {
-      body,
-      ...options,
-      headers: buildHeaders([{ 'parallel-beta': 'search-extract-2025-10-10' }, options?.headers]),
-    });
+  create(body: TaskGroupCreateParams, options?: RequestOptions): APIPromise<TaskGroup> {
+    return this._client.post('/v1/tasks/groups', { body, ...options });
   }
 
   /**
    * Retrieves aggregated status across runs in a TaskGroup.
-   *
-   * @example
-   * ```ts
-   * const taskGroup = await client.beta.taskGroup.retrieve(
-   *   'taskgroup_id',
-   * );
-   * ```
    */
-  retrieve(taskGroupID: string, options?: RequestOptions): APIPromise<TaskGroupAPI.TaskGroup> {
-    return this._client.get(path`/v1beta/tasks/groups/${taskGroupID}`, {
-      ...options,
-      headers: buildHeaders([{ 'parallel-beta': 'search-extract-2025-10-10' }, options?.headers]),
-    });
+  retrieve(taskGroupID: string, options?: RequestOptions): APIPromise<TaskGroup> {
+    return this._client.get(path`/v1/tasks/groups/${taskGroupID}`, options);
   }
 
   /**
    * Initiates multiple task runs within a TaskGroup.
-   *
-   * @example
-   * ```ts
-   * const taskGroupRunResponse =
-   *   await client.beta.taskGroup.addRuns('taskgroup_id', {
-   *     inputs: [
-   *       {
-   *         input: 'What was the GDP of France in 2023?',
-   *         processor: 'base',
-   *       },
-   *     ],
-   *   });
-   * ```
    */
   addRuns(
     taskGroupID: string,
     params: TaskGroupAddRunsParams,
     options?: RequestOptions,
-  ): APIPromise<TaskGroupAPI.TaskGroupRunResponse> {
+  ): APIPromise<TaskGroupRunResponse> {
     const { refresh_status, betas, ...body } = params;
-    return this._client.post(path`/v1beta/tasks/groups/${taskGroupID}/runs`, {
+    return this._client.post(path`/v1/tasks/groups/${taskGroupID}/runs`, {
       query: { refresh_status },
       body,
       ...options,
       headers: buildHeaders([
-        { 'parallel-beta': [...(betas ?? []), 'search-extract-2025-10-10'].toString() },
+        { ...(betas?.toString() != null ? { 'parallel-beta': betas?.toString() } : undefined) },
         options?.headers,
       ]),
     });
@@ -85,26 +61,16 @@ export class TaskGroup extends APIResource {
    *
    * The connection will remain open for up to an hour as long as at least one run in
    * the group is still active.
-   *
-   * @example
-   * ```ts
-   * const response = await client.beta.taskGroup.events(
-   *   'taskgroup_id',
-   * );
-   * ```
    */
   events(
     taskGroupID: string,
     query: TaskGroupEventsParams | undefined = {},
     options?: RequestOptions,
   ): APIPromise<Stream<TaskGroupEventsResponse>> {
-    return this._client.get(path`/v1beta/tasks/groups/${taskGroupID}/events`, {
+    return this._client.get(path`/v1/tasks/groups/${taskGroupID}/events`, {
       query,
       ...options,
-      headers: buildHeaders([
-        { 'parallel-beta': 'search-extract-2025-10-10', Accept: 'text/event-stream' },
-        options?.headers,
-      ]),
+      headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
       stream: true,
     }) as APIPromise<Stream<TaskGroupEventsResponse>>;
   }
@@ -120,29 +86,104 @@ export class TaskGroup extends APIResource {
    * specify the `last_event_id` parameter with the `event_id` of the last event in
    * the stream. The stream will resume from the next event after the
    * `last_event_id`.
-   *
-   * @example
-   * ```ts
-   * const response = await client.beta.taskGroup.getRuns(
-   *   'taskgroup_id',
-   * );
-   * ```
    */
   getRuns(
     taskGroupID: string,
     query: TaskGroupGetRunsParams | undefined = {},
     options?: RequestOptions,
   ): APIPromise<Stream<TaskGroupGetRunsResponse>> {
-    return this._client.get(path`/v1beta/tasks/groups/${taskGroupID}/runs`, {
+    return this._client.get(path`/v1/tasks/groups/${taskGroupID}/runs`, {
       query,
       ...options,
-      headers: buildHeaders([
-        { 'parallel-beta': 'search-extract-2025-10-10', Accept: 'text/event-stream' },
-        options?.headers,
-      ]),
+      headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
       stream: true,
     }) as APIPromise<Stream<TaskGroupGetRunsResponse>>;
   }
+}
+
+/**
+ * Response object for a task group, including its status and metadata.
+ */
+export interface TaskGroup {
+  /**
+   * Timestamp of the creation of the group, as an RFC 3339 string.
+   */
+  created_at: string | null;
+
+  /**
+   * Status of the group.
+   */
+  status: TaskGroupStatus;
+
+  /**
+   * ID of the group.
+   */
+  taskgroup_id: string;
+
+  /**
+   * User-provided metadata stored with the group.
+   */
+  metadata?: { [key: string]: string | number | boolean } | null;
+}
+
+/**
+ * Response from adding new task runs to a task group.
+ */
+export interface TaskGroupRunResponse {
+  /**
+   * Cursor for these runs in the event stream at
+   * taskgroup/events?last_event_id=<event_cursor>. Empty for the first runs in the
+   * group.
+   */
+  event_cursor: string | null;
+
+  /**
+   * Cursor for these runs in the run stream at
+   * taskgroup/runs?last_event_id=<run_cursor>. Empty for the first runs in the
+   * group.
+   */
+  run_cursor: string | null;
+
+  /**
+   * IDs of the newly created runs.
+   */
+  run_ids: Array<string>;
+
+  /**
+   * Status of the group.
+   */
+  status: TaskGroupStatus;
+}
+
+/**
+ * Status of a task group.
+ */
+export interface TaskGroupStatus {
+  /**
+   * True if at least one run in the group is currently active, i.e. status is one of
+   * {'cancelling', 'queued', 'running'}.
+   */
+  is_active: boolean;
+
+  /**
+   * Timestamp of the last status update to the group, as an RFC 3339 string.
+   */
+  modified_at: string | null;
+
+  /**
+   * Number of task runs in the group.
+   */
+  num_task_runs: number;
+
+  /**
+   * Human-readable status message for the group.
+   */
+  status_message: string | null;
+
+  /**
+   * Number of task runs with each status.
+   */
+  task_run_status_counts: { [key: string]: number };
 }
 
 /**
@@ -181,12 +222,6 @@ export namespace TaskGroupEventsResponse {
  * May indicate completion, cancellation, or failure.
  */
 export type TaskGroupGetRunsResponse = TaskRunAPI.TaskRunEvent | TaskRunAPI.ErrorEvent;
-
-export type TaskGroupStatus = TaskGroupAPI.TaskGroupStatus;
-
-export type TaskGroup = TaskGroupAPI.TaskGroup;
-
-export type TaskGroupRunResponse = TaskGroupAPI.TaskGroupRunResponse;
 
 export interface TaskGroupCreateParams {
   /**
@@ -250,11 +285,11 @@ export interface TaskGroupGetRunsParams {
 
 export declare namespace TaskGroup {
   export {
-    type TaskGroupEventsResponse as TaskGroupEventsResponse,
-    type TaskGroupGetRunsResponse as TaskGroupGetRunsResponse,
-    type TaskGroupStatus as TaskGroupStatus,
     type TaskGroup as TaskGroup,
     type TaskGroupRunResponse as TaskGroupRunResponse,
+    type TaskGroupStatus as TaskGroupStatus,
+    type TaskGroupEventsResponse as TaskGroupEventsResponse,
+    type TaskGroupGetRunsResponse as TaskGroupGetRunsResponse,
     type TaskGroupCreateParams as TaskGroupCreateParams,
     type TaskGroupAddRunsParams as TaskGroupAddRunsParams,
     type TaskGroupEventsParams as TaskGroupEventsParams,

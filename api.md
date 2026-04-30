@@ -56,4 +56,22 @@ Methods:
 - <code title="get /v1/tasks/runs/{run_id}/events">client.taskRun.<a href="./src/resources/task-run.ts">events</a>(runID) -> TaskRunEventsResponse</code>
 - <code title="get /v1/tasks/runs/{run_id}/result">client.taskRun.<a href="./src/resources/task-run.ts">result</a>(runID, { ...params }) -> TaskRunResult</code>
 
+# TaskGroup
+
+Types:
+
+- <code><a href="./src/resources/task-group.ts">TaskGroup</a></code>
+- <code><a href="./src/resources/task-group.ts">TaskGroupRunResponse</a></code>
+- <code><a href="./src/resources/task-group.ts">TaskGroupStatus</a></code>
+- <code><a href="./src/resources/task-group.ts">TaskGroupEventsResponse</a></code>
+- <code><a href="./src/resources/task-group.ts">TaskGroupGetRunsResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/tasks/groups">client.taskGroup.<a href="./src/resources/task-group.ts">create</a>({ ...params }) -> TaskGroup</code>
+- <code title="get /v1/tasks/groups/{taskgroup_id}">client.taskGroup.<a href="./src/resources/task-group.ts">retrieve</a>(taskGroupID) -> TaskGroup</code>
+- <code title="post /v1/tasks/groups/{taskgroup_id}/runs">client.taskGroup.<a href="./src/resources/task-group.ts">addRuns</a>(taskGroupID, { ...params }) -> TaskGroupRunResponse</code>
+- <code title="get /v1/tasks/groups/{taskgroup_id}/events">client.taskGroup.<a href="./src/resources/task-group.ts">events</a>(taskGroupID, { ...params }) -> TaskGroupEventsResponse</code>
+- <code title="get /v1/tasks/groups/{taskgroup_id}/runs">client.taskGroup.<a href="./src/resources/task-group.ts">getRuns</a>(taskGroupID, { ...params }) -> TaskGroupGetRunsResponse</code>
+
 # [Beta](src/resources/beta/api.md)

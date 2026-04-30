@@ -425,10 +425,10 @@ export declare namespace Beta {
 
   export {
     type TaskGroup as TaskGroup,
-    type TaskGroupRunResponse as TaskGroupRunResponse,
-    type TaskGroupStatus as TaskGroupStatus,
     type TaskGroupEventsResponse as TaskGroupEventsResponse,
     type TaskGroupGetRunsResponse as TaskGroupGetRunsResponse,
+    type TaskGroupStatus as TaskGroupStatus,
+    type TaskGroupRunResponse as TaskGroupRunResponse,
     type TaskGroupCreateParams as TaskGroupCreateParams,
     type TaskGroupAddRunsParams as TaskGroupAddRunsParams,
     type TaskGroupEventsParams as TaskGroupEventsParams,

@@ -3,6 +3,17 @@
 export * from './shared';
 export { Beta } from './beta/beta';
 export {
+  TaskGroup,
+  type TaskGroupRunResponse,
+  type TaskGroupStatus,
+  type TaskGroupEventsResponse,
+  type TaskGroupGetRunsResponse,
+  type TaskGroupCreateParams,
+  type TaskGroupAddRunsParams,
+  type TaskGroupEventsParams,
+  type TaskGroupGetRunsParams,
+} from './task-group';
+export {
   TaskRun,
   type AutoSchema,
   type Citation,

@@ -33,6 +33,17 @@ import {
 } from './resources/top-level';
 import { APIPromise } from './core/api-promise';
 import {
+  TaskGroup,
+  TaskGroupAddRunsParams,
+  TaskGroupCreateParams,
+  TaskGroupEventsParams,
+  TaskGroupEventsResponse,
+  TaskGroupGetRunsParams,
+  TaskGroupGetRunsResponse,
+  TaskGroupRunResponse,
+  TaskGroupStatus,
+} from './resources/task-group';
+import {
   AutoSchema,
   Citation,
   ErrorEvent,
@@ -812,13 +823,25 @@ export class Parallel {
    * - Output metadata: citations, excerpts, reasoning, and confidence per field
    *
    * Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
-   *  - Submit hundreds or thousands of Tasks as a single group
+   * - Submit hundreds or thousands of Tasks as a single group
    * - Observe group progress and receive results as they complete
    * - Real-time updates via Server-Sent Events (SSE)
    * - Add tasks to an existing group while it is running
    * - Group-level retry and error aggregation
    */
   taskRun: API.TaskRun = new API.TaskRun(this);
+  /**
+   * The Task API executes web research and extraction tasks. Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+   * - Output metadata: citations, excerpts, reasoning, and confidence per field
+   *
+   * Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+   * - Submit hundreds or thousands of Tasks as a single group
+   * - Observe group progress and receive results as they complete
+   * - Real-time updates via Server-Sent Events (SSE)
+   * - Add tasks to an existing group while it is running
+   * - Group-level retry and error aggregation
+   */
+  taskGroup: API.TaskGroup = new API.TaskGroup(this);
   beta: API.Beta = new API.Beta(this);
 }
 
@@ -862,6 +885,18 @@ export declare namespace Parallel {
     type TaskRunEventsResponse as TaskRunEventsResponse,
     type TaskRunCreateParams as TaskRunCreateParams,
     type TaskRunResultParams as TaskRunResultParams,
+  };
+
+  export {
+    type TaskGroup as TaskGroup,
+    type TaskGroupRunResponse as TaskGroupRunResponse,
+    type TaskGroupStatus as TaskGroupStatus,
+    type TaskGroupEventsResponse as TaskGroupEventsResponse,
+    type TaskGroupGetRunsResponse as TaskGroupGetRunsResponse,
+    type TaskGroupCreateParams as TaskGroupCreateParams,
+    type TaskGroupAddRunsParams as TaskGroupAddRunsParams,
+    type TaskGroupEventsParams as TaskGroupEventsParams,
+    type TaskGroupGetRunsParams as TaskGroupGetRunsParams,
   };
 
   export { Beta as Beta };
