@@ -19,7 +19,6 @@ export {
   type FindAllSchemaUpdatedEvent,
   type IngestInput,
   type MatchCondition,
-  type FindAllCancelResponse,
   type FindAllEventsResponse,
   type FindAllCreateParams,
   type FindAllRetrieveParams,

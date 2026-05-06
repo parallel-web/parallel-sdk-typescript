@@ -86,21 +86,19 @@ export class FindAll extends APIResource {
    *
    * @example
    * ```ts
-   * const response = await client.beta.findall.cancel(
-   *   'findall_id',
-   * );
+   * await client.beta.findall.cancel('findall_id');
    * ```
    */
   cancel(
     findallID: string,
     params: FindAllCancelParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<unknown> {
+  ): APIPromise<void> {
     const { betas } = params ?? {};
     return this._client.post(path`/v1beta/findall/runs/${findallID}/cancel`, {
       ...options,
       headers: buildHeaders([
-        { 'parallel-beta': [...(betas ?? []), 'findall-2025-09-15'].toString() },
+        { 'parallel-beta': [...(betas ?? []), 'findall-2025-09-15'].toString(), Accept: '*/*' },
         options?.headers,
       ]),
     });
@@ -748,8 +746,6 @@ export interface MatchCondition {
   name: string;
 }
 
-export type FindAllCancelResponse = unknown;
-
 /**
  * Event containing full snapshot of FindAll run state.
  */
@@ -953,7 +949,6 @@ export declare namespace FindAll {
     type FindAllSchemaUpdatedEvent as FindAllSchemaUpdatedEvent,
     type IngestInput as IngestInput,
     type MatchCondition as MatchCondition,
-    type FindAllCancelResponse as FindAllCancelResponse,
     type FindAllEventsResponse as FindAllEventsResponse,
     type FindAllCreateParams as FindAllCreateParams,
     type FindAllRetrieveParams as FindAllRetrieveParams,
