@@ -12,15 +12,14 @@ import { path } from '../../internal/utils/path';
 
 /**
  * Tasks (Beta)
+ *
+ * @deprecated Use GA Task Group instead
  */
 export class TaskGroup extends APIResource {
   /**
    * Initiates a TaskGroup to group and track multiple runs.
    *
-   * @example
-   * ```ts
-   * const taskGroup = await client.beta.taskGroup.create();
-   * ```
+   * @deprecated Use GA Task Group instead
    */
   create(body: TaskGroupCreateParams, options?: RequestOptions): APIPromise<TaskGroupAPI.TaskGroup> {
     return this._client.post('/v1beta/tasks/groups', {
@@ -33,12 +32,7 @@ export class TaskGroup extends APIResource {
   /**
    * Retrieves aggregated status across runs in a TaskGroup.
    *
-   * @example
-   * ```ts
-   * const taskGroup = await client.beta.taskGroup.retrieve(
-   *   'taskgroup_id',
-   * );
-   * ```
+   * @deprecated Use GA Task Group instead
    */
   retrieve(taskGroupID: string, options?: RequestOptions): APIPromise<TaskGroupAPI.TaskGroup> {
     return this._client.get(path`/v1beta/tasks/groups/${taskGroupID}`, {
@@ -50,18 +44,7 @@ export class TaskGroup extends APIResource {
   /**
    * Initiates multiple task runs within a TaskGroup.
    *
-   * @example
-   * ```ts
-   * const taskGroupRunResponse =
-   *   await client.beta.taskGroup.addRuns('taskgroup_id', {
-   *     inputs: [
-   *       {
-   *         input: 'What was the GDP of France in 2023?',
-   *         processor: 'base',
-   *       },
-   *     ],
-   *   });
-   * ```
+   * @deprecated Use GA Task Group instead
    */
   addRuns(
     taskGroupID: string,
@@ -86,12 +69,7 @@ export class TaskGroup extends APIResource {
    * The connection will remain open for up to an hour as long as at least one run in
    * the group is still active.
    *
-   * @example
-   * ```ts
-   * const response = await client.beta.taskGroup.events(
-   *   'taskgroup_id',
-   * );
-   * ```
+   * @deprecated Use GA Task Group instead
    */
   events(
     taskGroupID: string,
@@ -121,12 +99,7 @@ export class TaskGroup extends APIResource {
    * the stream. The stream will resume from the next event after the
    * `last_event_id`.
    *
-   * @example
-   * ```ts
-   * const response = await client.beta.taskGroup.getRuns(
-   *   'taskgroup_id',
-   * );
-   * ```
+   * @deprecated Use GA Task Group instead
    */
   getRuns(
     taskGroupID: string,
