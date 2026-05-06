@@ -7,7 +7,6 @@ import * as FindAllAPI from './findall';
 import {
   FindAll,
   FindAllCancelParams,
-  FindAllCancelResponse,
   FindAllCandidate,
   FindAllCandidateMatchStatusEvent,
   FindAllCandidateMetrics,
@@ -449,7 +448,6 @@ export declare namespace Beta {
     type FindAllSchemaUpdatedEvent as FindAllSchemaUpdatedEvent,
     type IngestInput as IngestInput,
     type MatchCondition as MatchCondition,
-    type FindAllCancelResponse as FindAllCancelResponse,
     type FindAllEventsResponse as FindAllEventsResponse,
     type FindAllCreateParams as FindAllCreateParams,
     type FindAllRetrieveParams as FindAllRetrieveParams,
