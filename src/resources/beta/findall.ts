@@ -991,8 +991,6 @@ export type FindallSchema = FindAllSchema;
 export type FindallSchemaUpdatedEvent = FindAllSchemaUpdatedEvent;
 /** @deprecated Use `IngestInput` instead. */
 export type FindallIngestInput = IngestInput;
-/** @deprecated Use `FindAllCancelResponse` instead. */
-export type FindallCancelResponse = FindAllCancelResponse;
 /** @deprecated Use `FindAllEventsResponse` instead. */
 export type FindallEventsResponse = FindAllEventsResponse;
 /** @deprecated Use `FindAllCreateParams` instead. */
@@ -1026,7 +1024,6 @@ export declare namespace Findall {
     type FindallSchema as FindallSchema,
     type FindallSchemaUpdatedEvent as FindallSchemaUpdatedEvent,
     type FindallIngestInput as FindallIngestInput,
-    type FindallCancelResponse as FindallCancelResponse,
     type FindallEventsResponse as FindallEventsResponse,
     type FindallCreateParams as FindallCreateParams,
     type FindallRetrieveParams as FindallRetrieveParams,

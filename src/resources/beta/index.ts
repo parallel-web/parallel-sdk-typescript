@@ -41,7 +41,6 @@ export {
   type FindallSchema,
   type FindallSchemaUpdatedEvent,
   type FindallIngestInput,
-  type FindallCancelResponse,
   type FindallEventsResponse,
   type FindallCreateParams,
   type FindallRetrieveParams,
