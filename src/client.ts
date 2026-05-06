@@ -26,12 +26,50 @@ import {
   ExtractResponse,
   ExtractResult,
   FetchPolicy,
+  FullContentSettings,
   SearchParams,
   SearchResult,
   UsageItem,
   WebSearchResult,
 } from './resources/top-level';
 import { APIPromise } from './core/api-promise';
+import {
+  AdvancedMonitorSettings,
+  CreateMonitorRequest,
+  Monitor,
+  MonitorCompletionEvent,
+  MonitorCreateParams,
+  MonitorErrorEvent,
+  MonitorEventStreamEvent,
+  MonitorEventStreamResponseSettings,
+  MonitorEventStreamSettings,
+  MonitorEventsParams,
+  MonitorListParams,
+  MonitorResource,
+  MonitorSnapshotEvent,
+  MonitorSnapshotOutput,
+  MonitorSnapshotResponseSettings,
+  MonitorSnapshotSettings,
+  MonitorUpdateParams,
+  MonitorWebhook,
+  PaginatedMonitorEvents,
+  PaginatedMonitorResponse,
+  UpdateMonitorEventStreamSettings,
+  UpdateMonitorRequest,
+} from './resources/monitor';
+import {
+  TaskGroup,
+  TaskGroupAddRunsParams,
+  TaskGroupCreateParams,
+  TaskGroupEventsParams,
+  TaskGroupEventsResponse,
+  TaskGroupGetRunsParams,
+  TaskGroupGetRunsResponse,
+  TaskGroupRetrieveRunParams,
+  TaskGroupRunResponse,
+  TaskGroupStatus,
+  TaskGroupStatusEvent,
+} from './resources/task-group';
 import {
   AutoSchema,
   Citation,
@@ -41,13 +79,17 @@ import {
   McpServer,
   McpToolCall,
   RunInput,
+  TaskAdvancedSettings,
   TaskRun,
   TaskRunCreateParams,
   TaskRunEvent,
   TaskRunEventsResponse,
   TaskRunJsonOutput,
+  TaskRunProgressMessageEvent,
+  TaskRunProgressStatsEvent,
   TaskRunResult,
   TaskRunResultParams,
+  TaskRunSourceStats,
   TaskRunTextOutput,
   TaskSpec,
   TextSchema,
@@ -204,6 +246,18 @@ export class Parallel {
     this.fetch = options.fetch ?? Shims.getDefaultFetch();
     this.#encoder = Opts.FallbackEncoder;
 
+    const customHeadersEnv = readEnv('PARALLEL_CUSTOM_HEADERS');
+    if (customHeadersEnv) {
+      const parsed: Record<string, string> = {};
+      for (const line of customHeadersEnv.split('\n')) {
+        const colon = line.indexOf(':');
+        if (colon >= 0) {
+          parsed[line.substring(0, colon).trim()] = line.substring(colon + 1).trim();
+        }
+      }
+      options.defaultHeaders = { ...parsed, ...options.defaultHeaders };
+    }
+
     this._options = options;
 
     this.apiKey = apiKey;
@@ -288,9 +342,6 @@ export class Parallel {
     return buildHeaders([{ 'x-api-key': this.apiKey }]);
   }
 
-  /**
-   * Basic re-implementation of `qs.stringify` for primitive types.
-   */
   protected stringifyQuery(query: object | Record<string, unknown>): string {
     return stringifyQuery(query);
   }
@@ -800,16 +851,37 @@ export class Parallel {
    * - Output metadata: citations, excerpts, reasoning, and confidence per field
    *
    * Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
-   *  - Submit hundreds or thousands of Tasks as a single group
+   * - Submit hundreds or thousands of Tasks as a single group
    * - Observe group progress and receive results as they complete
    * - Real-time updates via Server-Sent Events (SSE)
    * - Add tasks to an existing group while it is running
    * - Group-level retry and error aggregation
    */
   taskRun: API.TaskRun = new API.TaskRun(this);
+  /**
+   * The Task API executes web research and extraction tasks. Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+   * - Output metadata: citations, excerpts, reasoning, and confidence per field
+   *
+   * Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+   * - Submit hundreds or thousands of Tasks as a single group
+   * - Observe group progress and receive results as they complete
+   * - Real-time updates via Server-Sent Events (SSE)
+   * - Add tasks to an existing group while it is running
+   * - Group-level retry and error aggregation
+   */
+  taskGroup: API.TaskGroup = new API.TaskGroup(this);
+  /**
+   * The Monitor API watches the web for material changes on a fixed frequency. Each monitor runs once on creation and then on its configured schedule, emitting events when meaningful changes are detected.
+   * - `event_stream` monitors track a search query and emit an event for each new material change.
+   * - `snapshot` monitors track a specific task run's output and emit an event when the output changes.
+   *
+   * Results can be polled via the events endpoint or delivered via webhooks.
+   */
+  monitor: API.MonitorResource = new API.MonitorResource(this);
   beta: API.Beta = new API.Beta(this);
 }
 
+Parallel.MonitorResource = MonitorResource;
 Parallel.Beta = Beta;
 
 export declare namespace Parallel {
@@ -823,6 +895,7 @@ export declare namespace Parallel {
     type ExtractResponse as ExtractResponse,
     type ExtractResult as ExtractResult,
     type FetchPolicy as FetchPolicy,
+    type FullContentSettings as FullContentSettings,
     type SearchResult as SearchResult,
     type UsageItem as UsageItem,
     type WebSearchResult as WebSearchResult,
@@ -840,9 +913,13 @@ export declare namespace Parallel {
     type McpServer as McpServer,
     type McpToolCall as McpToolCall,
     type RunInput as RunInput,
+    type TaskAdvancedSettings as TaskAdvancedSettings,
     type TaskRunEvent as TaskRunEvent,
     type TaskRunJsonOutput as TaskRunJsonOutput,
+    type TaskRunProgressMessageEvent as TaskRunProgressMessageEvent,
+    type TaskRunProgressStatsEvent as TaskRunProgressStatsEvent,
     type TaskRunResult as TaskRunResult,
+    type TaskRunSourceStats as TaskRunSourceStats,
     type TaskRunTextOutput as TaskRunTextOutput,
     type TaskSpec as TaskSpec,
     type TextSchema as TextSchema,
@@ -850,6 +927,45 @@ export declare namespace Parallel {
     type TaskRunEventsResponse as TaskRunEventsResponse,
     type TaskRunCreateParams as TaskRunCreateParams,
     type TaskRunResultParams as TaskRunResultParams,
+  };
+
+  export {
+    type TaskGroup as TaskGroup,
+    type TaskGroupRunResponse as TaskGroupRunResponse,
+    type TaskGroupStatus as TaskGroupStatus,
+    type TaskGroupStatusEvent as TaskGroupStatusEvent,
+    type TaskGroupEventsResponse as TaskGroupEventsResponse,
+    type TaskGroupGetRunsResponse as TaskGroupGetRunsResponse,
+    type TaskGroupCreateParams as TaskGroupCreateParams,
+    type TaskGroupAddRunsParams as TaskGroupAddRunsParams,
+    type TaskGroupEventsParams as TaskGroupEventsParams,
+    type TaskGroupGetRunsParams as TaskGroupGetRunsParams,
+    type TaskGroupRetrieveRunParams as TaskGroupRetrieveRunParams,
+  };
+
+  export {
+    MonitorResource as MonitorResource,
+    type AdvancedMonitorSettings as AdvancedMonitorSettings,
+    type CreateMonitorRequest as CreateMonitorRequest,
+    type Monitor as Monitor,
+    type MonitorCompletionEvent as MonitorCompletionEvent,
+    type MonitorErrorEvent as MonitorErrorEvent,
+    type MonitorEventStreamEvent as MonitorEventStreamEvent,
+    type MonitorEventStreamResponseSettings as MonitorEventStreamResponseSettings,
+    type MonitorEventStreamSettings as MonitorEventStreamSettings,
+    type MonitorSnapshotEvent as MonitorSnapshotEvent,
+    type MonitorSnapshotOutput as MonitorSnapshotOutput,
+    type MonitorSnapshotResponseSettings as MonitorSnapshotResponseSettings,
+    type MonitorSnapshotSettings as MonitorSnapshotSettings,
+    type MonitorWebhook as MonitorWebhook,
+    type PaginatedMonitorEvents as PaginatedMonitorEvents,
+    type PaginatedMonitorResponse as PaginatedMonitorResponse,
+    type UpdateMonitorEventStreamSettings as UpdateMonitorEventStreamSettings,
+    type UpdateMonitorRequest as UpdateMonitorRequest,
+    type MonitorCreateParams as MonitorCreateParams,
+    type MonitorUpdateParams as MonitorUpdateParams,
+    type MonitorListParams as MonitorListParams,
+    type MonitorEventsParams as MonitorEventsParams,
   };
 
   export { Beta as Beta };

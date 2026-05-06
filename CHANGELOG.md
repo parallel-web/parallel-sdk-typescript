@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.5.0 (2026-05-06)
+
+Full Changelog: [v0.4.1...v0.5.0](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.4.1...v0.5.0)
+
+### Features
+
+* **api:** manual updates ([c6972a0](https://github.com/parallel-web/parallel-sdk-typescript/commit/c6972a001e841209bf4f36ab659bfdf1427f485e))
+* **api:** manual updates ([e40609a](https://github.com/parallel-web/parallel-sdk-typescript/commit/e40609a9be369adf7bc7db56b21d1016aa9c8b73))
+* **api:** manual updates ([98f915c](https://github.com/parallel-web/parallel-sdk-typescript/commit/98f915c996abb163d8a79698fa57259bae3b0584))
+* **api:** Task Groups v1 added to SDK ([b939d5e](https://github.com/parallel-web/parallel-sdk-typescript/commit/b939d5e663c39640ce2f0033fc3590d886f2b571))
+* support setting headers via env ([305fe46](https://github.com/parallel-web/parallel-sdk-typescript/commit/305fe467afbe744697c18b8d9a505d7e0952fabb))
+
+
+### Bug Fixes
+
+* **types:** drop FindallCancelResponse alias whose target was removed ([816c149](https://github.com/parallel-web/parallel-sdk-typescript/commit/816c149819a5d48307f943460ae1c29538a191f8))
+* **types:** preserve back-compat namespace members for renamed inline types ([e5cafc2](https://github.com/parallel-web/parallel-sdk-typescript/commit/e5cafc25e63ccbba105f95356c093343f5185f87))
+* **types:** use export namespace for FindAllRunInput/Schema augmentation ([bc434bf](https://github.com/parallel-web/parallel-sdk-typescript/commit/bc434bfd3130e70585864a1d7b826cf34c88c0f5))
+
+
+### Chores
+
+* **format:** run eslint and prettier separately ([4ac089c](https://github.com/parallel-web/parallel-sdk-typescript/commit/4ac089c6b95d0b96927c841cf9587a0d395b8a91))
+* **internal:** codegen related update ([c92502e](https://github.com/parallel-web/parallel-sdk-typescript/commit/c92502e8ce716259136efe8dbb3edcb3e7c2899b))
+* **internal:** more robust bootstrap script ([3eaee7d](https://github.com/parallel-web/parallel-sdk-typescript/commit/3eaee7de908bd37cb089f25747dc25f66829baa3))
+
 ## 0.4.1 (2026-04-22)
 
 Full Changelog: [v0.4.0...v0.4.1](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.4.0...v0.4.1)

@@ -7,8 +7,9 @@ import * as FindAllAPI from './findall';
 import {
   FindAll,
   FindAllCancelParams,
-  FindAllCancelResponse,
+  FindAllCandidate,
   FindAllCandidateMatchStatusEvent,
+  FindAllCandidateMetrics,
   FindAllCandidatesParams,
   FindAllCandidatesRequest,
   FindAllCandidatesResponse,
@@ -25,11 +26,13 @@ import {
   FindAllRun,
   FindAllRunInput,
   FindAllRunResult,
+  FindAllRunStatus,
   FindAllRunStatusEvent,
   FindAllSchema,
   FindAllSchemaParams,
   FindAllSchemaUpdatedEvent,
   IngestInput,
+  MatchCondition,
 } from './findall';
 import * as TaskGroupAPI from './task-group';
 import {
@@ -42,6 +45,7 @@ import {
   TaskGroupGetRunsResponse,
   TaskGroupRunResponse,
   TaskGroupStatus,
+  TaskGroupStatusEvent,
 } from './task-group';
 import * as TaskRunAPI from './task-run';
 import {
@@ -236,6 +240,8 @@ export type ExtractError = TopLevelAPI.ExtractError;
 
 export type FetchPolicy = TopLevelAPI.FetchPolicy;
 
+export type FullContentSettings = TopLevelAPI.FullContentSettings;
+
 export type UsageItem = TopLevelAPI.UsageItem;
 
 export interface BetaExtractParams {
@@ -266,7 +272,7 @@ export interface BetaExtractParams {
    * Body param: Include full content from each URL. Note that if neither objective
    * nor search_queries is provided, excerpts are redundant with full content.
    */
-  full_content?: boolean | BetaExtractParams.FullContentSettings;
+  full_content?: boolean | TopLevelAPI.FullContentSettings;
 
   /**
    * Body param: If provided, focuses extracted content on the specified search
@@ -291,20 +297,6 @@ export interface BetaExtractParams {
    * Header param: Optional header to specify the beta version(s) to enable.
    */
   betas?: Array<TaskRunAPI.ParallelBeta>;
-}
-
-export namespace BetaExtractParams {
-  /**
-   * Optional settings for returning full content.
-   */
-  export interface FullContentSettings {
-    /**
-     * Optional limit on the number of characters to include in the full content for
-     * each url. Full content always starts at the beginning of the page and is
-     * truncated at the limit if necessary.
-     */
-    max_chars_per_result?: number | null;
-  }
 }
 
 export interface BetaSearchParams {
@@ -392,6 +384,7 @@ export interface BetaSearchParams {
 }
 
 Beta.TaskRun = TaskRun;
+Beta.TaskGroup = TaskGroup;
 Beta.FindAll = FindAll;
 
 export declare namespace Beta {
@@ -403,6 +396,7 @@ export declare namespace Beta {
     type WebSearchResult as WebSearchResult,
     type ExtractError as ExtractError,
     type FetchPolicy as FetchPolicy,
+    type FullContentSettings as FullContentSettings,
     type UsageItem as UsageItem,
     type BetaExtractParams as BetaExtractParams,
     type BetaSearchParams as BetaSearchParams,
@@ -424,11 +418,12 @@ export declare namespace Beta {
   };
 
   export {
-    type TaskGroup as TaskGroup,
-    type TaskGroupRunResponse as TaskGroupRunResponse,
-    type TaskGroupStatus as TaskGroupStatus,
+    TaskGroup as TaskGroup,
     type TaskGroupEventsResponse as TaskGroupEventsResponse,
     type TaskGroupGetRunsResponse as TaskGroupGetRunsResponse,
+    type TaskGroupStatus as TaskGroupStatus,
+    type TaskGroupStatusEvent as TaskGroupStatusEvent,
+    type TaskGroupRunResponse as TaskGroupRunResponse,
     type TaskGroupCreateParams as TaskGroupCreateParams,
     type TaskGroupAddRunsParams as TaskGroupAddRunsParams,
     type TaskGroupEventsParams as TaskGroupEventsParams,
@@ -437,7 +432,9 @@ export declare namespace Beta {
 
   export {
     FindAll as FindAll,
+    type FindAllCandidate as FindAllCandidate,
     type FindAllCandidateMatchStatusEvent as FindAllCandidateMatchStatusEvent,
+    type FindAllCandidateMetrics as FindAllCandidateMetrics,
     type FindAllCandidatesRequest as FindAllCandidatesRequest,
     type FindAllCandidatesResponse as FindAllCandidatesResponse,
     type FindAllEnrichInput as FindAllEnrichInput,
@@ -445,11 +442,12 @@ export declare namespace Beta {
     type FindAllRun as FindAllRun,
     type FindAllRunInput as FindAllRunInput,
     type FindAllRunResult as FindAllRunResult,
+    type FindAllRunStatus as FindAllRunStatus,
     type FindAllRunStatusEvent as FindAllRunStatusEvent,
     type FindAllSchema as FindAllSchema,
     type FindAllSchemaUpdatedEvent as FindAllSchemaUpdatedEvent,
     type IngestInput as IngestInput,
-    type FindAllCancelResponse as FindAllCancelResponse,
+    type MatchCondition as MatchCondition,
     type FindAllEventsResponse as FindAllEventsResponse,
     type FindAllCreateParams as FindAllCreateParams,
     type FindAllRetrieveParams as FindAllRetrieveParams,
@@ -462,4 +460,12 @@ export declare namespace Beta {
     type FindAllResultParams as FindAllResultParams,
     type FindAllSchemaParams as FindAllSchemaParams,
   };
+}
+
+// Backwards-compat namespace member (deprecated). `BetaExtractParams.FullContentSettings`
+// was previously a nested interface; the shape now lives as the top-level
+// `FullContentSettings` model.
+export namespace BetaExtractParams {
+  /** @deprecated Use `Parallel.FullContentSettings` instead. */
+  export type FullContentSettings = TopLevelAPI.FullContentSettings;
 }

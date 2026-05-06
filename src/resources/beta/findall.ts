@@ -86,21 +86,19 @@ export class FindAll extends APIResource {
    *
    * @example
    * ```ts
-   * const response = await client.beta.findall.cancel(
-   *   'findall_id',
-   * );
+   * await client.beta.findall.cancel('findall_id');
    * ```
    */
   cancel(
     findallID: string,
     params: FindAllCancelParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<unknown> {
+  ): APIPromise<void> {
     const { betas } = params ?? {};
     return this._client.post(path`/v1beta/findall/runs/${findallID}/cancel`, {
       ...options,
       headers: buildHeaders([
-        { 'parallel-beta': [...(betas ?? []), 'findall-2025-09-15'].toString() },
+        { 'parallel-beta': [...(betas ?? []), 'findall-2025-09-15'].toString(), Accept: '*/*' },
         options?.headers,
       ]),
     });
@@ -305,13 +303,59 @@ export class FindAll extends APIResource {
 }
 
 /**
+ * Candidate for a find all run that may end up as a match.
+ *
+ * Contains all the candidate's metadata and the output of the match conditions. A
+ * candidate is a match if all match conditions are satisfied.
+ */
+export interface FindAllCandidate {
+  /**
+   * ID of the candidate.
+   */
+  candidate_id: string;
+
+  /**
+   * Status of the candidate. One of generated, matched, unmatched, discarded.
+   */
+  match_status: 'generated' | 'matched' | 'unmatched' | 'discarded';
+
+  /**
+   * Name of the candidate.
+   */
+  name: string;
+
+  /**
+   * URL that provides context or details of the entity for disambiguation.
+   */
+  url: string;
+
+  /**
+   * List of FieldBasis objects supporting the output.
+   */
+  basis?: Array<TaskRunAPI.FieldBasis> | null;
+
+  /**
+   * Brief description of the entity that can help answer whether entity satisfies
+   * the query.
+   */
+  description?: string | null;
+
+  /**
+   * Results of the match condition evaluations for this candidate. This object
+   * contains the structured output that determines whether the candidate matches the
+   * overall FindAll objective.
+   */
+  output?: { [key: string]: unknown } | null;
+}
+
+/**
  * Event containing a candidate whose match status has changed.
  */
 export interface FindAllCandidateMatchStatusEvent {
   /**
    * The candidate whose match status has been updated.
    */
-  data: FindAllCandidateMatchStatusEvent.Data;
+  data: FindAllCandidate;
 
   /**
    * Unique event identifier for the event.
@@ -336,49 +380,19 @@ export interface FindAllCandidateMatchStatusEvent {
     | 'findall.candidate.enriched';
 }
 
-export namespace FindAllCandidateMatchStatusEvent {
+/**
+ * Metrics object for FindAll run.
+ */
+export interface FindAllCandidateMetrics {
   /**
-   * The candidate whose match status has been updated.
+   * Number of candidates that were selected.
    */
-  export interface Data {
-    /**
-     * ID of the candidate.
-     */
-    candidate_id: string;
+  generated_candidates_count?: number;
 
-    /**
-     * Status of the candidate. One of generated, matched, unmatched, discarded.
-     */
-    match_status: 'generated' | 'matched' | 'unmatched' | 'discarded';
-
-    /**
-     * Name of the candidate.
-     */
-    name: string;
-
-    /**
-     * URL that provides context or details of the entity for disambiguation.
-     */
-    url: string;
-
-    /**
-     * List of FieldBasis objects supporting the output.
-     */
-    basis?: Array<TaskRunAPI.FieldBasis> | null;
-
-    /**
-     * Brief description of the entity that can help answer whether entity satisfies
-     * the query.
-     */
-    description?: string | null;
-
-    /**
-     * Results of the match condition evaluations for this candidate. This object
-     * contains the structured output that determines whether the candidate matches the
-     * overall FindAll objective.
-     */
-    output?: { [key: string]: unknown } | null;
-  }
+  /**
+   * Number of candidates that evaluated to matched.
+   */
+  matched_candidates_count?: number;
 }
 
 export interface FindAllCandidatesRequest {
@@ -480,7 +494,7 @@ export interface FindAllRun {
   /**
    * Status object for the FindAll run.
    */
-  status: FindAllRun.Status;
+  status: FindAllRunStatus;
 
   /**
    * Timestamp of the creation of the run, in RFC 3339 format.
@@ -497,58 +511,6 @@ export interface FindAllRun {
    * format.
    */
   modified_at?: string | null;
-}
-
-export namespace FindAllRun {
-  /**
-   * Status object for the FindAll run.
-   */
-  export interface Status {
-    /**
-     * Whether the FindAll run is active
-     */
-    is_active: boolean;
-
-    /**
-     * Candidate metrics for the FindAll run.
-     */
-    metrics: Status.Metrics;
-
-    /**
-     * Status of the FindAll run.
-     */
-    status: 'queued' | 'action_required' | 'running' | 'completed' | 'failed' | 'cancelling' | 'cancelled';
-
-    /**
-     * Reason for termination when FindAll run is in terminal status.
-     */
-    termination_reason?:
-      | 'low_match_rate'
-      | 'match_limit_met'
-      | 'candidates_exhausted'
-      | 'user_cancelled'
-      | 'error_occurred'
-      | 'timeout'
-      | 'insufficient_funds'
-      | null;
-  }
-
-  export namespace Status {
-    /**
-     * Candidate metrics for the FindAll run.
-     */
-    export interface Metrics {
-      /**
-       * Number of candidates that were selected.
-       */
-      generated_candidates_count?: number;
-
-      /**
-       * Number of candidates that evaluated to matched.
-       */
-      matched_candidates_count?: number;
-    }
-  }
 }
 
 /**
@@ -568,7 +530,7 @@ export interface FindAllRunInput {
   /**
    * List of match conditions for the FindAll run.
    */
-  match_conditions: Array<FindAllRunInput.MatchCondition>;
+  match_conditions: Array<MatchCondition>;
 
   /**
    * Maximum number of matches to find for this FindAll run. Must be between 5 and
@@ -599,23 +561,6 @@ export interface FindAllRunInput {
 
 export namespace FindAllRunInput {
   /**
-   * Match condition model for FindAll ingest.
-   */
-  export interface MatchCondition {
-    /**
-     * Detailed description of the match condition. Include as much specific
-     * information as possible to help improve the quality and accuracy of Find All run
-     * results.
-     */
-    description: string;
-
-    /**
-     * Name of the match condition.
-     */
-    name: string;
-  }
-
-  /**
    * Exclude candidate input model for FindAll run.
    */
   export interface ExcludeList {
@@ -642,7 +587,7 @@ export interface FindAllRunResult {
   /**
    * All evaluated candidates at the time of the snapshot.
    */
-  candidates: Array<FindAllRunResult.Candidate>;
+  candidates: Array<FindAllCandidate>;
 
   /**
    * FindAll run object.
@@ -656,52 +601,37 @@ export interface FindAllRunResult {
   last_event_id?: string | null;
 }
 
-export namespace FindAllRunResult {
+/**
+ * Status object for FindAll run.
+ */
+export interface FindAllRunStatus {
   /**
-   * Candidate for a find all run that may end up as a match.
-   *
-   * Contains all the candidate's metadata and the output of the match conditions. A
-   * candidate is a match if all match conditions are satisfied.
+   * Whether the FindAll run is active
    */
-  export interface Candidate {
-    /**
-     * ID of the candidate.
-     */
-    candidate_id: string;
+  is_active: boolean;
 
-    /**
-     * Status of the candidate. One of generated, matched, unmatched, discarded.
-     */
-    match_status: 'generated' | 'matched' | 'unmatched' | 'discarded';
+  /**
+   * Candidate metrics for the FindAll run.
+   */
+  metrics: FindAllCandidateMetrics;
 
-    /**
-     * Name of the candidate.
-     */
-    name: string;
+  /**
+   * Status of the FindAll run.
+   */
+  status: 'queued' | 'action_required' | 'running' | 'completed' | 'failed' | 'cancelling' | 'cancelled';
 
-    /**
-     * URL that provides context or details of the entity for disambiguation.
-     */
-    url: string;
-
-    /**
-     * List of FieldBasis objects supporting the output.
-     */
-    basis?: Array<TaskRunAPI.FieldBasis> | null;
-
-    /**
-     * Brief description of the entity that can help answer whether entity satisfies
-     * the query.
-     */
-    description?: string | null;
-
-    /**
-     * Results of the match condition evaluations for this candidate. This object
-     * contains the structured output that determines whether the candidate matches the
-     * overall FindAll objective.
-     */
-    output?: { [key: string]: unknown } | null;
-  }
+  /**
+   * Reason for termination when FindAll run is in terminal status.
+   */
+  termination_reason?:
+    | 'low_match_rate'
+    | 'match_limit_met'
+    | 'candidates_exhausted'
+    | 'user_cancelled'
+    | 'error_occurred'
+    | 'timeout'
+    | 'insufficient_funds'
+    | null;
 }
 
 /**
@@ -741,7 +671,7 @@ export interface FindAllSchema {
   /**
    * List of match conditions for the FindAll run.
    */
-  match_conditions: Array<FindAllSchema.MatchCondition>;
+  match_conditions: Array<MatchCondition>;
 
   /**
    * Natural language objective of the FindAll run.
@@ -762,25 +692,6 @@ export interface FindAllSchema {
    * Max number of candidates to evaluate
    */
   match_limit?: number | null;
-}
-
-export namespace FindAllSchema {
-  /**
-   * Match condition model for FindAll ingest.
-   */
-  export interface MatchCondition {
-    /**
-     * Detailed description of the match condition. Include as much specific
-     * information as possible to help improve the quality and accuracy of Find All run
-     * results.
-     */
-    description: string;
-
-    /**
-     * Name of the match condition.
-     */
-    name: string;
-  }
 }
 
 /**
@@ -818,7 +729,22 @@ export interface IngestInput {
   objective: string;
 }
 
-export type FindAllCancelResponse = unknown;
+/**
+ * Match condition model for FindAll ingest.
+ */
+export interface MatchCondition {
+  /**
+   * Detailed description of the match condition. Include as much specific
+   * information as possible to help improve the quality and accuracy of Find All run
+   * results.
+   */
+  description: string;
+
+  /**
+   * Name of the match condition.
+   */
+  name: string;
+}
 
 /**
  * Event containing full snapshot of FindAll run state.
@@ -843,7 +769,7 @@ export interface FindAllCreateParams {
   /**
    * Body param: List of match conditions for the FindAll run.
    */
-  match_conditions: Array<FindAllCreateParams.MatchCondition>;
+  match_conditions: Array<MatchCondition>;
 
   /**
    * Body param: Maximum number of matches to find for this FindAll run. Must be
@@ -878,23 +804,6 @@ export interface FindAllCreateParams {
 }
 
 export namespace FindAllCreateParams {
-  /**
-   * Match condition model for FindAll ingest.
-   */
-  export interface MatchCondition {
-    /**
-     * Detailed description of the match condition. Include as much specific
-     * information as possible to help improve the quality and accuracy of Find All run
-     * results.
-     */
-    description: string;
-
-    /**
-     * Name of the match condition.
-     */
-    name: string;
-  }
-
   /**
    * Exclude candidate input model for FindAll run.
    */
@@ -1024,7 +933,9 @@ export interface FindAllSchemaParams {
 
 export declare namespace FindAll {
   export {
+    type FindAllCandidate as FindAllCandidate,
     type FindAllCandidateMatchStatusEvent as FindAllCandidateMatchStatusEvent,
+    type FindAllCandidateMetrics as FindAllCandidateMetrics,
     type FindAllCandidatesRequest as FindAllCandidatesRequest,
     type FindAllCandidatesResponse as FindAllCandidatesResponse,
     type FindAllEnrichInput as FindAllEnrichInput,
@@ -1032,11 +943,12 @@ export declare namespace FindAll {
     type FindAllRun as FindAllRun,
     type FindAllRunInput as FindAllRunInput,
     type FindAllRunResult as FindAllRunResult,
+    type FindAllRunStatus as FindAllRunStatus,
     type FindAllRunStatusEvent as FindAllRunStatusEvent,
     type FindAllSchema as FindAllSchema,
     type FindAllSchemaUpdatedEvent as FindAllSchemaUpdatedEvent,
     type IngestInput as IngestInput,
-    type FindAllCancelResponse as FindAllCancelResponse,
+    type MatchCondition as MatchCondition,
     type FindAllEventsResponse as FindAllEventsResponse,
     type FindAllCreateParams as FindAllCreateParams,
     type FindAllRetrieveParams as FindAllRetrieveParams,
@@ -1079,8 +991,6 @@ export type FindallSchema = FindAllSchema;
 export type FindallSchemaUpdatedEvent = FindAllSchemaUpdatedEvent;
 /** @deprecated Use `IngestInput` instead. */
 export type FindallIngestInput = IngestInput;
-/** @deprecated Use `FindAllCancelResponse` instead. */
-export type FindallCancelResponse = FindAllCancelResponse;
 /** @deprecated Use `FindAllEventsResponse` instead. */
 export type FindallEventsResponse = FindAllEventsResponse;
 /** @deprecated Use `FindAllCreateParams` instead. */
@@ -1114,7 +1024,6 @@ export declare namespace Findall {
     type FindallSchema as FindallSchema,
     type FindallSchemaUpdatedEvent as FindallSchemaUpdatedEvent,
     type FindallIngestInput as FindallIngestInput,
-    type FindallCancelResponse as FindallCancelResponse,
     type FindallEventsResponse as FindallEventsResponse,
     type FindallCreateParams as FindallCreateParams,
     type FindallRetrieveParams as FindallRetrieveParams,
@@ -1126,4 +1035,46 @@ export declare namespace Findall {
     type FindallResultParams as FindallResultParams,
     type FindallSchemaParams as FindallSchemaParams,
   };
+}
+
+// Backwards-compat namespace members (deprecated). Previously these types
+// existed as nested interfaces under their parent's namespace; they've since
+// moved to top-level model types. Declaration merging here preserves the old
+// `Parent.Member` import paths.
+type _FindAllCandidate = FindAllCandidate;
+type _FindAllRunStatus = FindAllRunStatus;
+type _FindAllCandidateMetrics = FindAllCandidateMetrics;
+type _MatchCondition = MatchCondition;
+export namespace FindAllCandidateMatchStatusEvent {
+  /** @deprecated Use the top-level `FindAllCandidate` instead. */
+  export type Data = _FindAllCandidate;
+}
+export namespace FindAllCreateParams {
+  /** @deprecated Use the top-level `MatchCondition` instead. */
+  export type MatchCondition = _MatchCondition;
+}
+// FindAllRunInput and FindAllSchema already declare `export namespace`s above;
+// these additional `export namespace` blocks merge with them via TS declaration
+// merging, augmenting the existing namespaces with the deprecated `MatchCondition`
+// member. (`declare module` would not work here — it's for ambient module
+// augmentation, not same-file declaration merging.)
+export namespace FindAllRunInput {
+  /** @deprecated Use the top-level `MatchCondition` instead. */
+  export type MatchCondition = _MatchCondition;
+}
+export namespace FindAllSchema {
+  /** @deprecated Use the top-level `MatchCondition` instead. */
+  export type MatchCondition = _MatchCondition;
+}
+export namespace FindAllRun {
+  /** @deprecated Use the top-level `FindAllRunStatus` instead. */
+  export type Status = _FindAllRunStatus;
+  export namespace Status {
+    /** @deprecated Use the top-level `FindAllCandidateMetrics` instead. */
+    export type Metrics = _FindAllCandidateMetrics;
+  }
+}
+export namespace FindAllRunResult {
+  /** @deprecated Use the top-level `FindAllCandidate` instead. */
+  export type Candidate = _FindAllCandidate;
 }

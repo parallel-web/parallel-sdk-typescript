@@ -14,7 +14,7 @@ import { path } from '../internal/utils/path';
  * - Output metadata: citations, excerpts, reasoning, and confidence per field
  *
  * Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
- *  - Submit hundreds or thousands of Tasks as a single group
+ * - Submit hundreds or thousands of Tasks as a single group
  * - Observe group progress and receive results as they complete
  * - Real-time updates via Server-Sent Events (SSE)
  * - Add tasks to an existing group while it is running
@@ -106,6 +106,20 @@ export class TaskRun extends APIResource {
         options?.headers,
       ]),
     });
+  }
+
+  /**
+   * Retrieves the input of a run by run_id.
+   *
+   * @example
+   * ```ts
+   * const runInput = await client.taskRun.retrieveInput(
+   *   'run_id',
+   * );
+   * ```
+   */
+  retrieveInput(runID: string, options?: RequestOptions): APIPromise<RunInput> {
+    return this._client.get(path`/v1/tasks/runs/${runID}/input`, options);
   }
 }
 
@@ -278,7 +292,7 @@ export interface RunInput {
   /**
    * Advanced search configuration for a task run.
    */
-  advanced_settings?: RunInput.AdvancedSettings | null;
+  advanced_settings?: TaskAdvancedSettings | null;
 
   /**
    * Controls tracking of task run execution progress. When set to true, progress
@@ -329,16 +343,14 @@ export interface RunInput {
   webhook?: Webhook | null;
 }
 
-export namespace RunInput {
+/**
+ * Advanced search configuration for a task run.
+ */
+export interface TaskAdvancedSettings {
   /**
-   * Advanced search configuration for a task run.
+   * ISO 3166-1 alpha-2 country code for geo-targeted search results.
    */
-  export interface AdvancedSettings {
-    /**
-     * ISO 3166-1 alpha-2 country code for geo-targeted search results.
-     */
-    location?: string | null;
-  }
+  location?: string | null;
 }
 
 /**
@@ -477,6 +489,52 @@ export interface TaskRunJsonOutput {
 }
 
 /**
+ * A message for a task run progress update.
+ */
+export interface TaskRunProgressMessageEvent {
+  /**
+   * Progress update message.
+   */
+  message: string;
+
+  /**
+   * Timestamp of the message.
+   */
+  timestamp: string | null;
+
+  /**
+   * Event type; always starts with 'task_run.progress_msg'.
+   */
+  type:
+    | 'task_run.progress_msg.plan'
+    | 'task_run.progress_msg.search'
+    | 'task_run.progress_msg.result'
+    | 'task_run.progress_msg.tool_call'
+    | 'task_run.progress_msg.exec_status';
+}
+
+/**
+ * A progress update for a task run.
+ */
+export interface TaskRunProgressStatsEvent {
+  /**
+   * Completion percentage of the task run. Ranges from 0 to 100 where 0 indicates no
+   * progress and 100 indicates completion.
+   */
+  progress_meter: number;
+
+  /**
+   * Source stats describing progress so far.
+   */
+  source_stats: TaskRunSourceStats;
+
+  /**
+   * Event type; always 'task_run.progress_stats'.
+   */
+  type: 'task_run.progress_stats';
+}
+
+/**
  * Result of a task run.
  */
 export interface TaskRunResult {
@@ -489,6 +547,26 @@ export interface TaskRunResult {
    * Task run object with status 'completed'.
    */
   run: TaskRun;
+}
+
+/**
+ * Source stats for a task run.
+ */
+export interface TaskRunSourceStats {
+  /**
+   * Number of sources considered in processing the task.
+   */
+  num_sources_considered: number | null;
+
+  /**
+   * Number of sources read in processing the task.
+   */
+  num_sources_read: number | null;
+
+  /**
+   * A sample of URLs of sources read in processing the task.
+   */
+  sources_read_sample: Array<string> | null;
 }
 
 /**
@@ -581,80 +659,10 @@ export interface Webhook {
  * A progress update for a task run.
  */
 export type TaskRunEventsResponse =
-  | TaskRunEventsResponse.TaskRunProgressStatsEvent
-  | TaskRunEventsResponse.TaskRunProgressMessageEvent
+  | TaskRunProgressStatsEvent
+  | TaskRunProgressMessageEvent
   | TaskRunEvent
   | ErrorEvent;
-
-export namespace TaskRunEventsResponse {
-  /**
-   * A progress update for a task run.
-   */
-  export interface TaskRunProgressStatsEvent {
-    /**
-     * Completion percentage of the task run. Ranges from 0 to 100 where 0 indicates no
-     * progress and 100 indicates completion.
-     */
-    progress_meter: number;
-
-    /**
-     * Source stats describing progress so far.
-     */
-    source_stats: TaskRunProgressStatsEvent.SourceStats;
-
-    /**
-     * Event type; always 'task_run.progress_stats'.
-     */
-    type: 'task_run.progress_stats';
-  }
-
-  export namespace TaskRunProgressStatsEvent {
-    /**
-     * Source stats describing progress so far.
-     */
-    export interface SourceStats {
-      /**
-       * Number of sources considered in processing the task.
-       */
-      num_sources_considered: number | null;
-
-      /**
-       * Number of sources read in processing the task.
-       */
-      num_sources_read: number | null;
-
-      /**
-       * A sample of URLs of sources read in processing the task.
-       */
-      sources_read_sample: Array<string> | null;
-    }
-  }
-
-  /**
-   * A message for a task run progress update.
-   */
-  export interface TaskRunProgressMessageEvent {
-    /**
-     * Progress update message.
-     */
-    message: string;
-
-    /**
-     * Timestamp of the message.
-     */
-    timestamp: string | null;
-
-    /**
-     * Event type; always starts with 'task_run.progress_msg'.
-     */
-    type:
-      | 'task_run.progress_msg.plan'
-      | 'task_run.progress_msg.search'
-      | 'task_run.progress_msg.result'
-      | 'task_run.progress_msg.tool_call'
-      | 'task_run.progress_msg.exec_status';
-  }
-}
 
 export interface TaskRunCreateParams {
   /**
@@ -670,7 +678,7 @@ export interface TaskRunCreateParams {
   /**
    * Body param: Advanced search configuration for a task run.
    */
-  advanced_settings?: TaskRunCreateParams.AdvancedSettings | null;
+  advanced_settings?: TaskAdvancedSettings | null;
 
   /**
    * Body param: Controls tracking of task run execution progress. When set to true,
@@ -726,18 +734,6 @@ export interface TaskRunCreateParams {
   betas?: Array<BetaTaskRunAPI.ParallelBeta>;
 }
 
-export namespace TaskRunCreateParams {
-  /**
-   * Advanced search configuration for a task run.
-   */
-  export interface AdvancedSettings {
-    /**
-     * ISO 3166-1 alpha-2 country code for geo-targeted search results.
-     */
-    location?: string | null;
-  }
-}
-
 export interface TaskRunResultParams {
   /**
    * Query param
@@ -760,10 +756,14 @@ export declare namespace TaskRun {
     type McpServer as McpServer,
     type McpToolCall as McpToolCall,
     type RunInput as RunInput,
+    type TaskAdvancedSettings as TaskAdvancedSettings,
     type TaskRun as TaskRun,
     type TaskRunEvent as TaskRunEvent,
     type TaskRunJsonOutput as TaskRunJsonOutput,
+    type TaskRunProgressMessageEvent as TaskRunProgressMessageEvent,
+    type TaskRunProgressStatsEvent as TaskRunProgressStatsEvent,
     type TaskRunResult as TaskRunResult,
+    type TaskRunSourceStats as TaskRunSourceStats,
     type TaskRunTextOutput as TaskRunTextOutput,
     type TaskSpec as TaskSpec,
     type TextSchema as TextSchema,
@@ -772,4 +772,31 @@ export declare namespace TaskRun {
     type TaskRunCreateParams as TaskRunCreateParams,
     type TaskRunResultParams as TaskRunResultParams,
   };
+}
+
+// Backwards-compat namespace members (deprecated). Previously these types
+// existed as nested interfaces under the parent type's namespace; they've
+// since moved to top-level model types. Declaration merging here preserves
+// the old `Parent.Member` import paths.
+type _TaskAdvancedSettings = TaskAdvancedSettings;
+type _TaskRunProgressMessageEvent = TaskRunProgressMessageEvent;
+type _TaskRunProgressStatsEvent = TaskRunProgressStatsEvent;
+type _TaskRunSourceStats = TaskRunSourceStats;
+export namespace RunInput {
+  /** @deprecated Use the top-level `TaskAdvancedSettings` instead. */
+  export type AdvancedSettings = _TaskAdvancedSettings;
+}
+export namespace TaskRunCreateParams {
+  /** @deprecated Use the top-level `TaskAdvancedSettings` instead. */
+  export type AdvancedSettings = _TaskAdvancedSettings;
+}
+export namespace TaskRunEventsResponse {
+  /** @deprecated Use the top-level `TaskRunProgressMessageEvent` instead. */
+  export type TaskRunProgressMessageEvent = _TaskRunProgressMessageEvent;
+  /** @deprecated Use the top-level `TaskRunProgressStatsEvent` instead. */
+  export type TaskRunProgressStatsEvent = _TaskRunProgressStatsEvent;
+  export namespace TaskRunProgressStatsEvent {
+    /** @deprecated Use the top-level `TaskRunSourceStats` instead. */
+    export type SourceStats = _TaskRunSourceStats;
+  }
 }
