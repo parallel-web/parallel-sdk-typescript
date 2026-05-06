@@ -149,31 +149,9 @@ export class TaskGroup extends APIResource {
  * Event indicating an update to group status.
  */
 export type TaskGroupEventsResponse =
-  | TaskGroupEventsResponse.TaskGroupStatusEvent
+  | TaskGroupAPI.TaskGroupStatusEvent
   | TaskRunAPI.TaskRunEvent
   | TaskRunAPI.ErrorEvent;
-
-export namespace TaskGroupEventsResponse {
-  /**
-   * Event indicating an update to group status.
-   */
-  export interface TaskGroupStatusEvent {
-    /**
-     * Cursor to resume the event stream.
-     */
-    event_id: string;
-
-    /**
-     * Task group status object.
-     */
-    status: TaskGroupAPI.TaskGroupStatus;
-
-    /**
-     * Event type; always 'task_group_status'.
-     */
-    type: 'task_group_status';
-  }
-}
 
 /**
  * Event when a task run transitions to a non-active status.
@@ -184,7 +162,7 @@ export type TaskGroupGetRunsResponse = TaskRunAPI.TaskRunEvent | TaskRunAPI.Erro
 
 export type TaskGroupStatus = TaskGroupAPI.TaskGroupStatus;
 
-export type TaskGroup = TaskGroupAPI.TaskGroup;
+export type TaskGroupStatusEvent = TaskGroupAPI.TaskGroupStatusEvent;
 
 export type TaskGroupRunResponse = TaskGroupAPI.TaskGroupRunResponse;
 
@@ -253,7 +231,7 @@ export declare namespace TaskGroup {
     type TaskGroupEventsResponse as TaskGroupEventsResponse,
     type TaskGroupGetRunsResponse as TaskGroupGetRunsResponse,
     type TaskGroupStatus as TaskGroupStatus,
-    type TaskGroup as TaskGroup,
+    type TaskGroupStatusEvent as TaskGroupStatusEvent,
     type TaskGroupRunResponse as TaskGroupRunResponse,
     type TaskGroupCreateParams as TaskGroupCreateParams,
     type TaskGroupAddRunsParams as TaskGroupAddRunsParams,

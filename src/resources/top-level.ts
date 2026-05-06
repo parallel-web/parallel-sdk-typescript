@@ -23,21 +23,7 @@ export interface AdvancedExtractSettings {
    * Controls full content extraction. Set to true to enable with defaults, false to
    * disable, or provide FullContentSettings for fine-grained control.
    */
-  full_content?: AdvancedExtractSettings.FullContentSettings | boolean;
-}
-
-export namespace AdvancedExtractSettings {
-  /**
-   * Optional settings for returning full content.
-   */
-  export interface FullContentSettings {
-    /**
-     * Optional limit on the number of characters to include in the full content for
-     * each url. Full content always starts at the beginning of the page and is
-     * truncated at the limit if necessary.
-     */
-    max_chars_per_result?: number | null;
-  }
+  full_content?: FullContentSettings | boolean;
 }
 
 /**
@@ -196,6 +182,18 @@ export interface FetchPolicy {
    * Timeout in seconds for fetching live content if unavailable in cache.
    */
   timeout_seconds?: number | null;
+}
+
+/**
+ * Optional settings for returning full content.
+ */
+export interface FullContentSettings {
+  /**
+   * Optional limit on the number of characters to include in the full content for
+   * each url. Full content always starts at the beginning of the page and is
+   * truncated at the limit if necessary.
+   */
+  max_chars_per_result?: number | null;
 }
 
 /**
@@ -376,6 +374,7 @@ export declare namespace TopLevel {
     type ExtractResponse as ExtractResponse,
     type ExtractResult as ExtractResult,
     type FetchPolicy as FetchPolicy,
+    type FullContentSettings as FullContentSettings,
     type SearchResult as SearchResult,
     type UsageItem as UsageItem,
     type WebSearchResult as WebSearchResult,
