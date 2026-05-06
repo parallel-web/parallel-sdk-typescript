@@ -45,7 +45,6 @@ Types:
 - <code><a href="./src/resources/beta/task-group.ts">TaskGroupGetRunsResponse</a></code>
 - <code><a href="./src/resources/beta/task-group.ts">TaskGroupStatus</a></code>
 - <code><a href="./src/resources/beta/task-group.ts">TaskGroupStatusEvent</a></code>
-- <code><a href="./src/resources/beta/task-group.ts">TaskGroup</a></code>
 - <code><a href="./src/resources/beta/task-group.ts">TaskGroupRunResponse</a></code>
 
 Methods:

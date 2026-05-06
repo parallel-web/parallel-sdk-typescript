@@ -164,8 +164,6 @@ export type TaskGroupStatus = TaskGroupAPI.TaskGroupStatus;
 
 export type TaskGroupStatusEvent = TaskGroupAPI.TaskGroupStatusEvent;
 
-export type TaskGroup = TaskGroupAPI.TaskGroup;
-
 export type TaskGroupRunResponse = TaskGroupAPI.TaskGroupRunResponse;
 
 export interface TaskGroupCreateParams {
@@ -234,7 +232,6 @@ export declare namespace TaskGroup {
     type TaskGroupGetRunsResponse as TaskGroupGetRunsResponse,
     type TaskGroupStatus as TaskGroupStatus,
     type TaskGroupStatusEvent as TaskGroupStatusEvent,
-    type TaskGroup as TaskGroup,
     type TaskGroupRunResponse as TaskGroupRunResponse,
     type TaskGroupCreateParams as TaskGroupCreateParams,
     type TaskGroupAddRunsParams as TaskGroupAddRunsParams,

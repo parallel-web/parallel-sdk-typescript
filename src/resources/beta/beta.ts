@@ -385,6 +385,7 @@ export interface BetaSearchParams {
 }
 
 Beta.TaskRun = TaskRun;
+Beta.TaskGroup = TaskGroup;
 Beta.FindAll = FindAll;
 
 export declare namespace Beta {
@@ -418,7 +419,7 @@ export declare namespace Beta {
   };
 
   export {
-    type TaskGroup as TaskGroup,
+    TaskGroup as TaskGroup,
     type TaskGroupEventsResponse as TaskGroupEventsResponse,
     type TaskGroupGetRunsResponse as TaskGroupGetRunsResponse,
     type TaskGroupStatus as TaskGroupStatus,
