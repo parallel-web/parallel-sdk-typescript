@@ -1054,17 +1054,17 @@ export namespace FindAllCreateParams {
   export type MatchCondition = _MatchCondition;
 }
 // FindAllRunInput and FindAllSchema already declare `export namespace`s above;
-// they are re-augmented here with the deprecated `MatchCondition` member.
-// Note: only `MatchCondition` is added; existing namespace members stay intact.
-declare module './findall' {
-  namespace FindAllRunInput {
-    /** @deprecated Use the top-level `MatchCondition` instead. */
-    type MatchCondition = _MatchCondition;
-  }
-  namespace FindAllSchema {
-    /** @deprecated Use the top-level `MatchCondition` instead. */
-    type MatchCondition = _MatchCondition;
-  }
+// these additional `export namespace` blocks merge with them via TS declaration
+// merging, augmenting the existing namespaces with the deprecated `MatchCondition`
+// member. (`declare module` would not work here — it's for ambient module
+// augmentation, not same-file declaration merging.)
+export namespace FindAllRunInput {
+  /** @deprecated Use the top-level `MatchCondition` instead. */
+  export type MatchCondition = _MatchCondition;
+}
+export namespace FindAllSchema {
+  /** @deprecated Use the top-level `MatchCondition` instead. */
+  export type MatchCondition = _MatchCondition;
 }
 export namespace FindAllRun {
   /** @deprecated Use the top-level `FindAllRunStatus` instead. */
