@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
-import * as TaskGroupAPI from './task-group';
 import * as TaskRunAPI from './task-run';
 import * as BetaTaskRunAPI from './beta/task-run';
 import { APIPromise } from '../core/api-promise';
@@ -99,6 +98,23 @@ export class TaskGroup extends APIResource {
       stream: true,
     }) as APIPromise<Stream<TaskGroupGetRunsResponse>>;
   }
+
+  /**
+   * Retrieves run status by run_id.
+   *
+   * This endpoint is equivalent to fetching run status directly using the
+   * `retrieve()` method or the `tasks/runs` GET endpoint.
+   *
+   * The run result is available from the `/result` endpoint.
+   */
+  retrieveRun(
+    runID: string,
+    params: TaskGroupRetrieveRunParams,
+    options?: RequestOptions,
+  ): APIPromise<TaskRunAPI.TaskRun> {
+    const { taskgroup_id } = params;
+    return this._client.get(path`/v1/tasks/groups/${taskgroup_id}/runs/${runID}`, options);
+  }
 }
 
 /**
@@ -189,32 +205,27 @@ export interface TaskGroupStatus {
 /**
  * Event indicating an update to group status.
  */
-export type TaskGroupEventsResponse =
-  | TaskGroupEventsResponse.TaskGroupStatusEvent
-  | TaskRunAPI.TaskRunEvent
-  | TaskRunAPI.ErrorEvent;
-
-export namespace TaskGroupEventsResponse {
+export interface TaskGroupStatusEvent {
   /**
-   * Event indicating an update to group status.
+   * Cursor to resume the event stream.
    */
-  export interface TaskGroupStatusEvent {
-    /**
-     * Cursor to resume the event stream.
-     */
-    event_id: string;
+  event_id: string;
 
-    /**
-     * Task group status object.
-     */
-    status: TaskGroupAPI.TaskGroupStatus;
+  /**
+   * Task group status object.
+   */
+  status: TaskGroupStatus;
 
-    /**
-     * Event type; always 'task_group_status'.
-     */
-    type: 'task_group_status';
-  }
+  /**
+   * Event type; always 'task_group_status'.
+   */
+  type: 'task_group_status';
 }
+
+/**
+ * Event indicating an update to group status.
+ */
+export type TaskGroupEventsResponse = TaskGroupStatusEvent | TaskRunAPI.TaskRunEvent | TaskRunAPI.ErrorEvent;
 
 /**
  * Event when a task run transitions to a non-active status.
@@ -283,16 +294,22 @@ export interface TaskGroupGetRunsParams {
     | null;
 }
 
+export interface TaskGroupRetrieveRunParams {
+  taskgroup_id: string;
+}
+
 export declare namespace TaskGroup {
   export {
     type TaskGroup as TaskGroup,
     type TaskGroupRunResponse as TaskGroupRunResponse,
     type TaskGroupStatus as TaskGroupStatus,
+    type TaskGroupStatusEvent as TaskGroupStatusEvent,
     type TaskGroupEventsResponse as TaskGroupEventsResponse,
     type TaskGroupGetRunsResponse as TaskGroupGetRunsResponse,
     type TaskGroupCreateParams as TaskGroupCreateParams,
     type TaskGroupAddRunsParams as TaskGroupAddRunsParams,
     type TaskGroupEventsParams as TaskGroupEventsParams,
     type TaskGroupGetRunsParams as TaskGroupGetRunsParams,
+    type TaskGroupRetrieveRunParams as TaskGroupRetrieveRunParams,
   };
 }

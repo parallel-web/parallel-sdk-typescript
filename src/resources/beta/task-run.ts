@@ -104,80 +104,10 @@ export type ParallelBeta =
  * A progress update for a task run.
  */
 export type TaskRunEventsResponse =
-  | TaskRunEventsResponse.TaskRunProgressStatsEvent
-  | TaskRunEventsResponse.TaskRunProgressMessageEvent
+  | TaskRunAPI.TaskRunProgressStatsEvent
+  | TaskRunAPI.TaskRunProgressMessageEvent
   | TaskRunAPI.TaskRunEvent
   | TaskRunAPI.ErrorEvent;
-
-export namespace TaskRunEventsResponse {
-  /**
-   * A progress update for a task run.
-   */
-  export interface TaskRunProgressStatsEvent {
-    /**
-     * Completion percentage of the task run. Ranges from 0 to 100 where 0 indicates no
-     * progress and 100 indicates completion.
-     */
-    progress_meter: number;
-
-    /**
-     * Source stats describing progress so far.
-     */
-    source_stats: TaskRunProgressStatsEvent.SourceStats;
-
-    /**
-     * Event type; always 'task_run.progress_stats'.
-     */
-    type: 'task_run.progress_stats';
-  }
-
-  export namespace TaskRunProgressStatsEvent {
-    /**
-     * Source stats describing progress so far.
-     */
-    export interface SourceStats {
-      /**
-       * Number of sources considered in processing the task.
-       */
-      num_sources_considered: number | null;
-
-      /**
-       * Number of sources read in processing the task.
-       */
-      num_sources_read: number | null;
-
-      /**
-       * A sample of URLs of sources read in processing the task.
-       */
-      sources_read_sample: Array<string> | null;
-    }
-  }
-
-  /**
-   * A message for a task run progress update.
-   */
-  export interface TaskRunProgressMessageEvent {
-    /**
-     * Progress update message.
-     */
-    message: string;
-
-    /**
-     * Timestamp of the message.
-     */
-    timestamp: string | null;
-
-    /**
-     * Event type; always starts with 'task_run.progress_msg'.
-     */
-    type:
-      | 'task_run.progress_msg.plan'
-      | 'task_run.progress_msg.search'
-      | 'task_run.progress_msg.result'
-      | 'task_run.progress_msg.tool_call'
-      | 'task_run.progress_msg.exec_status';
-  }
-}
 
 /**
  * @deprecated Use parallel.types.task_run.TaskRunInput instead
@@ -228,7 +158,7 @@ export interface TaskRunCreateParams {
   /**
    * Body param: Advanced search configuration for a task run.
    */
-  advanced_settings?: TaskRunCreateParams.AdvancedSettings | null;
+  advanced_settings?: TaskRunAPI.TaskAdvancedSettings | null;
 
   /**
    * Body param: Controls tracking of task run execution progress. When set to true,
@@ -282,18 +212,6 @@ export interface TaskRunCreateParams {
    * Header param: Optional header to specify the beta version(s) to enable.
    */
   betas?: Array<ParallelBeta>;
-}
-
-export namespace TaskRunCreateParams {
-  /**
-   * Advanced search configuration for a task run.
-   */
-  export interface AdvancedSettings {
-    /**
-     * ISO 3166-1 alpha-2 country code for geo-targeted search results.
-     */
-    location?: string | null;
-  }
 }
 
 export interface TaskRunResultParams {

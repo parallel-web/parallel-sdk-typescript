@@ -9,6 +9,7 @@ Types:
 - <code><a href="./src/resources/top-level.ts">ExtractResponse</a></code>
 - <code><a href="./src/resources/top-level.ts">ExtractResult</a></code>
 - <code><a href="./src/resources/top-level.ts">FetchPolicy</a></code>
+- <code><a href="./src/resources/top-level.ts">FullContentSettings</a></code>
 - <code><a href="./src/resources/top-level.ts">SearchResult</a></code>
 - <code><a href="./src/resources/top-level.ts">UsageItem</a></code>
 - <code><a href="./src/resources/top-level.ts">WebSearchResult</a></code>
@@ -39,10 +40,14 @@ Types:
 - <code><a href="./src/resources/task-run.ts">McpServer</a></code>
 - <code><a href="./src/resources/task-run.ts">McpToolCall</a></code>
 - <code><a href="./src/resources/task-run.ts">RunInput</a></code>
+- <code><a href="./src/resources/task-run.ts">TaskAdvancedSettings</a></code>
 - <code><a href="./src/resources/task-run.ts">TaskRun</a></code>
 - <code><a href="./src/resources/task-run.ts">TaskRunEvent</a></code>
 - <code><a href="./src/resources/task-run.ts">TaskRunJsonOutput</a></code>
+- <code><a href="./src/resources/task-run.ts">TaskRunProgressMessageEvent</a></code>
+- <code><a href="./src/resources/task-run.ts">TaskRunProgressStatsEvent</a></code>
 - <code><a href="./src/resources/task-run.ts">TaskRunResult</a></code>
+- <code><a href="./src/resources/task-run.ts">TaskRunSourceStats</a></code>
 - <code><a href="./src/resources/task-run.ts">TaskRunTextOutput</a></code>
 - <code><a href="./src/resources/task-run.ts">TaskSpec</a></code>
 - <code><a href="./src/resources/task-run.ts">TextSchema</a></code>
@@ -55,6 +60,7 @@ Methods:
 - <code title="get /v1/tasks/runs/{run_id}">client.taskRun.<a href="./src/resources/task-run.ts">retrieve</a>(runID) -> TaskRun</code>
 - <code title="get /v1/tasks/runs/{run_id}/events">client.taskRun.<a href="./src/resources/task-run.ts">events</a>(runID) -> TaskRunEventsResponse</code>
 - <code title="get /v1/tasks/runs/{run_id}/result">client.taskRun.<a href="./src/resources/task-run.ts">result</a>(runID, { ...params }) -> TaskRunResult</code>
+- <code title="get /v1/tasks/runs/{run_id}/input">client.taskRun.<a href="./src/resources/task-run.ts">retrieveInput</a>(runID) -> RunInput</code>
 
 # TaskGroup
 
@@ -63,6 +69,7 @@ Types:
 - <code><a href="./src/resources/task-group.ts">TaskGroup</a></code>
 - <code><a href="./src/resources/task-group.ts">TaskGroupRunResponse</a></code>
 - <code><a href="./src/resources/task-group.ts">TaskGroupStatus</a></code>
+- <code><a href="./src/resources/task-group.ts">TaskGroupStatusEvent</a></code>
 - <code><a href="./src/resources/task-group.ts">TaskGroupEventsResponse</a></code>
 - <code><a href="./src/resources/task-group.ts">TaskGroupGetRunsResponse</a></code>
 
@@ -73,5 +80,38 @@ Methods:
 - <code title="post /v1/tasks/groups/{taskgroup_id}/runs">client.taskGroup.<a href="./src/resources/task-group.ts">addRuns</a>(taskGroupID, { ...params }) -> TaskGroupRunResponse</code>
 - <code title="get /v1/tasks/groups/{taskgroup_id}/events">client.taskGroup.<a href="./src/resources/task-group.ts">events</a>(taskGroupID, { ...params }) -> TaskGroupEventsResponse</code>
 - <code title="get /v1/tasks/groups/{taskgroup_id}/runs">client.taskGroup.<a href="./src/resources/task-group.ts">getRuns</a>(taskGroupID, { ...params }) -> TaskGroupGetRunsResponse</code>
+- <code title="get /v1/tasks/groups/{taskgroup_id}/runs/{run_id}">client.taskGroup.<a href="./src/resources/task-group.ts">retrieveRun</a>(runID, { ...params }) -> TaskRun</code>
+
+# Monitor
+
+Types:
+
+- <code><a href="./src/resources/monitor.ts">AdvancedMonitorSettings</a></code>
+- <code><a href="./src/resources/monitor.ts">CreateMonitorRequest</a></code>
+- <code><a href="./src/resources/monitor.ts">Monitor</a></code>
+- <code><a href="./src/resources/monitor.ts">MonitorCompletionEvent</a></code>
+- <code><a href="./src/resources/monitor.ts">MonitorErrorEvent</a></code>
+- <code><a href="./src/resources/monitor.ts">MonitorEventStreamEvent</a></code>
+- <code><a href="./src/resources/monitor.ts">MonitorEventStreamResponseSettings</a></code>
+- <code><a href="./src/resources/monitor.ts">MonitorEventStreamSettings</a></code>
+- <code><a href="./src/resources/monitor.ts">MonitorSnapshotEvent</a></code>
+- <code><a href="./src/resources/monitor.ts">MonitorSnapshotOutput</a></code>
+- <code><a href="./src/resources/monitor.ts">MonitorSnapshotResponseSettings</a></code>
+- <code><a href="./src/resources/monitor.ts">MonitorSnapshotSettings</a></code>
+- <code><a href="./src/resources/monitor.ts">MonitorWebhook</a></code>
+- <code><a href="./src/resources/monitor.ts">PaginatedMonitorEvents</a></code>
+- <code><a href="./src/resources/monitor.ts">PaginatedMonitorResponse</a></code>
+- <code><a href="./src/resources/monitor.ts">UpdateMonitorEventStreamSettings</a></code>
+- <code><a href="./src/resources/monitor.ts">UpdateMonitorRequest</a></code>
+
+Methods:
+
+- <code title="post /v1/monitors">client.monitor.<a href="./src/resources/monitor.ts">create</a>({ ...params }) -> Monitor</code>
+- <code title="get /v1/monitors/{monitor_id}">client.monitor.<a href="./src/resources/monitor.ts">retrieve</a>(monitorID) -> Monitor</code>
+- <code title="post /v1/monitors/{monitor_id}/update">client.monitor.<a href="./src/resources/monitor.ts">update</a>(monitorID, { ...params }) -> Monitor</code>
+- <code title="get /v1/monitors">client.monitor.<a href="./src/resources/monitor.ts">list</a>({ ...params }) -> PaginatedMonitorResponse</code>
+- <code title="post /v1/monitors/{monitor_id}/cancel">client.monitor.<a href="./src/resources/monitor.ts">cancel</a>(monitorID) -> Monitor</code>
+- <code title="get /v1/monitors/{monitor_id}/events">client.monitor.<a href="./src/resources/monitor.ts">events</a>(monitorID, { ...params }) -> PaginatedMonitorEvents</code>
+- <code title="post /v1/monitors/{monitor_id}/trigger">client.monitor.<a href="./src/resources/monitor.ts">trigger</a>(monitorID) -> void</code>
 
 # [Beta](src/resources/beta/api.md)
