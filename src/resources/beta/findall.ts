@@ -1036,3 +1036,45 @@ export declare namespace Findall {
     type FindallSchemaParams as FindallSchemaParams,
   };
 }
+
+// Backwards-compat namespace members (deprecated). Previously these types
+// existed as nested interfaces under their parent's namespace; they've since
+// moved to top-level model types. Declaration merging here preserves the old
+// `Parent.Member` import paths.
+type _FindAllCandidate = FindAllCandidate;
+type _FindAllRunStatus = FindAllRunStatus;
+type _FindAllCandidateMetrics = FindAllCandidateMetrics;
+type _MatchCondition = MatchCondition;
+export namespace FindAllCandidateMatchStatusEvent {
+  /** @deprecated Use the top-level `FindAllCandidate` instead. */
+  export type Data = _FindAllCandidate;
+}
+export namespace FindAllCreateParams {
+  /** @deprecated Use the top-level `MatchCondition` instead. */
+  export type MatchCondition = _MatchCondition;
+}
+// FindAllRunInput and FindAllSchema already declare `export namespace`s above;
+// they are re-augmented here with the deprecated `MatchCondition` member.
+// Note: only `MatchCondition` is added; existing namespace members stay intact.
+declare module './findall' {
+  namespace FindAllRunInput {
+    /** @deprecated Use the top-level `MatchCondition` instead. */
+    type MatchCondition = _MatchCondition;
+  }
+  namespace FindAllSchema {
+    /** @deprecated Use the top-level `MatchCondition` instead. */
+    type MatchCondition = _MatchCondition;
+  }
+}
+export namespace FindAllRun {
+  /** @deprecated Use the top-level `FindAllRunStatus` instead. */
+  export type Status = _FindAllRunStatus;
+  export namespace Status {
+    /** @deprecated Use the top-level `FindAllCandidateMetrics` instead. */
+    export type Metrics = _FindAllCandidateMetrics;
+  }
+}
+export namespace FindAllRunResult {
+  /** @deprecated Use the top-level `FindAllCandidate` instead. */
+  export type Candidate = _FindAllCandidate;
+}

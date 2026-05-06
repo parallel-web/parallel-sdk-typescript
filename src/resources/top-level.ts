@@ -382,3 +382,12 @@ export declare namespace TopLevel {
     type SearchParams as SearchParams,
   };
 }
+
+// Backwards-compat namespace member (deprecated). `AdvancedExtractSettings.FullContentSettings`
+// was previously a nested interface; the shape now lives as the top-level
+// `FullContentSettings` model. Declaration merging here preserves the old path.
+export namespace AdvancedExtractSettings {
+  /** @deprecated Use the top-level `FullContentSettings` instead. */
+  export type FullContentSettings = TopLevelFullContentSettings;
+}
+type TopLevelFullContentSettings = FullContentSettings;

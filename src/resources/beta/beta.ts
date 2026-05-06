@@ -461,3 +461,11 @@ export declare namespace Beta {
     type FindAllSchemaParams as FindAllSchemaParams,
   };
 }
+
+// Backwards-compat namespace member (deprecated). `BetaExtractParams.FullContentSettings`
+// was previously a nested interface; the shape now lives as the top-level
+// `FullContentSettings` model.
+export namespace BetaExtractParams {
+  /** @deprecated Use `Parallel.FullContentSettings` instead. */
+  export type FullContentSettings = TopLevelAPI.FullContentSettings;
+}

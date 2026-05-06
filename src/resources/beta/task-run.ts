@@ -252,3 +252,25 @@ export declare namespace TaskRun {
     type TaskRunResultParams as TaskRunResultParams,
   };
 }
+
+// Backwards-compat namespace members (deprecated). Previously these types
+// existed as nested interfaces under their parent's namespace; they've since
+// moved to top-level model types in the GA `task-run` module.
+type _TaskAdvancedSettings = TaskRunAPI.TaskAdvancedSettings;
+type _TaskRunProgressMessageEvent = TaskRunAPI.TaskRunProgressMessageEvent;
+type _TaskRunProgressStatsEvent = TaskRunAPI.TaskRunProgressStatsEvent;
+type _TaskRunSourceStats = TaskRunAPI.TaskRunSourceStats;
+export namespace TaskRunCreateParams {
+  /** @deprecated Use `Parallel.TaskAdvancedSettings` instead. */
+  export type AdvancedSettings = _TaskAdvancedSettings;
+}
+export namespace TaskRunEventsResponse {
+  /** @deprecated Use `Parallel.TaskRunProgressMessageEvent` instead. */
+  export type TaskRunProgressMessageEvent = _TaskRunProgressMessageEvent;
+  /** @deprecated Use `Parallel.TaskRunProgressStatsEvent` instead. */
+  export type TaskRunProgressStatsEvent = _TaskRunProgressStatsEvent;
+  export namespace TaskRunProgressStatsEvent {
+    /** @deprecated Use `Parallel.TaskRunSourceStats` instead. */
+    export type SourceStats = _TaskRunSourceStats;
+  }
+}

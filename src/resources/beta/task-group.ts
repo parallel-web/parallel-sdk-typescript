@@ -212,3 +212,12 @@ export declare namespace TaskGroup {
     type TaskGroupGetRunsParams as TaskGroupGetRunsParams,
   };
 }
+
+// Backwards-compat namespace member (deprecated). `TaskGroupEventsResponse.TaskGroupStatusEvent`
+// was previously a nested interface; the type now lives at the file's top
+// level (re-exported from GA `TaskGroupAPI.TaskGroupStatusEvent`).
+type _TaskGroupStatusEvent = TaskGroupStatusEvent;
+export namespace TaskGroupEventsResponse {
+  /** @deprecated Use `Beta.TaskGroupStatusEvent` instead. */
+  export type TaskGroupStatusEvent = _TaskGroupStatusEvent;
+}
