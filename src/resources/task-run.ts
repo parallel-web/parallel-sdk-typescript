@@ -2,6 +2,7 @@
 
 import { APIResource } from '../core/resource';
 import * as Shared from './shared';
+import * as FindAllAPI from './beta/findall';
 import { APIPromise } from '../core/api-promise';
 import { Stream } from '../core/streaming';
 import { buildHeaders } from '../internal/headers';
@@ -730,15 +731,7 @@ export interface TaskRunCreateParams {
   /**
    * Header param: Optional header to specify the beta version(s) to enable.
    */
-  betas?: Array<
-    | 'mcp-server-2025-07-17'
-    | 'events-sse-2025-07-24'
-    | 'webhook-2025-08-12'
-    | 'findall-2025-09-15'
-    | 'search-extract-2025-10-10'
-    | 'field-basis-2025-11-25'
-    | (string & {})
-  >;
+  betas?: Array<FindAllAPI.ParallelBeta>;
 }
 
 export interface TaskRunResultParams {
@@ -750,15 +743,7 @@ export interface TaskRunResultParams {
   /**
    * Header param: Optional header to specify the beta version(s) to enable.
    */
-  betas?: Array<
-    | 'mcp-server-2025-07-17'
-    | 'events-sse-2025-07-24'
-    | 'webhook-2025-08-12'
-    | 'findall-2025-09-15'
-    | 'search-extract-2025-10-10'
-    | 'field-basis-2025-11-25'
-    | (string & {})
-  >;
+  betas?: Array<FindAllAPI.ParallelBeta>;
 }
 
 export declare namespace TaskRun {

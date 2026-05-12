@@ -20,6 +20,7 @@ Types:
 - <code><a href="./src/resources/beta/findall.ts">FindAllSchemaUpdatedEvent</a></code>
 - <code><a href="./src/resources/beta/findall.ts">IngestInput</a></code>
 - <code><a href="./src/resources/beta/findall.ts">MatchCondition</a></code>
+- <code><a href="./src/resources/beta/findall.ts">ParallelBeta</a></code>
 - <code><a href="./src/resources/beta/findall.ts">FindAllEventsResponse</a></code>
 
 Methods:
