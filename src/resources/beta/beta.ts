@@ -31,6 +31,7 @@ import {
   FindAllSchemaUpdatedEvent,
   IngestInput,
   MatchCondition,
+  ParallelBeta,
 } from './findall';
 
 export class Beta extends APIResource {
@@ -58,6 +59,7 @@ export declare namespace Beta {
     type FindAllSchemaUpdatedEvent as FindAllSchemaUpdatedEvent,
     type IngestInput as IngestInput,
     type MatchCondition as MatchCondition,
+    type ParallelBeta as ParallelBeta,
     type FindAllEventsResponse as FindAllEventsResponse,
     type FindAllCreateParams as FindAllCreateParams,
     type FindAllRetrieveParams as FindAllRetrieveParams,
