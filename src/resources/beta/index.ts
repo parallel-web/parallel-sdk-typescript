@@ -52,29 +52,3 @@ export {
   type FindallResultParams,
   type FindallSchemaParams,
 } from './findall';
-export {
-  TaskGroup,
-  type TaskGroupEventsResponse,
-  type TaskGroupGetRunsResponse,
-  type TaskGroupStatus,
-  type TaskGroupStatusEvent,
-  type TaskGroupRunResponse,
-  type TaskGroupCreateParams,
-  type TaskGroupAddRunsParams,
-  type TaskGroupEventsParams,
-  type TaskGroupGetRunsParams,
-} from './task-group';
-export {
-  TaskRun,
-  type ParallelBeta,
-  type TaskRunEventsResponse,
-  type BetaRunInput,
-  type BetaTaskRunResult,
-  type Webhook,
-  type McpServer,
-  type McpToolCall,
-  type TaskRunEvent,
-  type ErrorEvent,
-  type TaskRunCreateParams,
-  type TaskRunResultParams,
-} from './task-run';
