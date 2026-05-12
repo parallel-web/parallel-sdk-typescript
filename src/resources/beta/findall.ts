@@ -2,7 +2,6 @@
 
 import { APIResource } from '../../core/resource';
 import * as TaskRunAPI from '../task-run';
-import * as BetaTaskRunAPI from './task-run';
 import { APIPromise } from '../../core/api-promise';
 import { Stream } from '../../core/streaming';
 import { buildHeaders } from '../../internal/headers';
@@ -800,7 +799,15 @@ export interface FindAllCreateParams {
   /**
    * Header param: Optional header to specify the beta version(s) to enable.
    */
-  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
+  betas?: Array<
+    | 'mcp-server-2025-07-17'
+    | 'events-sse-2025-07-24'
+    | 'webhook-2025-08-12'
+    | 'findall-2025-09-15'
+    | 'search-extract-2025-10-10'
+    | 'field-basis-2025-11-25'
+    | (string & {})
+  >;
 }
 
 export namespace FindAllCreateParams {
@@ -824,14 +831,30 @@ export interface FindAllRetrieveParams {
   /**
    * Optional header to specify the beta version(s) to enable.
    */
-  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
+  betas?: Array<
+    | 'mcp-server-2025-07-17'
+    | 'events-sse-2025-07-24'
+    | 'webhook-2025-08-12'
+    | 'findall-2025-09-15'
+    | 'search-extract-2025-10-10'
+    | 'field-basis-2025-11-25'
+    | (string & {})
+  >;
 }
 
 export interface FindAllCancelParams {
   /**
    * Optional header to specify the beta version(s) to enable.
    */
-  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
+  betas?: Array<
+    | 'mcp-server-2025-07-17'
+    | 'events-sse-2025-07-24'
+    | 'webhook-2025-08-12'
+    | 'findall-2025-09-15'
+    | 'search-extract-2025-10-10'
+    | 'field-basis-2025-11-25'
+    | (string & {})
+  >;
 }
 
 export interface FindAllCandidatesParams {
@@ -871,7 +894,15 @@ export interface FindAllEnrichParams {
   /**
    * Header param: Optional header to specify the beta version(s) to enable.
    */
-  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
+  betas?: Array<
+    | 'mcp-server-2025-07-17'
+    | 'events-sse-2025-07-24'
+    | 'webhook-2025-08-12'
+    | 'findall-2025-09-15'
+    | 'search-extract-2025-10-10'
+    | 'field-basis-2025-11-25'
+    | (string & {})
+  >;
 }
 
 export interface FindAllEventsParams {
@@ -888,7 +919,15 @@ export interface FindAllEventsParams {
   /**
    * Header param: Optional header to specify the beta version(s) to enable.
    */
-  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
+  betas?: Array<
+    | 'mcp-server-2025-07-17'
+    | 'events-sse-2025-07-24'
+    | 'webhook-2025-08-12'
+    | 'findall-2025-09-15'
+    | 'search-extract-2025-10-10'
+    | 'field-basis-2025-11-25'
+    | (string & {})
+  >;
 }
 
 export interface FindAllExtendParams {
@@ -902,7 +941,15 @@ export interface FindAllExtendParams {
   /**
    * Header param: Optional header to specify the beta version(s) to enable.
    */
-  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
+  betas?: Array<
+    | 'mcp-server-2025-07-17'
+    | 'events-sse-2025-07-24'
+    | 'webhook-2025-08-12'
+    | 'findall-2025-09-15'
+    | 'search-extract-2025-10-10'
+    | 'field-basis-2025-11-25'
+    | (string & {})
+  >;
 }
 
 export interface FindAllIngestParams {
@@ -914,21 +961,45 @@ export interface FindAllIngestParams {
   /**
    * Header param: Optional header to specify the beta version(s) to enable.
    */
-  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
+  betas?: Array<
+    | 'mcp-server-2025-07-17'
+    | 'events-sse-2025-07-24'
+    | 'webhook-2025-08-12'
+    | 'findall-2025-09-15'
+    | 'search-extract-2025-10-10'
+    | 'field-basis-2025-11-25'
+    | (string & {})
+  >;
 }
 
 export interface FindAllResultParams {
   /**
    * Optional header to specify the beta version(s) to enable.
    */
-  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
+  betas?: Array<
+    | 'mcp-server-2025-07-17'
+    | 'events-sse-2025-07-24'
+    | 'webhook-2025-08-12'
+    | 'findall-2025-09-15'
+    | 'search-extract-2025-10-10'
+    | 'field-basis-2025-11-25'
+    | (string & {})
+  >;
 }
 
 export interface FindAllSchemaParams {
   /**
    * Optional header to specify the beta version(s) to enable.
    */
-  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
+  betas?: Array<
+    | 'mcp-server-2025-07-17'
+    | 'events-sse-2025-07-24'
+    | 'webhook-2025-08-12'
+    | 'findall-2025-09-15'
+    | 'search-extract-2025-10-10'
+    | 'field-basis-2025-11-25'
+    | (string & {})
+  >;
 }
 
 export declare namespace FindAll {
