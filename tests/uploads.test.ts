@@ -1,7 +1,6 @@
 import fs from 'fs';
 import type { ResponseLike } from 'parallel-web/internal/to-file';
 import { toFile } from 'parallel-web/core/uploads';
-import { File } from 'node:buffer';
 
 class MyClass {
   name: string = 'foo';
