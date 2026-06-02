@@ -68,7 +68,7 @@ export interface ExcerptSettings {
   /**
    * Optional upper bound on the total number of characters to include per url.
    * Excerpts may contain fewer characters than this limit to maximize relevance and
-   * token efficiency. Values below 1000 will be automatically set to 1000.
+   * token efficiency.
    */
   max_chars_per_result?: number | null;
 }
@@ -342,12 +342,13 @@ export interface SearchParams {
   max_chars_total?: number | null;
 
   /**
-   * Search mode preset: supported values are `basic` and `advanced`. Basic mode
-   * offers the lowest latency and works best with 2-3 high-quality search_queries.
-   * Advanced mode provides higher quality with more advanced retrieval and
-   * compression. Defaults to `advanced` when omitted.
+   * Search mode preset: supported values are `basic`, `advanced`, and `turbo`. Basic
+   * mode offers the lowest latency and works best with 2-3 high-quality
+   * search_queries. Advanced mode provides higher quality with more advanced
+   * retrieval and compression. Turbo mode is optimized for the fastest responses.
+   * Defaults to `advanced` when omitted.
    */
-  mode?: 'basic' | 'advanced' | null;
+  mode?: 'basic' | 'advanced' | 'turbo' | null;
 
   /**
    * Natural-language description of the underlying question or goal driving the
