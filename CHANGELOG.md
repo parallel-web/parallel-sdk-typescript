@@ -1,5 +1,33 @@
 # Changelog
 
+## 1.0.0 (2026-06-02)
+
+Full Changelog: [v0.5.0...v1.0.0](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.5.0...v1.0.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** clean up beta features
+
+### Features
+
+* **api:** 1.0.0 changes ([eb9fdaa](https://github.com/parallel-web/parallel-sdk-typescript/commit/eb9fdaa03d66072b9cb5be447bc543aeab9c4e9f))
+* **api:** Add parallel_beta typing back ([5ff5f6a](https://github.com/parallel-web/parallel-sdk-typescript/commit/5ff5f6a9732ad1037ee0f11c55034220151c5d83))
+* **api:** clean up beta features ([5c42a2f](https://github.com/parallel-web/parallel-sdk-typescript/commit/5c42a2f5bba88ab318acb2439442a5f416e6dc9f))
+* **api:** Remove beta: tasks, task groups, search, and extract from SDK ([9431910](https://github.com/parallel-web/parallel-sdk-typescript/commit/9431910d0d2dcdf33f22df07ee652dea31774ce8))
+* update npm publish ([40d35bf](https://github.com/parallel-web/parallel-sdk-typescript/commit/40d35bf8b82fc8a0c671b7926c0b3caf92a17e2b))
+
+
+### Bug Fixes
+
+* **typescript:** upgrade tsc-multi so that it works with Node 26 ([1e5e4ec](https://github.com/parallel-web/parallel-sdk-typescript/commit/1e5e4ecbc0fb6b3648c7b1477d6f9248b8725778))
+
+
+### Chores
+
+* **internal:** codegen related update ([b755a87](https://github.com/parallel-web/parallel-sdk-typescript/commit/b755a878bb0435eb21040137a45f428acb4943c6))
+* redact api-key headers in debug logs ([d729c39](https://github.com/parallel-web/parallel-sdk-typescript/commit/d729c39f0ecdc26706a2fa3631b7ba210ec7c053))
+* **tests:** remove redundant File import ([1c31062](https://github.com/parallel-web/parallel-sdk-typescript/commit/1c31062e33450b11449eb3067bdf5145d9546df6))
+
 ## 0.5.0 (2026-05-06)
 
 Full Changelog: [v0.4.1...v0.5.0](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.4.1...v0.5.0)
