@@ -2,7 +2,7 @@
 
 import { APIResource } from '../core/resource';
 import * as Shared from './shared';
-import * as BetaTaskRunAPI from './beta/task-run';
+import * as FindAllAPI from './beta/findall';
 import { APIPromise } from '../core/api-promise';
 import { Stream } from '../core/streaming';
 import { buildHeaders } from '../internal/headers';
@@ -731,7 +731,7 @@ export interface TaskRunCreateParams {
   /**
    * Header param: Optional header to specify the beta version(s) to enable.
    */
-  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
+  betas?: Array<FindAllAPI.ParallelBeta>;
 }
 
 export interface TaskRunResultParams {
@@ -743,7 +743,7 @@ export interface TaskRunResultParams {
   /**
    * Header param: Optional header to specify the beta version(s) to enable.
    */
-  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
+  betas?: Array<FindAllAPI.ParallelBeta>;
 }
 
 export declare namespace TaskRun {

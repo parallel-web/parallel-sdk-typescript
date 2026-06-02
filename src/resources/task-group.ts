@@ -2,7 +2,7 @@
 
 import { APIResource } from '../core/resource';
 import * as TaskRunAPI from './task-run';
-import * as BetaTaskRunAPI from './beta/task-run';
+import * as FindAllAPI from './beta/findall';
 import { APIPromise } from '../core/api-promise';
 import { Stream } from '../core/streaming';
 import { buildHeaders } from '../internal/headers';
@@ -267,7 +267,7 @@ export interface TaskGroupAddRunsParams {
   /**
    * Header param: Optional header to specify the beta version(s) to enable.
    */
-  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
+  betas?: Array<FindAllAPI.ParallelBeta>;
 }
 
 export interface TaskGroupEventsParams {

@@ -2,7 +2,6 @@
 
 import { APIResource } from '../../core/resource';
 import * as TaskRunAPI from '../task-run';
-import * as BetaTaskRunAPI from './task-run';
 import { APIPromise } from '../../core/api-promise';
 import { Stream } from '../../core/streaming';
 import { buildHeaders } from '../../internal/headers';
@@ -105,30 +104,6 @@ export class FindAll extends APIResource {
   }
 
   /**
-   * Return ranked entity candidates matching a natural language objective.
-   *
-   * This endpoint performs a best-effort search optimised for low latency. For
-   * comprehensive match evaluation and enrichment, use the
-   * [FindAll API](https://docs.parallel.ai/findall-api/findall-quickstart).
-   *
-   * @example
-   * ```ts
-   * const findallCandidatesResponse =
-   *   await client.beta.findall.candidates({
-   *     entity_type: 'company',
-   *     objective: 'objective',
-   *   });
-   * ```
-   */
-  candidates(body: FindAllCandidatesParams, options?: RequestOptions): APIPromise<FindAllCandidatesResponse> {
-    return this._client.post('/v1beta/findall/candidates', {
-      body,
-      ...options,
-      headers: buildHeaders([{ 'parallel-beta': 'findall-2025-09-15' }, options?.headers]),
-    });
-  }
-
-  /**
    * Add an enrichment to a FindAll run.
    *
    * @example
@@ -161,6 +136,36 @@ export class FindAll extends APIResource {
         { 'parallel-beta': [...(betas ?? []), 'findall-2025-09-15'].toString() },
         options?.headers,
       ]),
+    });
+  }
+
+  /**
+   * Return ranked entities matching a natural language objective.
+   *
+   * This endpoint performs a best-effort search optimized for low latency. To keep
+   * responses fast, it returns a fixed set of attributes and supports queries of
+   * limited complexity.
+   *
+   * For comprehensive match evaluation and enrichment, use the
+   * [FindAll API](https://docs.parallel.ai/findall-api/findall-quickstart).
+   *
+   * @example
+   * ```ts
+   * const findallEntitySearchResponse =
+   *   await client.beta.findall.entitySearch({
+   *     entity_type: 'people',
+   *     objective: 'objective',
+   *   });
+   * ```
+   */
+  entitySearch(
+    body: FindAllEntitySearchParams,
+    options?: RequestOptions,
+  ): APIPromise<FindAllEntitySearchResponse> {
+    return this._client.post('/v1beta/findall/entity-search', {
+      body,
+      ...options,
+      headers: buildHeaders([{ 'parallel-beta': 'findall-2025-09-15' }, options?.headers]),
     });
   }
 
@@ -395,56 +400,6 @@ export interface FindAllCandidateMetrics {
   matched_candidates_count?: number;
 }
 
-export interface FindAllCandidatesRequest {
-  /**
-   * Type of entity to search for.
-   */
-  entity_type: 'company' | 'people';
-
-  /**
-   * Natural language description of target entities.
-   */
-  objective: string;
-
-  /**
-   * Maximum number of candidates to return. Must be between 5 and 1000 (inclusive).
-   * May return fewer results. Defaults to 100.
-   */
-  match_limit?: number;
-}
-
-export interface FindAllCandidatesResponse {
-  /**
-   * Candidate set request ID. Example:
-   * `candidate_set_cad0a6d2dec046bd95ae900527d880e7`
-   */
-  candidate_set_id: string;
-
-  /**
-   * Ranked list of entity candidates.
-   */
-  candidates: Array<FindAllCandidatesResponse.Candidate>;
-}
-
-export namespace FindAllCandidatesResponse {
-  export interface Candidate {
-    /**
-     * Descriptive text about the entity.
-     */
-    description: string;
-
-    /**
-     * Entity name.
-     */
-    name: string;
-
-    /**
-     * Canonical URL for the entity.
-     */
-    url: string;
-  }
-}
-
 /**
  * Input model for FindAll enrich.
  */
@@ -463,6 +418,55 @@ export interface FindAllEnrichInput {
    * Processor to use for the task.
    */
   processor?: string;
+}
+
+export interface FindAllEntitySearchRequest {
+  /**
+   * Type of entity to search for.
+   */
+  entity_type: 'people' | 'companies';
+
+  /**
+   * Natural language description of target entities.
+   */
+  objective: string;
+
+  /**
+   * Maximum number of entities to return. Must be between 5 and 1000 (inclusive).
+   * May return fewer results. Defaults to 100.
+   */
+  match_limit?: number;
+}
+
+export interface FindAllEntitySearchResponse {
+  /**
+   * Ranked list of entities.
+   */
+  entities: Array<FindAllEntitySearchResponse.Entity>;
+
+  /**
+   * Entity set request ID. Example: `entity_set_cad0a6d2dec046bd95ae900527d880e7`
+   */
+  entity_set_id: string;
+}
+
+export namespace FindAllEntitySearchResponse {
+  export interface Entity {
+    /**
+     * Descriptive text about the entity.
+     */
+    description: string;
+
+    /**
+     * Entity name.
+     */
+    name: string;
+
+    /**
+     * Canonical URL for the entity.
+     */
+    url: string;
+  }
 }
 
 /**
@@ -747,6 +751,18 @@ export interface MatchCondition {
 }
 
 /**
+ * Model for the parallel-beta header.
+ */
+export type ParallelBeta =
+  | 'mcp-server-2025-07-17'
+  | 'events-sse-2025-07-24'
+  | 'webhook-2025-08-12'
+  | 'findall-2025-09-15'
+  | 'search-extract-2025-10-10'
+  | 'field-basis-2025-11-25'
+  | (string & {});
+
+/**
  * Event containing full snapshot of FindAll run state.
  */
 export type FindAllEventsResponse =
@@ -800,7 +816,7 @@ export interface FindAllCreateParams {
   /**
    * Header param: Optional header to specify the beta version(s) to enable.
    */
-  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
+  betas?: Array<ParallelBeta>;
 }
 
 export namespace FindAllCreateParams {
@@ -824,32 +840,14 @@ export interface FindAllRetrieveParams {
   /**
    * Optional header to specify the beta version(s) to enable.
    */
-  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
+  betas?: Array<ParallelBeta>;
 }
 
 export interface FindAllCancelParams {
   /**
    * Optional header to specify the beta version(s) to enable.
    */
-  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
-}
-
-export interface FindAllCandidatesParams {
-  /**
-   * Type of entity to search for.
-   */
-  entity_type: 'company' | 'people';
-
-  /**
-   * Natural language description of target entities.
-   */
-  objective: string;
-
-  /**
-   * Maximum number of candidates to return. Must be between 5 and 1000 (inclusive).
-   * May return fewer results. Defaults to 100.
-   */
-  match_limit?: number;
+  betas?: Array<ParallelBeta>;
 }
 
 export interface FindAllEnrichParams {
@@ -871,7 +869,25 @@ export interface FindAllEnrichParams {
   /**
    * Header param: Optional header to specify the beta version(s) to enable.
    */
-  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
+  betas?: Array<ParallelBeta>;
+}
+
+export interface FindAllEntitySearchParams {
+  /**
+   * Type of entity to search for.
+   */
+  entity_type: 'people' | 'companies';
+
+  /**
+   * Natural language description of target entities.
+   */
+  objective: string;
+
+  /**
+   * Maximum number of entities to return. Must be between 5 and 1000 (inclusive).
+   * May return fewer results. Defaults to 100.
+   */
+  match_limit?: number;
 }
 
 export interface FindAllEventsParams {
@@ -888,7 +904,7 @@ export interface FindAllEventsParams {
   /**
    * Header param: Optional header to specify the beta version(s) to enable.
    */
-  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
+  betas?: Array<ParallelBeta>;
 }
 
 export interface FindAllExtendParams {
@@ -902,7 +918,7 @@ export interface FindAllExtendParams {
   /**
    * Header param: Optional header to specify the beta version(s) to enable.
    */
-  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
+  betas?: Array<ParallelBeta>;
 }
 
 export interface FindAllIngestParams {
@@ -914,21 +930,21 @@ export interface FindAllIngestParams {
   /**
    * Header param: Optional header to specify the beta version(s) to enable.
    */
-  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
+  betas?: Array<ParallelBeta>;
 }
 
 export interface FindAllResultParams {
   /**
    * Optional header to specify the beta version(s) to enable.
    */
-  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
+  betas?: Array<ParallelBeta>;
 }
 
 export interface FindAllSchemaParams {
   /**
    * Optional header to specify the beta version(s) to enable.
    */
-  betas?: Array<BetaTaskRunAPI.ParallelBeta>;
+  betas?: Array<ParallelBeta>;
 }
 
 export declare namespace FindAll {
@@ -936,9 +952,9 @@ export declare namespace FindAll {
     type FindAllCandidate as FindAllCandidate,
     type FindAllCandidateMatchStatusEvent as FindAllCandidateMatchStatusEvent,
     type FindAllCandidateMetrics as FindAllCandidateMetrics,
-    type FindAllCandidatesRequest as FindAllCandidatesRequest,
-    type FindAllCandidatesResponse as FindAllCandidatesResponse,
     type FindAllEnrichInput as FindAllEnrichInput,
+    type FindAllEntitySearchRequest as FindAllEntitySearchRequest,
+    type FindAllEntitySearchResponse as FindAllEntitySearchResponse,
     type FindAllExtendInput as FindAllExtendInput,
     type FindAllRun as FindAllRun,
     type FindAllRunInput as FindAllRunInput,
@@ -949,12 +965,13 @@ export declare namespace FindAll {
     type FindAllSchemaUpdatedEvent as FindAllSchemaUpdatedEvent,
     type IngestInput as IngestInput,
     type MatchCondition as MatchCondition,
+    type ParallelBeta as ParallelBeta,
     type FindAllEventsResponse as FindAllEventsResponse,
     type FindAllCreateParams as FindAllCreateParams,
     type FindAllRetrieveParams as FindAllRetrieveParams,
     type FindAllCancelParams as FindAllCancelParams,
-    type FindAllCandidatesParams as FindAllCandidatesParams,
     type FindAllEnrichParams as FindAllEnrichParams,
+    type FindAllEntitySearchParams as FindAllEntitySearchParams,
     type FindAllEventsParams as FindAllEventsParams,
     type FindAllExtendParams as FindAllExtendParams,
     type FindAllIngestParams as FindAllIngestParams,
