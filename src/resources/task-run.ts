@@ -773,30 +773,3 @@ export declare namespace TaskRun {
     type TaskRunResultParams as TaskRunResultParams,
   };
 }
-
-// Backwards-compat namespace members (deprecated). Previously these types
-// existed as nested interfaces under the parent type's namespace; they've
-// since moved to top-level model types. Declaration merging here preserves
-// the old `Parent.Member` import paths.
-type _TaskAdvancedSettings = TaskAdvancedSettings;
-type _TaskRunProgressMessageEvent = TaskRunProgressMessageEvent;
-type _TaskRunProgressStatsEvent = TaskRunProgressStatsEvent;
-type _TaskRunSourceStats = TaskRunSourceStats;
-export namespace RunInput {
-  /** @deprecated Use the top-level `TaskAdvancedSettings` instead. */
-  export type AdvancedSettings = _TaskAdvancedSettings;
-}
-export namespace TaskRunCreateParams {
-  /** @deprecated Use the top-level `TaskAdvancedSettings` instead. */
-  export type AdvancedSettings = _TaskAdvancedSettings;
-}
-export namespace TaskRunEventsResponse {
-  /** @deprecated Use the top-level `TaskRunProgressMessageEvent` instead. */
-  export type TaskRunProgressMessageEvent = _TaskRunProgressMessageEvent;
-  /** @deprecated Use the top-level `TaskRunProgressStatsEvent` instead. */
-  export type TaskRunProgressStatsEvent = _TaskRunProgressStatsEvent;
-  export namespace TaskRunProgressStatsEvent {
-    /** @deprecated Use the top-level `TaskRunSourceStats` instead. */
-    export type SourceStats = _TaskRunSourceStats;
-  }
-}
