@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.1 (2026-06-03)
+
+Full Changelog: [v1.0.0...v1.0.1](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.0.0...v1.0.1)
+
+### Chores
+
+* remove undocumented backwards-compat alias shims ([e9bcf03](https://github.com/parallel-web/parallel-sdk-typescript/commit/e9bcf03e2c2d46a7f615e0365688ddc0f2bdeeda))
+
 ## 1.0.0 (2026-06-02)
 
 Full Changelog: [v0.5.0...v1.0.0](https://github.com/parallel-web/parallel-sdk-typescript/compare/v0.5.0...v1.0.0)
