@@ -70,7 +70,7 @@ describe('top level methods', () => {
       },
       client_model: 'claude-opus-4-7',
       max_chars_total: 0,
-      mode: 'basic',
+      mode: 'turbo',
       objective: 'objective',
       session_id: 'session_id',
     });
