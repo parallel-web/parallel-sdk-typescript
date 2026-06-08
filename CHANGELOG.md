@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0 (2026-06-08)
+
+Full Changelog: [v1.0.1...v1.1.0](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.0.1...v1.1.0)
+
+### Features
+
+* **api:** add turbo mode to search ([7973be4](https://github.com/parallel-web/parallel-sdk-typescript/commit/7973be4e885648aa9bb3a736ddbac8c89e6d66f4))
+
 ## 1.0.1 (2026-06-03)
 
 Full Changelog: [v1.0.0...v1.0.1](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.0.0...v1.0.1)
