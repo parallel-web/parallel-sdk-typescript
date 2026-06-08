@@ -563,6 +563,14 @@ export interface UpdateMonitorEventStreamSettings {
    * Advanced monitor configuration.
    */
   advanced_settings?: AdvancedMonitorSettings | null;
+
+  /**
+   * Updated search query for the monitor. Use this for minor updates to prompts and
+   * instructions only. Major changes to the query may lead to unexpected results in
+   * change detection, as the monitor compares new results with what was previously
+   * seen.
+   */
+  query?: string | null;
 }
 
 /**
@@ -571,8 +579,10 @@ export interface UpdateMonitorEventStreamSettings {
  * Only fields that are explicitly included in the request body are updated. Pass
  * `null` for `webhook` or `metadata` to clear those fields. To update
  * type-specific settings on an `event_stream` monitor, include `type` and
- * `settings`; pass `null` for `settings.advanced_settings` to clear it. At least
- * one non-`type` field must be provided.
+ * `settings`; pass `settings.query` to update the prompt, or `null` for
+ * `settings.advanced_settings` to clear it. If `settings` is provided, `type` is
+ * required to identify the settings shape. The request must still include at least
+ * one field to update; empty updates fail validation.
  */
 export interface UpdateMonitorRequest {
   /**
