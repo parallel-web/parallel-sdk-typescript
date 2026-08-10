@@ -32,3 +32,17 @@ export {
   type FindAllResultParams,
   type FindAllSchemaParams,
 } from './findall';
+export {
+  Memory,
+  type FindAllMemoryResult,
+  type MemoryClearRequest,
+  type MemoryEvictRequest,
+  type MemoryRetrieveRequest,
+  type MemoryRetrieveResponse,
+  type MonitorMemoryEvent,
+  type MonitorMemoryResult,
+  type TaskMemoryResult,
+  type MemoryRetrieveParams,
+  type MemoryClearParams,
+  type MemoryEvictParams,
+} from './memory';

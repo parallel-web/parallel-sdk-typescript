@@ -310,6 +310,12 @@ export interface RunInput {
   mcp_servers?: Array<McpServer> | null;
 
   /**
+   * User-provided key identifying the memory scope to use. Omit to use personal
+   * memory, if available.
+   */
+  memory_scope_key?: string | null;
+
+  /**
    * User-provided metadata stored with the run. Keys and values must be strings with
    * a maximum length of 16 and 512 characters respectively.
    */
@@ -694,6 +700,12 @@ export interface TaskRunCreateParams {
    * Body param: Optional list of MCP servers to use for the run.
    */
   mcp_servers?: Array<McpServer> | null;
+
+  /**
+   * Body param: User-provided key identifying the memory scope to use. Omit to use
+   * personal memory, if available.
+   */
+  memory_scope_key?: string | null;
 
   /**
    * Body param: User-provided metadata stored with the run. Keys and values must be
