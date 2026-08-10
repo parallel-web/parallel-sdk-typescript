@@ -13,6 +13,7 @@ TEST_PATHS=(
 	tests/api-resources/monitor.test.ts
 	tests/api-resources/beta/beta.test.ts
 	tests/api-resources/beta/findall.test.ts
+	tests/api-resources/beta/memory.test.ts
 	tests/index.test.ts
 )
 

@@ -33,12 +33,29 @@ import {
   MatchCondition,
   ParallelBeta,
 } from './findall';
+import * as MemoryAPI from './memory';
+import {
+  FindAllMemoryResult,
+  Memory,
+  MemoryClearParams,
+  MemoryClearRequest,
+  MemoryEvictParams,
+  MemoryEvictRequest,
+  MemoryRetrieveParams,
+  MemoryRetrieveRequest,
+  MemoryRetrieveResponse,
+  MonitorMemoryEvent,
+  MonitorMemoryResult,
+  TaskMemoryResult,
+} from './memory';
 
 export class Beta extends APIResource {
   findall: FindAllAPI.FindAll = new FindAllAPI.FindAll(this._client);
+  memory: MemoryAPI.Memory = new MemoryAPI.Memory(this._client);
 }
 
 Beta.FindAll = FindAll;
+Beta.Memory = Memory;
 
 export declare namespace Beta {
   export {
@@ -71,5 +88,20 @@ export declare namespace Beta {
     type FindAllIngestParams as FindAllIngestParams,
     type FindAllResultParams as FindAllResultParams,
     type FindAllSchemaParams as FindAllSchemaParams,
+  };
+
+  export {
+    Memory as Memory,
+    type FindAllMemoryResult as FindAllMemoryResult,
+    type MemoryClearRequest as MemoryClearRequest,
+    type MemoryEvictRequest as MemoryEvictRequest,
+    type MemoryRetrieveRequest as MemoryRetrieveRequest,
+    type MemoryRetrieveResponse as MemoryRetrieveResponse,
+    type MonitorMemoryEvent as MonitorMemoryEvent,
+    type MonitorMemoryResult as MonitorMemoryResult,
+    type TaskMemoryResult as TaskMemoryResult,
+    type MemoryRetrieveParams as MemoryRetrieveParams,
+    type MemoryClearParams as MemoryClearParams,
+    type MemoryEvictParams as MemoryEvictParams,
   };
 }

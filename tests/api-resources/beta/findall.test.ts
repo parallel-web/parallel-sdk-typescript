@@ -45,6 +45,7 @@ describe('resource findall', () => {
       match_limit: 0,
       objective: 'objective',
       exclude_list: [{ name: 'name', url: 'url' }],
+      memory_scope_key: 'memory_scope_key',
       metadata: { foo: 'string' },
       webhook: { url: 'url', event_types: ['task_run.status'] },
       betas: ['mcp-server-2025-07-17'],
