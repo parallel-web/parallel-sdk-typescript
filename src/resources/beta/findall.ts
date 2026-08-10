@@ -546,9 +546,16 @@ export interface FindAllRunInput {
   objective: string;
 
   /**
-   * List of entity names/IDs to exclude from results.
+   * List of entity names/IDs to exclude from results. At most 10,000 entries are
+   * allowed.
    */
   exclude_list?: Array<FindAllRunInput.ExcludeList> | null;
+
+  /**
+   * User-provided key identifying the memory scope to use. Omit to use personal
+   * memory, if available.
+   */
+  memory_scope_key?: string | null;
 
   /**
    * Metadata for the FindAll run.
@@ -797,9 +804,16 @@ export interface FindAllCreateParams {
   objective: string;
 
   /**
-   * Body param: List of entity names/IDs to exclude from results.
+   * Body param: List of entity names/IDs to exclude from results. At most 10,000
+   * entries are allowed.
    */
   exclude_list?: Array<FindAllCreateParams.ExcludeList> | null;
+
+  /**
+   * Body param: User-provided key identifying the memory scope to use. Omit to use
+   * personal memory, if available.
+   */
+  memory_scope_key?: string | null;
 
   /**
    * Body param: Metadata for the FindAll run.

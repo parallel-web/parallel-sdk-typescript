@@ -199,6 +199,12 @@ export interface CreateMonitorRequest {
   type: 'event_stream' | 'snapshot';
 
   /**
+   * User-provided key identifying the memory scope to use. Omit to use personal
+   * memory, if available.
+   */
+  memory_scope_key?: string | null;
+
+  /**
    * User-provided metadata stored with the monitor and echoed back in webhook
    * notifications and GET responses, so you can map events to objects in your
    * application. Keys: max 16 chars; values: max 512 chars.
@@ -635,6 +641,12 @@ export interface MonitorCreateParams {
    * expected shape of `settings`.
    */
   type: 'event_stream' | 'snapshot';
+
+  /**
+   * User-provided key identifying the memory scope to use. Omit to use personal
+   * memory, if available.
+   */
+  memory_scope_key?: string | null;
 
   /**
    * User-provided metadata stored with the monitor and echoed back in webhook

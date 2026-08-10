@@ -1,5 +1,28 @@
 # Changelog
 
+## 1.2.0 (2026-08-10)
+
+Full Changelog: [v1.1.0...v1.2.0](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.1.0...v1.2.0)
+
+### Features
+
+* **api:** add memory support ([f1b25e8](https://github.com/parallel-web/parallel-sdk-typescript/commit/f1b25e80452f3b7783954c8458ef722afaf30138))
+* **api:** manual updates ([cb62cb9](https://github.com/parallel-web/parallel-sdk-typescript/commit/cb62cb9593fdefeb891593118177bedbadabf3c9))
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([992a6cb](https://github.com/parallel-web/parallel-sdk-typescript/commit/992a6cb9135579ee933cc823ab17f53701827ad2))
+
+
+### Bug Fixes
+
+* **ci:** bump @arethetypeswrong/cli to ^0.18.0 and run CI workflows on Node 24 ([d0d5961](https://github.com/parallel-web/parallel-sdk-typescript/commit/d0d596109348af8a07a761b7901c65d652bbec6a))
+* **client:** send content-type header for requests with an omitted optional body ([c6fe4a8](https://github.com/parallel-web/parallel-sdk-typescript/commit/c6fe4a83c994e6e669223ef4343462c614a32541))
+* **stlc:** stop hand-edited CI workflows from blocking seals and builds ([9758e4f](https://github.com/parallel-web/parallel-sdk-typescript/commit/9758e4f90e34d7e4de7144091e992235d674ba66))
+
+
+### Chores
+
+* **internal:** codegen related update ([7688dc2](https://github.com/parallel-web/parallel-sdk-typescript/commit/7688dc22e69e4ae68652997e359f239f556ba23c))
+* **internal:** codegen related update ([4d4d2ac](https://github.com/parallel-web/parallel-sdk-typescript/commit/4d4d2aca26c360cb5af102eb6afa010c1700f32d))
+
 ## 1.1.0 (2026-06-08)
 
 Full Changelog: [v1.0.1...v1.1.0](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.0.1...v1.1.0)

@@ -37,6 +37,7 @@ describe('resource taskRun', () => {
           type: 'url',
         },
       ],
+      memory_scope_key: 'memory_scope_key',
       metadata: { foo: 'string' },
       previous_interaction_id: 'previous_interaction_id',
       source_policy: {

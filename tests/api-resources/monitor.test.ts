@@ -48,6 +48,7 @@ describe('resource monitor', () => {
         },
       },
       type: 'event_stream',
+      memory_scope_key: 'memory_scope_key',
       metadata: { slack_thread_id: '1234567890.123456', user_id: 'U123ABC' },
       processor: 'lite',
       webhook: { url: 'https://example.com/webhook', event_types: ['monitor.event.detected'] },
