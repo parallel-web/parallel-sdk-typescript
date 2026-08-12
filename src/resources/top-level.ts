@@ -342,13 +342,14 @@ export interface SearchParams {
   max_chars_total?: number | null;
 
   /**
-   * Search mode preset: supported values are `turbo`, `basic`, and `advanced`. Turbo
-   * mode is optimized for the fastest responses. Basic mode offers low latency and
-   * works best with 2-3 high-quality search_queries. Advanced mode provides higher
-   * quality with more advanced retrieval and compression. Defaults to `advanced`
-   * when omitted.
+   * Search mode preset: supported values are `turbo`, `fast`, `basic`, and
+   * `advanced`. Turbo mode is optimized for the fastest responses. Use Fast mode for
+   * high quality search within a 1-second latency budget. Basic mode offers low
+   * latency and works best with 2-3 high-quality search_queries. Advanced mode
+   * provides higher quality with more advanced retrieval and compression. Defaults
+   * to `advanced` when omitted.
    */
-  mode?: 'turbo' | 'basic' | 'advanced' | null;
+  mode?: 'turbo' | 'fast' | 'basic' | 'advanced' | null;
 
   /**
    * Natural-language description of the underlying question or goal driving the
