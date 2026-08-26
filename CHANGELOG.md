@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.0 (2026-08-12)
+
+Full Changelog: [v1.2.0...v1.3.0](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.2.0...v1.3.0)
+
+### Features
+
+* **api:** manual updates ([3dddb8d](https://github.com/parallel-web/parallel-sdk-typescript/commit/3dddb8d3d3b31ab2115c71a46b14bba520c700dc))
+
 ## 1.2.0 (2026-08-10)
 
 Full Changelog: [v1.1.0...v1.2.0](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.1.0...v1.2.0)
