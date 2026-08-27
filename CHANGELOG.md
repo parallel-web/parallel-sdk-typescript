@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.3.1](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.3.0...v1.3.1) (2026-08-27)
+
+
+### Chores
+
+* back-sync production 1.3.0 (merge; trunks had forked) ([7672d49](https://github.com/parallel-web/parallel-sdk-typescript/commit/7672d496e434e8a893d094f7f15483a86fffe66a))
+* **internal:** allow the mock server port to be set with STAINLESS_MOCK_PORT ([9f170dc](https://github.com/parallel-web/parallel-sdk-typescript/commit/9f170dc1affef292866d85f35a0bba578778967e))
+* sync SDK OpenAPI spec from monorepo ([63d4aa6](https://github.com/parallel-web/parallel-sdk-typescript/commit/63d4aa68272c695556c8838d29c73e98ae86dfc3))
+* sync stainless-sdks next (unreleased 1.3.x codegen + custom code) ([3ab0564](https://github.com/parallel-web/parallel-sdk-typescript/commit/3ab0564ecfc1fd54709f42cde7e4e138b914c26b))
+
 ## 1.3.0 (2026-08-12)
 
 Full Changelog: [v1.2.0...v1.3.0](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.2.0...v1.3.0)
