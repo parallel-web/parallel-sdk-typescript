@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.2](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.3.1...v1.3.2) (2026-08-27)
+
+
+### Chores
+
+* sync SDK OpenAPI spec from monorepo ([bef65ee](https://github.com/parallel-web/parallel-sdk-typescript/commit/bef65eeb6472a72b4046936374753af1721f9ced))
+
 ## [1.3.1](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.3.0...v1.3.1) (2026-08-27)
 
 
