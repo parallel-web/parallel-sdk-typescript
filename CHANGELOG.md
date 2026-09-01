@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.3](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.3.2...v1.3.3) (2026-09-01)
+
+
+### Chores
+
+* sync sdk-openapi.json from shapleyai/code@f1e874d0d5 ([c65b782](https://github.com/parallel-web/parallel-sdk-typescript/commit/c65b782df551ce70cf5fb7b75762d9ebec3f59ee))
+
 ## [1.3.2](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.3.1...v1.3.2) (2026-08-27)
 
 
