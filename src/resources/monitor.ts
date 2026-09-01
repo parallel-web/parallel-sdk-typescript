@@ -55,10 +55,12 @@ export class MonitorResource extends APIResource {
   /**
    * Update a monitor.
    *
-   * Only fields explicitly included in the request body are changed. Pass `null` for
-   * `webhook` or `metadata` to clear those fields. Pass `type` and `settings` to
-   * update type-specific settings on an `event_stream` monitor. At least one field
-   * must be provided. Cancelled monitors cannot be updated.
+   * Only fields explicitly included in the request body are changed. Pass `null` to
+   * clear `webhook`, `metadata`, or `settings.advanced_settings`; every other field
+   * rejects `null`, so omit it to leave it unchanged. Pass `type` and `settings` to
+   * update type-specific settings on an `event_stream` monitor. Pass `processor` to
+   * change the processor used by subsequent monitor runs. At least one field must be
+   * provided. Cancelled monitors cannot be updated.
    *
    * @example
    * ```ts
@@ -574,7 +576,7 @@ export interface UpdateMonitorEventStreamSettings {
    * Updated search query for the monitor. Use this for minor updates to prompts and
    * instructions only. Major changes to the query may lead to unexpected results in
    * change detection, as the monitor compares new results with what was previously
-   * seen.
+   * seen. Omit to keep the current query; `null` is rejected.
    */
   query?: string | null;
 }
@@ -582,18 +584,20 @@ export interface UpdateMonitorEventStreamSettings {
 /**
  * Request body to update a monitor.
  *
- * Only fields that are explicitly included in the request body are updated. Pass
- * `null` for `webhook` or `metadata` to clear those fields. To update
+ * Only fields that are explicitly included in the request body are updated. `null`
+ * clears a field, and is accepted only for the fields that can be cleared:
+ * `webhook`, `metadata`, and `settings.advanced_settings`. Every other field
+ * rejects `null`; omit it to leave the current value unchanged. To update
  * type-specific settings on an `event_stream` monitor, include `type` and
- * `settings`; pass `settings.query` to update the prompt, or `null` for
- * `settings.advanced_settings` to clear it. If `settings` is provided, `type` is
- * required to identify the settings shape. The request must still include at least
- * one field to update; empty updates fail validation.
+ * `settings`; pass `settings.query` to update the prompt. If `settings` is
+ * provided, `type` is required to identify the settings shape. The request must
+ * still include at least one field to update; empty updates fail validation.
  */
 export interface UpdateMonitorRequest {
   /**
    * Frequency of the monitor. Format: '<number><unit>' where unit is 'h' (hours),
-   * 'd' (days), or 'w' (weeks). Must be between 1h and 30d (inclusive).
+   * 'd' (days), or 'w' (weeks). Must be between 1h and 30d (inclusive). Omit to keep
+   * the current frequency; `null` is rejected.
    */
   frequency?: string | null;
 
@@ -605,6 +609,13 @@ export interface UpdateMonitorRequest {
   metadata?: { [key: string]: string } | null;
 
   /**
+   * Processor to use for subsequent monitor runs. `lite` is faster and cheaper;
+   * `base` performs more thorough analysis at higher cost and latency. Omit to keep
+   * the current processor; `null` is rejected.
+   */
+  processor?: 'lite' | 'base' | null;
+
+  /**
    * Type-specific update settings for an `event_stream` monitor.
    */
   settings?: UpdateMonitorEventStreamSettings | null;
@@ -612,6 +623,7 @@ export interface UpdateMonitorRequest {
   /**
    * Type of the monitor being updated. Required when `settings` is provided; must be
    * `event_stream` (snapshot monitors have no updatable type-specific settings).
+   * Omit when `settings` is not provided; `null` is rejected.
    */
   type?: 'event_stream' | 'snapshot' | null;
 
@@ -670,7 +682,8 @@ export interface MonitorCreateParams {
 export interface MonitorUpdateParams {
   /**
    * Frequency of the monitor. Format: '<number><unit>' where unit is 'h' (hours),
-   * 'd' (days), or 'w' (weeks). Must be between 1h and 30d (inclusive).
+   * 'd' (days), or 'w' (weeks). Must be between 1h and 30d (inclusive). Omit to keep
+   * the current frequency; `null` is rejected.
    */
   frequency?: string | null;
 
@@ -682,6 +695,13 @@ export interface MonitorUpdateParams {
   metadata?: { [key: string]: string } | null;
 
   /**
+   * Processor to use for subsequent monitor runs. `lite` is faster and cheaper;
+   * `base` performs more thorough analysis at higher cost and latency. Omit to keep
+   * the current processor; `null` is rejected.
+   */
+  processor?: 'lite' | 'base' | null;
+
+  /**
    * Type-specific update settings for an `event_stream` monitor.
    */
   settings?: UpdateMonitorEventStreamSettings | null;
@@ -689,6 +709,7 @@ export interface MonitorUpdateParams {
   /**
    * Type of the monitor being updated. Required when `settings` is provided; must be
    * `event_stream` (snapshot monitors have no updatable type-specific settings).
+   * Omit when `settings` is not provided; `null` is rejected.
    */
   type?: 'event_stream' | 'snapshot' | null;
 
