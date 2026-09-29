@@ -359,9 +359,39 @@ export interface RunInput {
  */
 export interface TaskAdvancedSettings {
   /**
+   * Optional partner data sources to enable for this task run. Supported on standard
+   * processors only; a selected partner name must not collide with an `mcp_servers`
+   * entry.
+   */
+  data_sources?: TaskAdvancedSettings.DataSources | null;
+
+  /**
    * ISO 3166-1 alpha-2 country code for geo-targeted search results.
    */
   location?: string | null;
+}
+
+export namespace TaskAdvancedSettings {
+  /**
+   * Optional partner data sources to enable for this task run. Supported on standard
+   * processors only; a selected partner name must not collide with an `mcp_servers`
+   * entry.
+   */
+  export interface DataSources {
+    /**
+     * Free data partners to enable for this task, in addition to sources included with
+     * the processor. Never billed. See the Data Sources documentation for the
+     * available names.
+     */
+    free?: Array<string>;
+
+    /**
+     * Pay-per-use data partners to enable for this task, in addition to sources
+     * included with the processor. See the Data Sources documentation for the
+     * available names.
+     */
+    pay_per_use?: Array<string>;
+  }
 }
 
 /**
@@ -520,7 +550,8 @@ export interface TaskRunProgressMessageEvent {
     | 'task_run.progress_msg.search'
     | 'task_run.progress_msg.result'
     | 'task_run.progress_msg.tool_call'
-    | 'task_run.progress_msg.exec_status';
+    | 'task_run.progress_msg.exec_status'
+    | 'task_run.progress_msg.extract';
 }
 
 /**

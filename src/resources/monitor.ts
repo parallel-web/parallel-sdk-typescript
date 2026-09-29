@@ -60,7 +60,7 @@ export class MonitorResource extends APIResource {
    * rejects `null`, so omit it to leave it unchanged. Pass `type` and `settings` to
    * update type-specific settings on an `event_stream` monitor. Pass `processor` to
    * change the processor used by subsequent monitor runs. At least one field must be
-   * provided. Cancelled monitors cannot be updated.
+   * provided. On a cancelled monitor only `metadata` can be updated.
    *
    * @example
    * ```ts

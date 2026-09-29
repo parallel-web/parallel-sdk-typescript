@@ -26,7 +26,10 @@ describe('resource taskRun', () => {
     const response = await client.taskRun.create({
       input: 'What was the GDP of France in 2023?',
       processor: 'base',
-      advanced_settings: { location: 'us' },
+      advanced_settings: {
+        data_sources: { free: ['string'], pay_per_use: ['string'] },
+        location: 'us',
+      },
       enable_events: true,
       mcp_servers: [
         {
