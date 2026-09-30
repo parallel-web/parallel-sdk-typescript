@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.5](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.3.4...v1.3.5) (2026-09-30)
+
+
+### Chores
+
+* **ci:** drop the Stainless-hosted tarball upload ([#3](https://github.com/parallel-web/parallel-sdk-typescript/issues/3)) ([6028b26](https://github.com/parallel-web/parallel-sdk-typescript/commit/6028b26e95ea1b8d54a9a3c08764c3bc521ebcc2))
+
 ## [1.3.4](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.3.3...v1.3.4) (2026-09-04)
 
 
