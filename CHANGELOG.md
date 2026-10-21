@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.6](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.3.5...v1.3.6) (2026-10-21)
+
+
+### Chores
+
+* **deps:** bump vulnerable dev-only transitive deps in yarn.lock ([#4](https://github.com/parallel-web/parallel-sdk-typescript/issues/4)) ([352c827](https://github.com/parallel-web/parallel-sdk-typescript/commit/352c827b4585d3deea2c3829115adff5e13d770a))
+
 ## [1.3.5](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.3.4...v1.3.5) (2026-09-30)
 
 
