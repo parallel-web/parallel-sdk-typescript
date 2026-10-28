@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.7](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.3.6...v1.3.7) (2026-10-28)
+
+
+### Chores
+
+* pin the next release to 1.3.7 ([#6](https://github.com/parallel-web/parallel-sdk-typescript/issues/6)) ([a2526c2](https://github.com/parallel-web/parallel-sdk-typescript/commit/a2526c29e968175bfcf9044e4d583f851f3ecae2))
+* release 1.3.7 to match the Python SDK version ([#5](https://github.com/parallel-web/parallel-sdk-typescript/issues/5)) ([c1a7e3a](https://github.com/parallel-web/parallel-sdk-typescript/commit/c1a7e3a8167f2f2a02b68677bec147b322bb5656))
+
 ## [1.3.6](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.3.5...v1.3.6) (2026-10-21)
 
 
