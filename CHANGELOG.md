@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.8](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.3.7...v1.3.8) (2026-11-06)
+
+
+### Chores
+
+* drop the 1.3.7 release-as pin ([#7](https://github.com/parallel-web/parallel-sdk-typescript/issues/7)) ([bc16dcf](https://github.com/parallel-web/parallel-sdk-typescript/commit/bc16dcfc0b32d259584047075f8fb994bd6adc5f))
+* sync sdk-openapi.json from shapleyai/code@5cffe4fecf ([9394856](https://github.com/parallel-web/parallel-sdk-typescript/commit/9394856d2bb91aafd349a76235f4e76b62c28c81))
+
 ## [1.3.7](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.3.6...v1.3.7) (2026-10-28)
 
 
