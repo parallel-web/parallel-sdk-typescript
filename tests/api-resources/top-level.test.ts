@@ -30,6 +30,7 @@ describe('top level methods', () => {
           timeout_seconds: 60,
         },
         full_content: { max_chars_per_result: 0 },
+        links: true,
       },
       client_model: 'claude-opus-4-7',
       max_chars_total: 0,

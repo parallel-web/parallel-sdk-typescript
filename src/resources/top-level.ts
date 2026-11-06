@@ -24,6 +24,13 @@ export interface AdvancedExtractSettings {
    * disable, or provide FullContentSettings for fine-grained control.
    */
   full_content?: FullContentSettings | boolean;
+
+  /**
+   * Include each page's links: absolute URLs from the same rendered content as the
+   * other outputs, deduplicated in document order, at most 512 per page. Does not
+   * change caching or fetching.
+   */
+  links?: boolean | null;
 }
 
 /**
@@ -152,9 +159,22 @@ export interface ExtractResult {
   url: string;
 
   /**
+   * When the returned content was acquired, as an RFC 3339 timestamp truncated to
+   * the start of the UTC day. Null when unknown.
+   */
+  acquired_at?: string | null;
+
+  /**
    * Full content from the URL formatted as markdown, if requested.
    */
   full_content?: string | null;
+
+  /**
+   * Links from the page's rendered content, if requested: up to 512 unique absolute
+   * URLs in document order. Empty for pages with no links, including PDFs. Present
+   * only when advanced_settings.links was requested.
+   */
+  links?: Array<string> | null;
 
   /**
    * Publish date of the webpage in YYYY-MM-DD format, if available.

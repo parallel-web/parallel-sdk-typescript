@@ -379,6 +379,13 @@ export namespace TaskAdvancedSettings {
    */
   export interface DataSources {
     /**
+     * Data partners included with the processor to keep out of this task. Excluding a
+     * partner also blocks its own domains. See the Data Sources documentation for the
+     * available names.
+     */
+    excluded?: Array<string>;
+
+    /**
      * Free data partners to enable for this task, in addition to sources included with
      * the processor. Never billed. See the Data Sources documentation for the
      * available names.

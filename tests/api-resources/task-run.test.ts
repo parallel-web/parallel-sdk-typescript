@@ -27,7 +27,11 @@ describe('resource taskRun', () => {
       input: 'What was the GDP of France in 2023?',
       processor: 'base',
       advanced_settings: {
-        data_sources: { free: ['string'], pay_per_use: ['string'] },
+        data_sources: {
+          excluded: ['string'],
+          free: ['string'],
+          pay_per_use: ['string'],
+        },
         location: 'us',
       },
       enable_events: true,

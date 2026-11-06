@@ -219,10 +219,12 @@ export interface CreateMonitorRequest {
   metadata?: { [key: string]: string } | null;
 
   /**
-   * Processor to use for the monitor. `lite` is faster and cheaper; `base` performs
-   * more thorough analysis at higher cost and latency. Defaults to `lite`.
+   * Processor to use for the monitor. `lite` is the cheapest; `base` performs more
+   * thorough analysis for higher-quality results at higher cost; `core` performs the
+   * most thorough analysis for the highest-quality results at the highest cost.
+   * Defaults to `lite`.
    */
-  processor?: 'lite' | 'base';
+  processor?: 'lite' | 'base' | 'core';
 
   /**
    * Webhook configuration for a monitor.
@@ -256,10 +258,12 @@ export interface Monitor {
   monitor_id: string;
 
   /**
-   * Processor to use for the monitor. `lite` is faster and cheaper; `base` performs
-   * more thorough analysis at higher cost and latency. Defaults to `lite`.
+   * Processor to use for the monitor. `lite` is the cheapest; `base` performs more
+   * thorough analysis for higher-quality results at higher cost; `core` performs the
+   * most thorough analysis for the highest-quality results at the highest cost.
+   * Defaults to `lite`.
    */
-  processor: 'lite' | 'base';
+  processor: 'lite' | 'base' | 'core';
 
   /**
    * Type-specific configuration. Shape is determined by `type`:
@@ -614,11 +618,12 @@ export interface UpdateMonitorRequest {
   metadata?: { [key: string]: string } | null;
 
   /**
-   * Processor to use for subsequent monitor runs. `lite` is faster and cheaper;
-   * `base` performs more thorough analysis at higher cost and latency. Omit to keep
-   * the current processor; `null` is rejected.
+   * Processor to use for subsequent monitor runs. `lite` is the cheapest; `base`
+   * performs more thorough analysis for higher-quality results at higher cost;
+   * `core` performs the most thorough analysis for the highest-quality results at
+   * the highest cost. Omit to keep the current processor; `null` is rejected.
    */
-  processor?: 'lite' | 'base' | null;
+  processor?: 'lite' | 'base' | 'core' | null;
 
   /**
    * Type-specific update settings for an `event_stream` monitor.
@@ -673,10 +678,12 @@ export interface MonitorCreateParams {
   metadata?: { [key: string]: string } | null;
 
   /**
-   * Processor to use for the monitor. `lite` is faster and cheaper; `base` performs
-   * more thorough analysis at higher cost and latency. Defaults to `lite`.
+   * Processor to use for the monitor. `lite` is the cheapest; `base` performs more
+   * thorough analysis for higher-quality results at higher cost; `core` performs the
+   * most thorough analysis for the highest-quality results at the highest cost.
+   * Defaults to `lite`.
    */
-  processor?: 'lite' | 'base';
+  processor?: 'lite' | 'base' | 'core';
 
   /**
    * Webhook configuration for a monitor.
@@ -700,11 +707,12 @@ export interface MonitorUpdateParams {
   metadata?: { [key: string]: string } | null;
 
   /**
-   * Processor to use for subsequent monitor runs. `lite` is faster and cheaper;
-   * `base` performs more thorough analysis at higher cost and latency. Omit to keep
-   * the current processor; `null` is rejected.
+   * Processor to use for subsequent monitor runs. `lite` is the cheapest; `base`
+   * performs more thorough analysis for higher-quality results at higher cost;
+   * `core` performs the most thorough analysis for the highest-quality results at
+   * the highest cost. Omit to keep the current processor; `null` is rejected.
    */
-  processor?: 'lite' | 'base' | null;
+  processor?: 'lite' | 'base' | 'core' | null;
 
   /**
    * Type-specific update settings for an `event_stream` monitor.
