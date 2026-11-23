@@ -32,6 +32,12 @@ describe('resource taskRun', () => {
           free: ['string'],
           pay_per_use: ['string'],
         },
+        fetch_policy: {
+          as_of: '2026-07-01T12:00:00Z',
+          disable_cache_fallback: true,
+          max_age_seconds: 86400,
+          timeout_seconds: 60,
+        },
         location: 'us',
       },
       enable_events: true,

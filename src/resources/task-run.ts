@@ -2,6 +2,7 @@
 
 import { APIResource } from '../core/resource';
 import * as Shared from './shared';
+import * as TopLevelAPI from './top-level';
 import * as FindAllAPI from './beta/findall';
 import { APIPromise } from '../core/api-promise';
 import { Stream } from '../core/streaming';
@@ -332,9 +333,11 @@ export interface RunInput {
    * Plain domains match that domain and its subdomains. Domain/path entries use
    * case-sensitive path matching at segment boundaries; trailing slashes are
    * ignored, dot segments are normalized, and other percent-encoded path spelling is
-   * preserved. Entries omit schemes, ports, query strings, and fragments. When
-   * include_domains is non-empty, it defines the complete allowlist and
-   * exclude_domains is ignored.
+   * preserved. Entries omit schemes, ports, query strings, and fragments. A source
+   * must match include_domains, when set, and must not match exclude_domains. Use
+   * exclude_domains to block a subdomain or path of an allowed domain. Only the same
+   * entry in both lists fails validation, compared after lowercasing the domain and
+   * dropping a leading www. and a trailing slash.
    */
   source_policy?: Shared.SourcePolicy | null;
 
@@ -364,6 +367,11 @@ export interface TaskAdvancedSettings {
    * entry.
    */
   data_sources?: TaskAdvancedSettings.DataSources | null;
+
+  /**
+   * Policy for live fetching web results.
+   */
+  fetch_policy?: TopLevelAPI.FetchPolicy | null;
 
   /**
    * ISO 3166-1 alpha-2 country code for geo-targeted search results.
@@ -766,9 +774,11 @@ export interface TaskRunCreateParams {
    * Plain domains match that domain and its subdomains. Domain/path entries use
    * case-sensitive path matching at segment boundaries; trailing slashes are
    * ignored, dot segments are normalized, and other percent-encoded path spelling is
-   * preserved. Entries omit schemes, ports, query strings, and fragments. When
-   * include_domains is non-empty, it defines the complete allowlist and
-   * exclude_domains is ignored.
+   * preserved. Entries omit schemes, ports, query strings, and fragments. A source
+   * must match include_domains, when set, and must not match exclude_domains. Use
+   * exclude_domains to block a subdomain or path of an allowed domain. Only the same
+   * entry in both lists fails validation, compared after lowercasing the domain and
+   * dropping a leading www. and a trailing slash.
    */
   source_policy?: Shared.SourcePolicy | null;
 

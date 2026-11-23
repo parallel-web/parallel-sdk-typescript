@@ -28,6 +28,8 @@ Types:
 - <code><a href="./src/resources/shared.ts">SourcePolicy</a></code>
 - <code><a href="./src/resources/shared.ts">Warning</a></code>
 
+# [Responses](src/resources/responses/api.md)
+
 # TaskRun
 
 Types:

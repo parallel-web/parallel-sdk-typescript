@@ -96,6 +96,7 @@ import {
   Webhook,
 } from './resources/task-run';
 import { Beta } from './resources/beta/beta';
+import { Responses } from './resources/responses/responses';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -845,6 +846,15 @@ export class Parallel {
   static toFile = Uploads.toFile;
 
   /**
+   * An OpenAI-Responses-compatible interface for answers grounded in live web research, with URL citations. Point any Responses-API client — the OpenAI Python SDK, OpenAI TypeScript SDK, the Agents SDK, or raw HTTP — at `https://api.parallel.ai` with your Parallel API key, set `model` to `parallel`, and call `/v1/responses`.
+   * - `input` accepts a plain string or an array of role/content messages (canonical OpenAI shape; text content only).
+   * - `reasoning.effort` (`low`/`medium`/`high`/`auto`) controls how much research is performed, trading response time for answer quality.
+   * - Multi-turn via `previous_response_id`.
+   * - Structured outputs via `text.format = {"type": "json_schema", "name": ..., "schema": {...}}`.
+   * - Streaming (`stream=true`) emits the standard OpenAI Responses SSE lifecycle: `response.created` and `response.in_progress`, then output item / content part / text delta events with URL-citation annotations, the matching `*.done` events, and a terminal `response.completed` — or `response.failed` if the request fails mid-stream.
+   */
+  responses: API.Responses = new API.Responses(this);
+  /**
    * The Task API executes web research and extraction tasks. Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
    * - Output metadata: citations, excerpts, reasoning, and confidence per field
    *
@@ -879,6 +889,7 @@ export class Parallel {
   beta: API.Beta = new API.Beta(this);
 }
 
+Parallel.Responses = Responses;
 Parallel.MonitorResource = MonitorResource;
 Parallel.Beta = Beta;
 
@@ -900,6 +911,8 @@ export declare namespace Parallel {
     type ExtractParams as ExtractParams,
     type SearchParams as SearchParams,
   };
+
+  export { Responses as Responses };
 
   export {
     type TaskRun as TaskRun,

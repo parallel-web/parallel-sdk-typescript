@@ -41,7 +41,7 @@ export interface AdvancedExtractSettings {
  */
 export interface AdvancedSearchSettings {
   /**
-   * Optional settings for returning relevant excerpts.
+   * @deprecated Optional settings for returning relevant excerpts.
    */
   excerpt_settings?: ExcerptSettings | null;
 
@@ -66,9 +66,11 @@ export interface AdvancedSearchSettings {
    * Plain domains match that domain and its subdomains. Domain/path entries use
    * case-sensitive path matching at segment boundaries; trailing slashes are
    * ignored, dot segments are normalized, and other percent-encoded path spelling is
-   * preserved. Entries omit schemes, ports, query strings, and fragments. When
-   * include_domains is non-empty, it defines the complete allowlist and
-   * exclude_domains is ignored.
+   * preserved. Entries omit schemes, ports, query strings, and fragments. A source
+   * must match include_domains, when set, and must not match exclude_domains. Use
+   * exclude_domains to block a subdomain or path of an allowed domain. Only the same
+   * entry in both lists fails validation, compared after lowercasing the domain and
+   * dropping a leading www. and a trailing slash.
    */
   source_policy?: Shared.SourcePolicy | null;
 }
@@ -177,7 +179,7 @@ export interface ExtractResult {
   links?: Array<string> | null;
 
   /**
-   * Publish date of the webpage in YYYY-MM-DD format, if available.
+   * Estimated publish date of the webpage in YYYY-MM-DD format, if available.
    */
   publish_date?: string | null;
 
@@ -191,6 +193,14 @@ export interface ExtractResult {
  * Policy for live fetching web results.
  */
 export interface FetchPolicy {
+  /**
+   * Accepts an ISO 8601 date or timestamp. A date is treated as 00:00 UTC.
+   * Timestamps without an offset are treated as UTC. Timestamps are rounded down to
+   * the start of the UTC hour. Serves the latest available version of each page
+   * captured at or before that cutoff. Contact sales for access.
+   */
+  as_of?: string | null;
+
   /**
    * If false, fallback to cached content older than max-age if live fetch fails or
    * times out. If true, returns an error instead.
@@ -283,7 +293,7 @@ export interface WebSearchResult {
   url: string;
 
   /**
-   * Publish date of the webpage in YYYY-MM-DD format, if available.
+   * Estimated publish date of the webpage in YYYY-MM-DD format, if available.
    */
   publish_date?: string | null;
 

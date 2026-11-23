@@ -25,6 +25,7 @@ describe('top level methods', () => {
       advanced_settings: {
         excerpt_settings: { max_chars_per_result: 0 },
         fetch_policy: {
+          as_of: '2026-07-01T12:00:00Z',
           disable_cache_fallback: true,
           max_age_seconds: 86400,
           timeout_seconds: 60,
@@ -57,6 +58,7 @@ describe('top level methods', () => {
       advanced_settings: {
         excerpt_settings: { max_chars_per_result: 0 },
         fetch_policy: {
+          as_of: '2026-07-01T12:00:00Z',
           disable_cache_fallback: true,
           max_age_seconds: 86400,
           timeout_seconds: 60,
