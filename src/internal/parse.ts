@@ -4,6 +4,7 @@ import type { FinalRequestOptions } from './request-options';
 import { Stream } from '../core/streaming';
 import { type Parallel } from '../client';
 import { formatRequestDetails, loggerFor } from './utils/log';
+import { warnOnDeprecationBody } from '../lib/deprecation';
 
 export type APIResponseProps = {
   response: Response;
@@ -50,6 +51,7 @@ export async function defaultParseResponse<T>(client: Parallel, props: APIRespon
       }
 
       const json = await response.json();
+      warnOnDeprecationBody(client, response, json);
       return json as T;
     }
 
