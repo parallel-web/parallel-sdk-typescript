@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.4.0...v1.5.0) (2026-11-24)
+
+
+### Features
+
+* warn when the API marks a call as deprecated ([d562973](https://github.com/parallel-web/parallel-sdk-typescript/commit/d562973731be34c5bcd2fd76d1a3c926622ed0d8))
+
 ## [1.4.0](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.3.7...v1.4.0) (2026-11-24)
 
 
