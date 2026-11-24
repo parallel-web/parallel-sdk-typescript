@@ -109,6 +109,7 @@ import {
   parseLogLevel,
 } from './internal/utils/log';
 import { isEmptyObj } from './internal/utils/values';
+import { warnOnDeprecationHeaders } from './lib/deprecation';
 
 export interface ClientOptions {
   /**
@@ -576,6 +577,7 @@ export class Parallel {
     }
 
     loggerFor(this).info(responseInfo);
+    warnOnDeprecationHeaders(this, req.method ?? options.method, url, response);
     loggerFor(this).debug(
       `[${requestLogID}] response start`,
       formatRequestDetails({
