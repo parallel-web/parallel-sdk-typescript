@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.4.0](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.3.7...v1.4.0) (2026-11-24)
+
+
+### Features
+
+* add Responses API ([561dbcc](https://github.com/parallel-web/parallel-sdk-typescript/commit/561dbcca49b299377de09e8d3aa3593d3290a979))
+* add Responses API ([679a567](https://github.com/parallel-web/parallel-sdk-typescript/commit/679a56768f002396e0315fd53f9109ccbbb965e7))
+
+
+### Chores
+
+* drop the 1.3.7 release-as pin ([#7](https://github.com/parallel-web/parallel-sdk-typescript/issues/7)) ([bc16dcf](https://github.com/parallel-web/parallel-sdk-typescript/commit/bc16dcfc0b32d259584047075f8fb994bd6adc5f))
+* sync sdk-openapi.json from shapleyai/code@5cffe4fecf ([9394856](https://github.com/parallel-web/parallel-sdk-typescript/commit/9394856d2bb91aafd349a76235f4e76b62c28c81))
+
 ## [1.3.7](https://github.com/parallel-web/parallel-sdk-typescript/compare/v1.3.6...v1.3.7) (2026-10-28)
 
 
